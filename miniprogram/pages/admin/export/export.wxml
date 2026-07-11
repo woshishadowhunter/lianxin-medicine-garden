@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="page-header">
+    <view class="page-title"><lx-icon name="download" size="{{34}}" tone="brand" /><text>数据导出</text></view>
+    <text class="page-desc">选择导出内容，生成 Excel 报表文件</text>
+  </view>
+
+  <!-- 导出类型选择 -->
+  <view class="export-types">
+    <view
+      wx:for="{{exportTypes}}" wx:key="value"
+      class="export-type-card card {{selectedType === item.value ? 'selected' : ''}}"
+      bindtap="onSelectType" data-type="{{item.value}}"
+      hover-class="tap-card"
+    >
+      <view class="flex-row">
+        <view class="export-type-icon">
+          <lx-icon name="{{item.iconName}}" size="{{38}}" tone="accent" />
+        </view>
+        <view class="flex-1">
+          <view class="export-type-label">{{item.label}}</view>
+          <view class="export-type-desc">{{item.desc}}</view>
+        </view>
+        <radio checked="{{selectedType === item.value}}" color="#1f6b4b" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 日期范围（可选） -->
+  <view class="date-section card mt-24">
+    <view class="card-title">日期范围（可选）</view>
+    <view class="date-row flex-row">
+      <picker mode="date" value="{{dateStart}}" bindchange="onStartDateChange">
+        <view class="date-picker">{{dateStart || '开始日期'}}</view>
+      </picker>
+      <text class="date-sep">至</text>
+      <picker mode="date" value="{{dateEnd}}" bindchange="onEndDateChange">
+        <view class="date-picker">{{dateEnd || '结束日期'}}</view>
+      </picker>
+    </view>
+    <view wx:if="{{!dateStart && !dateEnd}}" class="date-hint">不选择则导出全部数据</view>
+  </view>
+
+  <!-- 导出按钮 -->
+  <button class="btn btn-primary mt-24" bindtap="doExport" loading="{{exporting}}">
+    <lx-icon wx:if="{{!exporting}}" name="download" size="{{24}}" tone="white" />
+    <text>{{exporting ? '正在生成...' : '导出 Excel'}}</text>
+  </button>
+
+  <!-- 导出结果 -->
+  <view wx:if="{{exportResult}}" class="export-result card mt-24">
+    <block wx:if="{{exportResult.success}}">
+      <view class="result-success flex-row">
+        <view class="result-icon"><lx-icon name="check" size="{{34}}" tone="brand" /></view>
+        <view class="flex-1">
+          <view class="result-title">导出成功</view>
+          <view class="result-subtitle">格式：{{exportResult.format === 'xlsx' ? 'Excel (.xlsx)' : 'CSV'}}</view>
+        </view>
+      </view>
+      <button class="btn btn-primary mt-16" bindtap="downloadFile"><lx-icon name="download" size="{{24}}" tone="white" />下载并打开文件</button>
+    </block>
+    <block wx:else>
+      <view class="result-error flex-row">
+        <view class="result-icon"><lx-icon name="close" size="{{34}}" tone="danger" /></view>
+        <text>{{exportResult.message}}</text>
+      </view>
+    </block>
+  </view>
+</view>

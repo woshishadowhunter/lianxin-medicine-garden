@@ -1,0 +1,38 @@
+<view class="record-card" bindtap="onTap" hover-class="record-card-press">
+  <view
+    wx:if="{{showPhotos && record.photos && record.photos.length}}"
+    class="record-evidence"
+    catchtap="onPreview"
+    data-url="{{record.photos[0]}}"
+  >
+    <image src="{{record.photos[0]}}" mode="aspectFill" class="record-cover"></image>
+    <text class="record-photo-count">{{record.photos.length}}张</text>
+  </view>
+  <view wx:else class="record-evidence record-evidence-empty">
+    <lx-icon name="{{typeIconName}}" size="{{34}}" tone="brand" />
+  </view>
+
+  <view class="record-body">
+    <view class="record-head flex-between">
+      <view class="record-main">
+        <view class="record-herb">{{record.herb_name || ''}} · {{typeLabel}}</view>
+        <view class="record-date">{{record.care_date}} {{record.care_time || ''}}</view>
+      </view>
+      <view wx:if="{{showAudit}}" class="tag {{statusClass}}">{{statusLabel}}</view>
+    </view>
+
+    <view wx:if="{{record.description}}" class="record-desc">{{record.description}}</view>
+
+    <view wx:if="{{showPhotos && record.photos && record.photos.length > 1}}" class="record-photos">
+      <image
+        wx:for="{{record.photos}}" wx:for-item="pic" wx:key="*this"
+        src="{{pic}}" mode="aspectFill" class="record-thumb"
+        wx:if="{{index > 0 && index < 4}}"
+        catchtap="onPreview" data-url="{{pic}}"
+      ></image>
+      <view wx:if="{{record.photos.length > 4}}" class="more-photos">
+        +{{record.photos.length - 4}}
+      </view>
+    </view>
+  </view>
+</view>

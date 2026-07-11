@@ -1,0 +1,9 @@
+<view class="loading-cards">
+  <view wx:for="{{rows}}" wx:key="*this" class="loading-card card">
+    <view wx:if="{{showAvatar}}" class="loading-avatar skeleton"></view>
+    <view class="loading-lines">
+      <view class="loading-line skeleton" style="width: {{60 + index * 10}}%"></view>
+      <view class="loading-line skeleton short"></view>
+    </view>
+  </view>
+</view>

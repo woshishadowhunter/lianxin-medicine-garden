@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "新增养护记录",
+  "usingComponents": {
+    "care-type-picker": "/components/care-type-picker/care-type-picker",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

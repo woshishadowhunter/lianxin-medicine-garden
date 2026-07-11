@@ -1,0 +1,151 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38rpx;
+  padding: 0 14rpx;
+  border-radius: 999rpx;
+  font-size: 21rpx;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.tag-pending {
+  color: #8a4d00;
+  background: #faefd9;
+}
+
+.tag-confirmed {
+  color: #1f6b4b;
+  background: #e5f0e9;
+}
+
+.tag-revision,
+.tag-needs_revision {
+  color: #c95045;
+  background: #f8e4e1;
+}
+
+.record-card {
+  display: grid;
+  grid-template-columns: 176rpx 1fr;
+  gap: 20rpx;
+  margin-bottom: 0;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--border);
+  background: transparent;
+}
+
+.record-card-press {
+  transform: translateY(2rpx) scale(0.99);
+  opacity: 0.88;
+}
+
+.record-evidence {
+  position: relative;
+  overflow: hidden;
+  min-height: 176rpx;
+  border-radius: 10rpx;
+  background: var(--bg-deep);
+}
+
+.record-cover {
+  width: 100%;
+  height: 176rpx;
+  display: block;
+}
+
+.record-evidence-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-soft);
+}
+
+.record-photo-count {
+  position: absolute;
+  left: 12rpx;
+  bottom: 12rpx;
+  min-height: 34rpx;
+  padding: 0 12rpx;
+  border-radius: 999rpx;
+  color: #fff;
+  background: rgba(18, 60, 45, 0.72);
+  font-size: 20rpx;
+  font-weight: 850;
+  line-height: 34rpx;
+}
+
+.record-body {
+  min-width: 0;
+}
+
+.record-head {
+  gap: 10rpx;
+}
+
+.record-main {
+  min-width: 0;
+}
+
+.record-herb {
+  font-size: 29rpx;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+.record-date {
+  margin-top: 8rpx;
+  font-size: 23rpx;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+.record-desc {
+  margin-top: 12rpx;
+  font-size: 25rpx;
+  line-height: 1.5;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.record-photos {
+  display: flex;
+  gap: 8rpx;
+  margin-top: 14rpx;
+}
+
+.record-thumb,
+.more-photos {
+  width: 54rpx;
+  height: 54rpx;
+  border-radius: 10rpx;
+  background: var(--bg-deep);
+}
+
+.more-photos {
+  color: #fff;
+  background: rgba(18, 60, 45, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  font-weight: 850;
+}

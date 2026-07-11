@@ -1,0 +1,129 @@
+<view class="container admin-page">
+  <view class="admin-top">
+    <view class="admin-title">
+      <lx-icon name="admin" size="{{28}}" tone="white" />
+      <text>管理后台 · 审核中心</text>
+    </view>
+    <view class="admin-tabs">
+      <view class="admin-tab" bindtap="goDashboard" hover-class="tap-chip">总览</view>
+      <view class="admin-tab active">审核</view>
+      <view class="admin-tab" bindtap="goFamilies" hover-class="tap-chip">家庭</view>
+      <view class="admin-tab" bindtap="goPoints" hover-class="tap-chip">积分</view>
+      <view class="admin-tab" bindtap="goExport" hover-class="tap-chip">导出</view>
+    </view>
+  </view>
+
+  <!-- 审核统计 -->
+  <view class="audit-stats">
+    <view class="audit-stat panel">
+      <text class="audit-stat-num text-warning">{{stats.pending}}</text>
+      <text class="audit-stat-label">待审核</text>
+    </view>
+    <view class="audit-stat panel">
+      <text class="audit-stat-num">{{stats.today}}</text>
+      <text class="audit-stat-label">今日提交</text>
+    </view>
+    <view class="audit-stat panel">
+      <text class="audit-stat-num text-success">{{stats.weekApproved}}</text>
+      <text class="audit-stat-label">本周通过</text>
+    </view>
+  </view>
+
+  <!-- 筛选栏 -->
+  <view class="filter-section">
+    <view class="filter-tabs flex-row">
+      <view class="filter-tab {{filter === 'pending' ? 'active' : ''}}" bindtap="setFilter" data-value="pending" hover-class="tap-chip">待审核</view>
+      <view class="filter-tab {{filter === 'confirmed' ? 'active' : ''}}" bindtap="setFilter" data-value="confirmed" hover-class="tap-chip">已确认</view>
+      <view class="filter-tab {{filter === 'needs_revision' ? 'active' : ''}}" bindtap="setFilter" data-value="needs_revision" hover-class="tap-chip">需修正</view>
+      <view class="filter-tab {{filter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-value="all" hover-class="tap-chip">全部</view>
+    </view>
+
+    <view class="filter-extra flex-row mt-12">
+      <picker mode="selector" range="{{communities}}" bindchange="setCommunity">
+        <view class="filter-chip {{filterCommunity ? 'active' : ''}}">
+          社区 <lx-icon name="chevron-down" size="{{18}}" tone="{{filterCommunity ? 'white' : 'muted'}}" />
+        </view>
+      </picker>
+      <picker mode="selector" range="{{careTypeOptions}}" bindchange="setType">
+        <view class="filter-chip {{filterType ? 'active' : ''}}">
+          类型 <lx-icon name="chevron-down" size="{{18}}" tone="{{filterType ? 'white' : 'muted'}}" />
+        </view>
+      </picker>
+      <view wx:if="{{selectedIds.length}}" class="batch-actions">
+        <button class="btn btn-primary" size="mini" bindtap="batchApprove" hover-class="tap-card">批量通过({{selectedIds.length}})</button>
+        <button class="btn btn-ghost" size="mini" bindtap="clearSelection" hover-class="tap-opacity">取消</button>
+      </view>
+      <view wx:elif="{{records.length}}" class="select-all" bindtap="selectAll" hover-class="tap-opacity">全选</view>
+    </view>
+  </view>
+
+  <!-- 审核列表 -->
+  <view wx:for="{{records}}" wx:key="_id" class="audit-card panel">
+    <view class="audit-row">
+      <checkbox checked="{{item._selected}}" catchtap="toggleSelect" data-id="{{item._id}}" class="audit-check"></checkbox>
+
+      <view
+        wx:if="{{item.photos && item.photos.length}}"
+        class="audit-photo"
+        catchtap="previewPhoto"
+        data-url="{{item.photos[0]}}"
+        data-urls="{{item.photos.join(',')}}"
+      >
+        <image src="{{item.photos[0]}}" mode="aspectFill"></image>
+        <text>{{item.photos.length}}张</text>
+      </view>
+      <view wx:else class="audit-photo empty">
+        <lx-icon name="image" size="{{30}}" tone="muted" />
+      </view>
+
+      <view class="audit-main" bindtap="toggleExpand" data-id="{{item._id}}" hover-class="tap-opacity">
+        <view class="audit-head flex-between">
+          <view>
+            <view class="audit-family">{{item.family_code}} · {{item.herb_name}}</view>
+            <view class="audit-meta">{{item.care_date}} · {{item.care_type}}</view>
+          </view>
+          <text class="tag tag-{{item.audit_status}}">
+            {{item.audit_status === 'pending' ? '待审核' : item.audit_status === 'confirmed' ? '已确认' : '需修正'}}
+          </text>
+        </view>
+        <view class="audit-summary-text">
+          {{item.description || '暂无文字描述，请结合照片判断记录质量。'}}
+        </view>
+        <view class="audit-actions">
+          <button class="small-btn" catchtap="approve" data-id="{{item._id}}" hover-class="tap-card">确认通过</button>
+          <button class="small-btn ghost" catchtap="reject" data-id="{{item._id}}" hover-class="tap-card">要求修正</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 展开详情 -->
+    <view wx:if="{{expandedId === item._id}}" class="audit-detail">
+      <view wx:if="{{item.photos && item.photos.length}}" class="detail-photos mt-16">
+        <image
+          wx:for="{{item.photos}}" wx:for-item="pic" wx:key="*this"
+          src="{{pic}}" mode="aspectFill" class="detail-photo"
+          bindtap="previewPhoto" data-url="{{pic}}" data-urls="{{item.photos.join(',')}}"
+        ></image>
+      </view>
+
+      <view wx:if="{{item.description}}" class="detail-text mt-16">
+        <text class="detail-label">描述：</text>{{item.description}}
+      </view>
+
+      <view class="detail-meta-row mt-12 flex-row">
+        <view wx:if="{{item.weather}}" class="meta-pill"><lx-icon name="weather" size="{{20}}" tone="muted" /><text>{{item.weather}}</text></view>
+        <view wx:if="{{item.growth_stage}}" class="meta-pill"><lx-icon name="growth" size="{{20}}" tone="muted" /><text>{{item.growth_stage}}</text></view>
+      </view>
+
+      <view wx:if="{{item.audit_comment}}" class="audit-comment mt-12">
+        <text class="text-warning">审核意见：{{item.audit_comment}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && !records.length}}">
+    <empty-state iconName="check" text="没有符合条件的记录" />
+  </view>
+
+  <view wx:if="{{loading}}" class="load-more">加载中...</view>
+</view>

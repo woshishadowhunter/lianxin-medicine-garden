@@ -1,0 +1,153 @@
+<view class="container">
+  <!-- 未绑定状态 -->
+  <view wx:if="{{!isBound}}" class="bind-section">
+    <view class="bind-header">
+      <view class="bind-icon">
+        <lx-icon name="herb" size="{{76}}" tone="brand" />
+      </view>
+      <text class="bind-title">连心药园</text>
+      <text class="bind-subtitle">绑定家庭账号，开始记录养护。</text>
+    </view>
+
+    <view class="bind-form panel">
+      <view class="form-row">
+        <text class="form-row-label">家庭编号</text>
+        <input class="form-input" placeholder="如 F001" bindinput="onFamilyCodeInput" />
+      </view>
+      <view class="form-row">
+        <text class="form-row-label">手机号</text>
+        <input class="form-input" type="number" maxlength="11" placeholder="预留手机号" bindinput="onPhoneInput" />
+      </view>
+      <button class="btn btn-primary mt-24" bindtap="doBind" hover-class="tap-card">绑定家庭账号</button>
+    </view>
+  </view>
+
+  <!-- 已绑定状态 -->
+  <view wx:else class="profile-section">
+    <view class="profile-card">
+      <view class="avatar">
+        <lx-icon name="profile" size="{{42}}" tone="white" />
+      </view>
+      <text class="profile-name">{{familyCode}} 家庭账号</text>
+      <view class="profile-community">
+        <lx-icon name="location" size="{{22}}" tone="white" />
+        <text>{{community || '社区信息待完善'}} · 已绑定</text>
+      </view>
+    </view>
+
+    <view class="points-entry" bindtap="goPoints" hover-class="tap-card">
+      <view class="points-entry-mark"><lx-icon name="medal" size="{{30}}" tone="accent" /></view>
+      <view class="points-entry-copy"><text>连心积分银行</text><view>每笔积分都有可追溯流水</view></view>
+      <view class="points-entry-balance"><text>{{pointsBalance}}</text><view>积分</view></view>
+      <lx-icon name="arrow-right" size="{{24}}" tone="muted" />
+    </view>
+
+    <view wx:if="{{pendingSync > 0}}" class="sync-card panel" bindtap="syncNow" hover-class="tap-card">
+      <view class="sync-icon">
+        <lx-icon name="sync" size="{{30}}" tone="info" />
+      </view>
+      <view class="sync-copy">
+        <view class="sync-title">待同步记录</view>
+        <view class="sync-count">{{pendingSync}} 条离线记录等待网络恢复</view>
+      </view>
+      <view class="sync-action">同步</view>
+    </view>
+
+    <view class="section-title">
+      <text>家庭档案</text>
+      <text></text>
+    </view>
+    <view class="menu-list">
+      <view class="menu-item panel" bindtap="goGrowthArchive" hover-class="tap-card">
+        <view class="menu-icon"><lx-icon name="archive" size="{{28}}" tone="brand" /></view>
+        <view class="menu-copy">
+          <text class="menu-title">药材生长档案</text>
+          <text class="menu-sub">查看完整照片与节点</text>
+        </view>
+        <text class="menu-action">进入</text>
+      </view>
+      <view class="menu-item panel" bindtap="goAnnualShowcase" hover-class="tap-card">
+        <view class="menu-icon"><lx-icon name="chart" size="{{28}}" tone="brand" /></view>
+        <view class="menu-copy">
+          <text class="menu-title">年度种植成效</text>
+          <text class="menu-sub">家庭成果、评分和照片合集</text>
+        </view>
+        <text class="menu-action">查看</text>
+      </view>
+      <view class="menu-item panel" bindtap="subscribeReminder" hover-class="tap-card">
+        <view class="menu-icon"><lx-icon name="bell" size="{{28}}" tone="brand" /></view>
+        <view class="menu-copy">
+          <text class="menu-title">养护提醒订阅</text>
+          <text class="menu-sub">接收浇水、除草和审核提醒</text>
+        </view>
+        <text class="tag tag-confirmed">订阅</text>
+      </view>
+    </view>
+
+    <view class="section-title">
+      <text>管理员</text>
+      <text></text>
+    </view>
+    <view class="menu-list">
+      <view wx:if="{{!isAdmin}}" class="menu-item panel" bindtap="switchToAdmin" hover-class="tap-card">
+        <view class="menu-icon accent"><lx-icon name="key" size="{{28}}" tone="accent" /></view>
+        <view class="menu-copy">
+          <text class="menu-title">切换为管理员</text>
+          <text class="menu-sub">进入审核、数据与导出工作台</text>
+        </view>
+        <text class="menu-action">验证</text>
+      </view>
+      <block wx:else>
+        <view class="menu-item panel" bindtap="goAdminDashboard" hover-class="tap-card">
+          <view class="menu-icon accent"><lx-icon name="chart" size="{{28}}" tone="accent" /></view>
+          <view class="menu-copy">
+            <text class="menu-title">数据总览</text>
+            <text class="menu-sub">查看项目统计与趋势</text>
+          </view>
+          <text class="menu-action">进入</text>
+        </view>
+        <view class="menu-item panel" bindtap="goAdminAudit" hover-class="tap-card">
+          <view class="menu-icon accent"><lx-icon name="check" size="{{28}}" tone="accent" /></view>
+          <view class="menu-copy">
+            <text class="menu-title">审核中心</text>
+            <text class="menu-sub">处理待审核养护记录</text>
+          </view>
+          <text class="menu-action">进入</text>
+        </view>
+        <view class="menu-item panel" bindtap="goAdminPoints" hover-class="tap-card">
+          <view class="menu-icon accent"><lx-icon name="medal" size="{{28}}" tone="accent" /></view>
+          <view class="menu-copy">
+            <text class="menu-title">积分银行</text>
+            <text class="menu-sub">发放奖励并审计积分流水</text>
+          </view>
+          <text class="menu-action">进入</text>
+        </view>
+      </block>
+    </view>
+
+    <view class="section-title">
+      <text>其他</text>
+      <text></text>
+    </view>
+    <view class="menu-list">
+      <view class="menu-item panel" bindtap="showHelp" hover-class="tap-card">
+        <view class="menu-icon muted"><lx-icon name="help" size="{{28}}" tone="muted" /></view>
+        <view class="menu-copy">
+          <text class="menu-title">使用帮助</text>
+          <text class="menu-sub">了解养护提交和审核规则</text>
+        </view>
+        <text class="menu-action">查看</text>
+      </view>
+      <view class="menu-item panel" bindtap="showAbout" hover-class="tap-card">
+        <view class="menu-icon muted"><lx-icon name="info" size="{{28}}" tone="muted" /></view>
+        <view class="menu-copy">
+          <text class="menu-title">关于连心药园</text>
+          <text class="menu-sub">社区中草药种植记录项目</text>
+        </view>
+        <text class="menu-action">查看</text>
+      </view>
+    </view>
+
+    <button class="btn btn-ghost mt-24" bindtap="logout" hover-class="tap-opacity">退出登录</button>
+  </view>
+</view>

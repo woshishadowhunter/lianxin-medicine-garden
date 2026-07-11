@@ -1,0 +1,49 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="load-more">加载中...</view>
+
+  <block wx:elif="{{family}}">
+    <view class="family-info card">
+      <view class="flex-row">
+        <view class="family-avatar">
+          <lx-icon name="family" size="{{44}}" tone="brand" />
+        </view>
+        <view class="flex-1">
+          <view class="info-code">{{family.family_code}}</view>
+          <view class="info-community">{{family.community}}</view>
+          <view class="info-contact"><lx-icon name="phone" size="{{20}}" tone="muted" />{{family.phone || '未登记'}} | {{family.contact_name || ''}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">种植任务 ({{tasks.length}})</view>
+      <view wx:for="{{tasks}}" wx:key="_id" class="task-item flex-between">
+        <view class="flex-row">
+          <view class="task-icon">
+            <lx-icon name="herb" size="{{30}}" tone="brand" />
+          </view>
+          <view>
+            <view>{{item.herb_name}}</view>
+            <view class="task-date">种植于 {{item.plant_date}}</view>
+          </view>
+        </view>
+        <text>{{item.status}}</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">养护记录 ({{records.length}})</view>
+      <view wx:for="{{records}}" wx:key="_id" class="record-item">
+        <view class="flex-between">
+          <view class="flex-row">
+            <text>{{item.care_type}} {{item.herb_name}}</text>
+          </view>
+          <view class="tag tag-{{item.audit_status}}">
+            {{item.audit_status === 'confirmed' ? '已确认' : item.audit_status === 'pending' ? '待审核' : '需修正'}}
+          </view>
+        </view>
+        <view class="record-date">{{item.care_date}}</view>
+      </view>
+    </view>
+  </block>
+</view>

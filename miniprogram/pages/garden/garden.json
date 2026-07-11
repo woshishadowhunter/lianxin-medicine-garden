@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的药园",
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state",
+    "loading-card": "/components/loading-card/loading-card"
+  }
+}

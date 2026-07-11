@@ -1,0 +1,190 @@
+<view class="container submit-page">
+  <!-- 网络状态提示 -->
+  <view wx:if="{{!isOnline}}" class="offline-banner">
+    <lx-icon name="offline" size="{{28}}" tone="warning" />
+    <text>网络不可用，记录将暂存本地，恢复后自动同步</text>
+  </view>
+  <view wx:if="{{pendingCount > 0}}" class="pending-banner">
+    <lx-icon name="sync" size="{{28}}" tone="info" />
+    <text>{{pendingCount}} 条记录等待同步</text>
+  </view>
+
+  <view class="page-head">
+    <text class="page-head-title">新增养护</text>
+    <text class="page-head-desc">选药材、选类型、上传照片后提交审核。</text>
+  </view>
+
+  <!-- 步骤指示器 -->
+  <view class="steps">
+    <view class="step {{step === 'select-herb' ? 'active' : step === 'select-type' || step === 'upload-photo' || step === 'describe' ? 'done' : ''}}">
+      <text>1 药材</text>
+    </view>
+    <view class="step {{step === 'select-type' ? 'active' : step === 'upload-photo' || step === 'describe' ? 'done' : ''}}">
+      <text>2 类型</text>
+    </view>
+    <view class="step {{step === 'upload-photo' ? 'active' : step === 'describe' ? 'done' : ''}}">
+      <text>3 照片</text>
+    </view>
+    <view class="step {{step === 'describe' ? 'active' : ''}}">
+      <text>4 提交</text>
+    </view>
+  </view>
+
+  <!-- 步骤1: 选择药材 -->
+  <view wx:if="{{step === 'select-herb'}}">
+    <view wx:if="{{!familyCode}}" class="bind-guide panel">
+      <lx-icon name="herb" size="{{48}}" tone="muted" />
+      <view class="bind-guide-title">尚未绑定家庭</view>
+      <view class="bind-guide-desc">请先绑定家庭账号，才能查看您的药材养护任务</view>
+      <button class="btn btn-primary" bindtap="goBind" hover-class="tap-card">去绑定家庭账号</button>
+    </view>
+
+    <view wx:elif="{{herbsLoading}}">
+      <loading-card rows="{{3}}" showAvatar="{{false}}" />
+    </view>
+
+    <view wx:else>
+      <view class="section-title">
+        <text>选择药材</text>
+        <text>{{herbs.length}} 项</text>
+      </view>
+      <view wx:for="{{herbs}}" wx:key="_id" class="herb-select-item panel" bindtap="selectHerb" data-herb="{{item}}" hover-class="tap-card">
+        <view class="herb-icon">
+          <lx-icon name="herb" size="{{38}}" tone="brand" />
+        </view>
+        <view class="flex-1">
+          <view class="herb-name">{{item.herb_name}}</view>
+          <view class="herb-date">种植于 {{item.plant_date}} · 已养护 {{item.care_count || 0}} 次</view>
+        </view>
+        <lx-icon name="arrow-right" size="{{28}}" tone="muted" />
+      </view>
+      <view wx:if="{{!herbs.length && herbsError}}" class="mt-24">
+        <empty-state iconName="herb" text="{{herbsError}}" />
+      </view>
+      <view wx:elif="{{!herbs.length && !herbsError}}" class="mt-24">
+        <empty-state iconName="herb" text="暂无待养护的药材" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 步骤2: 选择养护类型 -->
+  <view wx:if="{{step === 'select-type'}}">
+    <view class="selected-context panel">
+      <view class="herb-icon small">
+        <lx-icon name="herb" size="{{30}}" tone="brand" />
+      </view>
+      <view class="flex-1">
+        <view class="herb-name">{{selectedHerb.herb_name}}</view>
+        <view class="herb-date">种植 {{selectedHerb.plant_date}} · 已养护 {{selectedHerb.care_count || 0}} 次</view>
+      </view>
+      <view class="change-link" bindtap="goBack" hover-class="tap-opacity">更换</view>
+    </view>
+
+    <view class="section-title">
+      <text>养护类型</text>
+      <text>必选</text>
+    </view>
+    <care-type-picker selected="{{selectedCareType}}" bind:change="onCareTypeChange" />
+    <button wx:if="{{selectedCareType}}" class="btn btn-primary mt-24" bindtap="nextToUpload" hover-class="tap-card">
+      下一步：上传照片
+    </button>
+  </view>
+
+  <!-- 步骤3: 上传照片 -->
+  <view wx:if="{{step === 'upload-photo'}}">
+    <view class="section-title">
+      <text>照片证据</text>
+      <text>至少 1 张</text>
+    </view>
+    <view class="photo-hint">照片将自动添加家庭编号和时间水印。</view>
+
+    <view class="photo-upload-area">
+      <view wx:if="{{photos.length < 9}}" class="photo-add-btn" bindtap="choosePhoto" hover-class="tap-card">
+        <lx-icon name="camera" size="{{46}}" tone="brand" />
+        <text class="add-text">{{photos.length ? '继续添加' : '拍照或选择照片'}}</text>
+        <text wx:if="{{photos.length}}" class="add-count">{{photos.length}}/9</text>
+      </view>
+      <view wx:for="{{photos}}" wx:key="path" class="photo-preview-wrap">
+        <image src="{{item.path}}" mode="aspectFill" class="photo-preview" bindtap="previewPhoto" data-index="{{index}}"></image>
+        <view class="photo-delete" catchtap="deletePhoto" data-index="{{index}}" hover-class="tap-chip">
+          <lx-icon name="close" size="{{24}}" tone="white" />
+        </view>
+        <view wx:if="{{item.uploaded}}" class="photo-check">
+          <lx-icon name="check" size="{{24}}" tone="white" />
+        </view>
+      </view>
+    </view>
+
+    <button wx:if="{{photos.length}}" class="btn btn-primary mt-24" bindtap="nextToDescribe" hover-class="tap-card">
+      下一步：填写描述
+    </button>
+  </view>
+
+  <!-- 步骤4: 填写描述 -->
+  <view wx:if="{{step === 'describe'}}">
+    <view class="selected-summary panel">
+      <lx-icon name="herb" size="{{26}}" tone="brand" />
+      <text>{{selectedHerb.herb_name}}</text>
+      <text class="summary-divider">|</text>
+      <text>{{selectedCareTypeLabel || selectedCareType}}</text>
+      <text class="summary-divider">|</text>
+      <text>{{photos.length}} 张照片</text>
+    </view>
+
+    <view class="form-item panel">
+      <view class="form-label">养护日期</view>
+      <picker mode="date" value="{{careDate}}" bindchange="onDateChange">
+        <view class="form-value">{{careDate}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item panel">
+      <view class="form-label">天气状况</view>
+      <picker mode="selector" range="{{weathers}}" bindchange="onWeatherChange">
+        <view class="form-value">{{weather || '选择天气（选填）'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item panel">
+      <view class="form-label">生长阶段</view>
+      <picker mode="selector" range="{{growthStages}}" bindchange="onGrowthStageChange">
+        <view class="form-value">{{growthStage || '选择生长阶段（选填）'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item panel">
+      <view class="form-label">养护说明</view>
+      <textarea
+        class="form-textarea"
+        placeholder="记录长势、土壤、天气影响或养护细节。"
+        maxlength="500"
+        value="{{description}}"
+        bindinput="onDescInput"
+      ></textarea>
+      <view class="char-count">{{description.length}}/500</view>
+    </view>
+
+    <view wx:if="{{submitting}}" class="submit-progress mt-24">
+      <view class="progress-bar-wrap">
+        <view class="progress-bar-fill" style="width: {{totalProgress}}%"></view>
+      </view>
+      <text class="progress-text">
+        {{totalProgress < 20 ? '压缩照片中...' : totalProgress < 70 ? '上传照片中...' : totalProgress < 90 ? '保存记录中...' : '完成！'}}
+      </text>
+    </view>
+
+    <button class="btn btn-primary mt-24" bindtap="submitRecord" disabled="{{submitting}}" hover-class="tap-card">
+      {{submitting ? '提交中...' : isOnline ? '提交记录，进入审核' : '暂存本地（离线）'}}
+    </button>
+
+    <view wx:if="{{!isOnline}}" class="offline-notice mt-16">
+      <lx-icon name="offline" size="{{26}}" tone="warning" />
+      <text>当前无网络，记录将暂存到本地，网络恢复后自动提交</text>
+    </view>
+  </view>
+
+  <view wx:if="{{step !== 'select-herb'}}" class="back-btn mt-24" bindtap="goBack" hover-class="tap-opacity">
+    <lx-icon name="arrow-left" size="{{24}}" tone="muted" />
+    <text>返回上一步</text>
+  </view>
+</view>

@@ -1,0 +1,62 @@
+<view class="container admin-points-page">
+  <view class="admin-banner">
+    <view class="flex-between">
+      <view class="admin-title"><lx-icon name="medal" size="{{28}}" tone="white" /><text>管理后台 · 积分银行</text></view>
+      <text class="nav-tab" bindtap="goDashboard" hover-class="tap-chip">返回总览</text>
+    </view>
+  </view>
+
+  <block wx:if="{{loading}}"><loading-card rows="{{4}}" showAvatar="{{false}}" /></block>
+  <block wx:else>
+    <view class="bank-summary">
+      <view><text>{{summary.total_balance}}</text><view>当前总余额</view></view>
+      <view><text>{{summary.total_issued}}</text><view>累计发放</view></view>
+      <view><text>{{summary.account_count}}</text><view>家庭账户</view></view>
+    </view>
+
+    <view wx:if="{{summary.backfill_pending > 0}}" class="backfill-banner">
+      <view><text>历史积分待补发</text><view>尚有 {{summary.backfill_pending}} 条已确认养护记录未入账，每次安全处理 20 条。</view></view>
+      <button loading="{{issuing}}" disabled="{{issuing}}" bindtap="backfillConfirmed">补发一批</button>
+    </view>
+
+    <view class="section-title"><text>发放种植奖励</text><text>管理员入账</text></view>
+    <view class="issue-panel panel">
+      <view class="form-field">
+        <text class="field-label">家庭账户</text>
+        <picker mode="selector" range="{{familyLabels}}" value="{{selectedFamilyIndex}}" bindchange="onFamilyChange">
+          <view class="picker-value">{{familyLabels[selectedFamilyIndex] || '请选择家庭'}}<lx-icon name="chevron-down" size="{{20}}" tone="muted" /></view>
+        </picker>
+      </view>
+      <view class="form-field">
+        <text class="field-label">奖励类型</text>
+        <picker mode="selector" range="{{rewardLabels}}" value="{{selectedRewardIndex}}" bindchange="onRewardChange">
+          <view class="picker-value">{{rewardLabels[selectedRewardIndex] || '请选择奖励'}}<lx-icon name="chevron-down" size="{{20}}" tone="muted" /></view>
+        </picker>
+      </view>
+      <view class="form-field">
+        <text class="field-label">奖励说明（可选）</text>
+        <textarea class="reward-note" maxlength="120" value="{{note}}" placeholder="例如：薄荷长势良好，档案照片完整" bindinput="onNoteInput"></textarea>
+      </view>
+      <button class="btn btn-primary" loading="{{issuing}}" disabled="{{issuing}}" bindtap="issueReward">{{issuing ? '正在入账...' : '确认发放积分'}}</button>
+    </view>
+
+    <view class="section-title"><text>账户台账</text><text>{{accounts.length}} 户</text></view>
+    <view class="account-search"><lx-icon name="search" size="{{22}}" tone="muted" /><input placeholder="搜索家庭编号或社区" bindinput="onSearchInput" /></view>
+    <view class="account-table">
+      <view wx:for="{{filteredAccounts}}" wx:key="family_code" class="account-row">
+        <view><text class="account-code">{{item.family_code}}</text><text class="account-community">{{item.community}}</text></view>
+        <view class="account-earned">累计 {{item.total_earned}}</view>
+        <view class="account-balance">{{item.balance}}<text>分</text></view>
+      </view>
+    </view>
+
+    <view class="section-title"><text>最近流水</text><text>最新 30 笔</text></view>
+    <view wx:if="{{recent.length}}" class="recent-ledger">
+      <view wx:for="{{recent}}" wx:key="transaction_no" class="recent-row">
+        <view><text class="recent-title">{{item.family_code}} · {{item.description}}</text><text class="recent-meta">{{item.createdText}} · 余额 {{item.balance_after}}</text></view>
+        <text class="recent-amount {{item.amount > 0 ? 'positive' : 'negative'}}">{{item.amountText}}</text>
+      </view>
+    </view>
+    <empty-state wx:else iconName="archive" text="暂无积分流水" />
+  </block>
+</view>

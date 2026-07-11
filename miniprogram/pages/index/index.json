@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "连心药园",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "stats-summary": "/components/stats-summary/stats-summary",
+    "calendar-heatmap": "/components/calendar-heatmap/calendar-heatmap",
+    "empty-state": "/components/empty-state/empty-state",
+    "loading-card": "/components/loading-card/loading-card"
+  }
+}

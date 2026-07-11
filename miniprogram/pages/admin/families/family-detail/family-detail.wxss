@@ -1,0 +1,66 @@
+.family-info {
+  margin-bottom: 24rpx;
+}
+
+.family-avatar {
+  width: 92rpx;
+  height: 92rpx;
+  flex-shrink: 0;
+  margin-right: 22rpx;
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+}
+
+.info-code {
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.info-community {
+  margin-top: 6rpx;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+.info-contact {
+  margin-top: 8rpx;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  font-size: 24rpx;
+  color: var(--text-hint);
+}
+
+.task-item,
+.record-item {
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid var(--divider);
+}
+
+.task-item:last-child,
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.task-icon {
+  width: 56rpx;
+  height: 56rpx;
+  margin-right: 14rpx;
+  border-radius: 14rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+}
+
+.task-date,
+.record-date {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: var(--text-hint);
+}

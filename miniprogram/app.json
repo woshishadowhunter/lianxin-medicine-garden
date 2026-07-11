@@ -1,0 +1,85 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/records/records",
+    "pages/submit/submit",
+    "pages/garden/garden",
+    "pages/profile/profile",
+    "pages/herb-detail/herb-detail",
+    "pages/record-detail/record-detail",
+    "pages/bind/bind",
+    "pages/growth-archive/growth-archive",
+    "pages/annual-showcase/annual-showcase",
+    "pages/points/points"
+  ],
+  "subpackages": [
+    {
+      "root": "pages/admin",
+      "name": "admin",
+      "pages": [
+        "dashboard/dashboard",
+        "audit/audit",
+        "families/families",
+        "families/family-detail/family-detail",
+        "export/export",
+        "points/points"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/profile/profile": {
+      "network": "all",
+      "packages": ["admin"]
+    }
+  },
+  "usingComponents": {
+    "lx-icon": "/components/lx-icon/lx-icon"
+  },
+  "window": {
+    "backgroundColor": "#f4f1e8",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f4f1e8",
+    "navigationBarTitleText": "连心药园",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#95a096",
+    "selectedColor": "#1f6b4b",
+    "backgroundColor": "#fffdf8",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/records/records",
+        "text": "记录",
+        "iconPath": "images/tab-records.png",
+        "selectedIconPath": "images/tab-records-active.png"
+      },
+      {
+        "pagePath": "pages/submit/submit",
+        "text": "养护",
+        "iconPath": "images/tab-submit.png",
+        "selectedIconPath": "images/tab-submit-active.png"
+      },
+      {
+        "pagePath": "pages/garden/garden",
+        "text": "药园",
+        "iconPath": "images/tab-garden.png",
+        "selectedIconPath": "images/tab-garden-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab-profile.png",
+        "selectedIconPath": "images/tab-profile-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

@@ -1,0 +1,99 @@
+<view class="container">
+  <!-- 登录引导 -->
+  <block wx:if="{{!familyCode && !loading}}">
+    <view class="login-guide">
+      <view class="brand-mark">
+        <lx-icon name="herb" size="{{58}}" tone="white" />
+      </view>
+      <text class="brand-title">连心药园</text>
+      <text class="guide-desc">绑定家庭账号后，查看药草任务、养护记录和生长提醒。</text>
+      <button class="btn btn-primary guide-action" bindtap="goBind" hover-class="tap-card">绑定家庭账号</button>
+    </view>
+  </block>
+
+  <block wx:elif="{{loading}}">
+    <loading-card rows="{{3}}" showAvatar="{{false}}" />
+  </block>
+
+  <!-- 首页内容 -->
+  <block wx:elif="{{familyCode}}">
+    <view class="home-hero">
+      <image class="hero-backdrop" src="/images/herb-archive-hero.webp" mode="aspectFill"></image>
+      <view class="brand-row">
+        <view class="brand-copy">
+          <text class="home-title">连心药园</text>
+          <text class="home-subtitle">{{familyInfo.community || '社区信息待完善'}} · 家庭 {{familyInfo.family_code || familyCode}}</text>
+        </view>
+        <view class="weather-box">
+          <text class="weather-temp">{{weather.temp}}</text>
+          <text class="weather-desc">{{weather.desc}}</text>
+        </view>
+      </view>
+      <view class="hero-action" bindtap="navigateTo" data-url="/pages/submit/submit" hover-class="tap-card">
+        <lx-icon name="camera" size="{{28}}" tone="white" />
+        <text>新增养护记录</text>
+      </view>
+    </view>
+
+    <!-- 今日建议 -->
+    <view wx:if="{{reminders.length}}">
+      <view wx:for="{{reminders}}" wx:key="message" class="advice-panel panel">
+        <view class="advice-icon {{item.urgent ? 'urgent' : ''}}">
+          <lx-icon name="{{item.urgent ? 'warning' : 'water'}}" size="{{30}}" tone="{{item.urgent ? 'danger' : 'brand'}}" />
+        </view>
+        <view class="advice-copy">
+          <text class="advice-title">{{item.urgent ? '需要尽快关注' : '建议及时查看'}}</text>
+          <text class="advice-text">{{item.message}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="advice-panel panel">
+      <view class="advice-icon">
+        <lx-icon name="check" size="{{30}}" tone="brand" />
+      </view>
+      <view class="advice-copy">
+        <text class="advice-title">养护节奏正常</text>
+        <text class="advice-text">所有药材都在按时养护，继续保持当前记录节奏。</text>
+      </view>
+    </view>
+
+    <stats-summary stats="{{stats}}" columns="{{4}}" />
+
+    <view class="section-title">
+      <text>近期养护日历</text>
+      <text>过去 12 周</text>
+    </view>
+    <view class="section-card panel">
+      <calendar-heatmap records="{{calendarRecords}}" />
+    </view>
+
+    <view wx:if="{{recentPhotos.length}}" class="section-title">
+      <text>最近照片证据</text>
+      <text bindtap="navigateTo" data-url="/pages/records/records" hover-class="tap-opacity">查看全部</text>
+    </view>
+    <view wx:if="{{recentPhotos.length}}" class="recent-photos">
+      <view wx:for="{{recentPhotos}}" wx:key="photo" class="recent-photo" bindtap="navigateTo" data-url="/pages/records/records" hover-class="tap-card">
+        <image src="{{item.photo}}" mode="aspectFill"></image>
+        <text>{{item.herbName || '养护照片'}}</text>
+      </view>
+    </view>
+
+    <view class="section-title">
+      <text>常用入口</text>
+      <text></text>
+    </view>
+    <view class="quick-actions">
+      <view
+        wx:for="{{quickActions}}" wx:key="label"
+        class="action-item panel"
+        bindtap="navigateTo" data-url="{{item.url}}"
+        hover-class="tap-card"
+      >
+        <view class="action-icon">
+          <lx-icon name="{{item.iconName}}" size="{{30}}" tone="brand" />
+        </view>
+        <text class="action-label">{{item.label}}</text>
+      </view>
+    </view>
+  </block>
+</view>

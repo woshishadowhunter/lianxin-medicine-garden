@@ -1,0 +1,58 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="load-more">加载中...</view>
+
+  <block wx:elif="{{task}}">
+    <!-- 药材信息卡 -->
+    <view class="herb-info card">
+      <view class="flex-row">
+        <view class="herb-info-icon">
+          <lx-icon name="herb" size="{{52}}" tone="brand" />
+        </view>
+        <view class="flex-1">
+          <view class="herb-info-name">{{task.herb_name}}</view>
+          <view class="herb-info-date">种植日期：{{task.plant_date}}</view>
+          <view class="herb-info-status">{{task.statusIcon}} {{task.statusLabel}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 养护时间轴 -->
+    <view class="card-title">养护时间轴</view>
+    <view wx:if="{{!records.length}}" class="empty-state">
+      <view class="empty-icon">
+        <lx-icon name="record" size="{{72}}" tone="brand" />
+      </view>
+      <text class="empty-text">暂无养护记录</text>
+    </view>
+
+    <view wx:else class="timeline">
+      <view wx:for="{{records}}" wx:key="_id" class="timeline-item">
+        <view class="timeline-line"><view class="timeline-dot"></view></view>
+        <view class="timeline-card card">
+          <view class="flex-between">
+            <view class="flex-row">
+              <view class="record-type-icon">
+                <lx-icon name="{{item.typeIconName}}" size="{{34}}" tone="brand" />
+              </view>
+              <view>
+                <view class="record-date">{{item.care_date}} {{item.care_time || ''}}</view>
+                <view class="record-type">{{item.care_type_label || item.care_type}}</view>
+              </view>
+            </view>
+            <view class="tag tag-{{item.audit_status}}">
+              {{item.audit_status === 'pending' ? '待审核' : item.audit_status === 'confirmed' ? '已确认' : '需修正'}}
+            </view>
+          </view>
+          <view wx:if="{{item.photos && item.photos.length}}" class="photo-row mt-16">
+            <image wx:for="{{item.photos}}" wx:for-item="pic" wx:key="*this" src="{{pic}}" mode="aspectFill" class="timeline-photo" wx:if="{{index < 3}}"></image>
+          </view>
+          <view wx:if="{{item.description}}" class="record-desc mt-8">{{item.description}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-action mt-24">
+      <button class="btn btn-primary" bindtap="goAddRecord">新增养护记录</button>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "年度种植成效",
+  "usingComponents": {
+    "chart": "/components/chart/chart",
+    "photo-grid": "/components/photo-grid/photo-grid",
+    "stats-summary": "/components/stats-summary/stats-summary",
+    "empty-state": "/components/empty-state/empty-state",
+    "loading-card": "/components/loading-card/loading-card"
+  }
+}

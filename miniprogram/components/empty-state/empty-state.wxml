@@ -1,0 +1,9 @@
+<view class="empty-state">
+  <view class="empty-icon">
+    <lx-icon name="{{iconName}}" size="{{72}}" tone="brand" />
+  </view>
+  <text class="empty-text">{{text}}</text>
+  <button wx:if="{{showButton}}" class="btn btn-primary mt-24" bindtap="onAction">
+    {{buttonText}}
+  </button>
+</view>

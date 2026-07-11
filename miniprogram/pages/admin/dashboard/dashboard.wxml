@@ -1,0 +1,58 @@
+<view class="container">
+  <!-- 顶部导航 -->
+  <view class="admin-banner">
+    <view class="flex-between">
+      <view class="admin-title">
+        <lx-icon name="admin" size="{{28}}" tone="white" />
+        <text>管理后台 · 数据总览</text>
+      </view>
+      <view class="nav-tabs">
+        <text class="nav-tab active">总览</text>
+        <text class="nav-tab" bindtap="goAudit" hover-class="tap-chip">审核</text>
+        <text class="nav-tab" bindtap="goFamilies" hover-class="tap-chip">家庭</text>
+        <text class="nav-tab" bindtap="goPoints" hover-class="tap-chip">积分</text>
+        <text class="nav-tab" bindtap="goExport" hover-class="tap-chip">导出</text>
+        <text class="nav-tab exit" bindtap="switchToUser" hover-class="tap-chip">退出</text>
+      </view>
+    </view>
+  </view>
+
+  <block wx:if="{{loading}}">
+    <loading-card rows="{{4}}" showAvatar="{{false}}" />
+  </block>
+
+  <block wx:else>
+    <!-- 统计卡片 -->
+    <stats-summary stats="{{stats}}" columns="{{4}}" />
+
+    <!-- 本周养护趋势 -->
+    <view class="chart-card card">
+      <view class="card-title">本周养护趋势</view>
+      <chart wx:if="{{weeklyTrend}}" type="bar" data="{{weeklyTrend}}" width="670" height="360" title="" />
+      <view wx:else class="chart-empty">暂无数据</view>
+    </view>
+
+    <!-- 养护类型分布 -->
+    <view class="chart-row flex-row">
+      <view class="chart-half card">
+        <view class="card-title">养护类型分布</view>
+        <chart wx:if="{{careDistribution}}" type="pie" data="{{careDistribution}}" width="320" height="320" title="" />
+        <view wx:else class="chart-empty-sm">暂无数据</view>
+      </view>
+
+      <!-- 社区排名 -->
+      <view class="chart-half card">
+        <view class="card-title">社区养护排名</view>
+        <chart wx:if="{{communityRank}}" type="hbar" data="{{communityRank}}" width="320" height="320" title="" />
+        <view wx:else class="chart-empty-sm">暂无数据</view>
+      </view>
+    </view>
+
+    <!-- 药材种植分布 -->
+    <view class="chart-card card">
+      <view class="card-title">药材种植分布</view>
+      <chart wx:if="{{herbStats}}" type="bar" data="{{herbStats}}" width="670" height="360" title="" />
+      <view wx:else class="chart-empty">暂无数据</view>
+    </view>
+  </block>
+</view>

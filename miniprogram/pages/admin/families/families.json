@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "家庭管理",
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state",
+    "stats-summary": "/components/stats-summary/stats-summary"
+  }
+}

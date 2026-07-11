@@ -1,0 +1,250 @@
+.login-guide {
+  min-height: calc(100vh - 160rpx);
+  padding: 104rpx 34rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.brand-mark {
+  border-radius: 24rpx;
+  background: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 16rpx 32rpx rgba(31, 107, 75, 0.2);
+}
+
+.brand-mark {
+  width: 126rpx;
+  height: 126rpx;
+  margin-bottom: 28rpx;
+}
+
+.brand-title {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 58rpx;
+  font-weight: 900;
+  line-height: 1.16;
+  color: var(--text-primary);
+}
+
+.guide-desc {
+  display: block;
+  max-width: 560rpx;
+  margin-top: 22rpx;
+  font-size: 28rpx;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.guide-action {
+  width: 100%;
+  margin-top: 44rpx;
+}
+
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 438rpx;
+  margin: -28rpx -28rpx 32rpx;
+  padding: 52rpx 40rpx 32rpx;
+  border-bottom: 1rpx solid var(--border);
+  color: var(--text-primary);
+  background: #f7f2e8;
+}
+
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.96;
+}
+
+.brand-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.brand-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.home-title {
+  display: block;
+  font-size: 56rpx;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--primary-dark);
+  white-space: nowrap;
+}
+
+.home-subtitle {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.weather-box {
+  position: relative;
+  z-index: 1;
+  min-width: 112rpx;
+  padding-left: 20rpx;
+  border-left: 1rpx solid rgba(18, 60, 45, 0.22);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.weather-temp {
+  display: block;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 42rpx;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--primary-dark);
+}
+
+.weather-desc {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 23rpx;
+  color: var(--text-muted);
+}
+
+.hero-action {
+  position: relative;
+  z-index: 1;
+  height: 96rpx;
+  margin-top: 226rpx;
+  border-radius: 12rpx;
+  color: #fff;
+  background: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  font-size: 31rpx;
+  font-weight: 800;
+  box-shadow: 0 12rpx 26rpx rgba(18, 60, 45, 0.2);
+}
+
+.advice-panel {
+  display: grid;
+  grid-template-columns: 88rpx 1fr;
+  gap: 20rpx;
+  align-items: center;
+  margin-bottom: 0;
+  padding: 24rpx 4rpx 26rpx;
+  border-width: 0 0 1rpx;
+  border-radius: 0;
+  background: transparent;
+}
+
+.advice-icon,
+.action-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.advice-icon.urgent {
+  background: var(--danger-light);
+}
+
+.advice-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.advice-text {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.section-card {
+  padding: 22rpx 20rpx;
+  background: var(--bg-card);
+}
+
+.recent-photos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14rpx;
+  margin-bottom: 24rpx;
+}
+
+.recent-photo {
+  position: relative;
+  overflow: hidden;
+  height: 154rpx;
+  border-radius: 16rpx;
+  background: var(--bg-deep);
+  border: 1rpx solid var(--border);
+}
+
+.recent-photo image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.recent-photo text {
+  position: absolute;
+  left: 10rpx;
+  right: 10rpx;
+  bottom: 10rpx;
+  overflow: hidden;
+  color: #fff;
+  font-size: 20rpx;
+  font-weight: 850;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.35);
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14rpx;
+  margin-bottom: 24rpx;
+}
+
+.action-item {
+  min-height: 132rpx;
+  margin-bottom: 0;
+  padding: 20rpx 8rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  text-align: center;
+  background: transparent;
+  border-color: var(--border);
+}
+
+.action-label {
+  font-size: 23rpx;
+  font-weight: 850;
+  color: var(--text-secondary);
+}

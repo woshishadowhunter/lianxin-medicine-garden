@@ -1,0 +1,36 @@
+<view class="heatmap-container">
+  <!-- 月份标签 -->
+  <view class="month-labels">
+    <view class="day-label-spacer"></view>
+    <view wx:for="{{monthLabels}}" wx:key="label" class="month-label" style="grid-column: {{item.week + 2}}">
+      {{item.label}}
+    </view>
+  </view>
+
+  <!-- 热力图主体 -->
+  <view class="heatmap-body flex-row">
+    <view class="day-labels">
+      <text wx:for="{{dayLabels}}" wx:key="*this" class="day-label">{{item}}</text>
+    </view>
+    <view class="heatmap-grid">
+      <view wx:for="{{grid}}" wx:for-item="week" wx:for-index="wi" wx:key="wi" class="heatmap-week">
+        <view
+          wx:for="{{week}}" wx:for-item="day" wx:for-index="di" wx:key="di"
+          class="heatmap-cell level-{{day.level}}"
+          title="{{day.date}}: {{day.count}}次养护"
+        ></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图例 -->
+  <view class="heatmap-legend flex-row">
+    <text class="legend-label">少</text>
+    <view class="legend-cell level-0"></view>
+    <view class="legend-cell level-1"></view>
+    <view class="legend-cell level-2"></view>
+    <view class="legend-cell level-3"></view>
+    <view class="legend-cell level-4"></view>
+    <text class="legend-label">多</text>
+  </view>
+</view>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>连心药园 · 草本档案馆</title>
+  <style>
+    :root{--ink:#17251d;--muted:#66736a;--paper:#f4f1e8;--surface:#fffdf8;--line:#ded8ca;--green:#123c2d;--accent:#b98b45}
+    *{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+    body{width:390px;min-height:844px;margin:0 auto;padding-bottom:68px}.status{height:38px;padding:13px 22px 0;display:flex;justify-content:space-between;font-size:13px;font-weight:700}
+    .hero{position:relative;height:260px;overflow:hidden;border-bottom:1px solid var(--line);padding:20px 22px}.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hero-head{position:relative;display:flex;justify-content:space-between;align-items:flex-start}
+    h1{margin:0;color:var(--green);font:700 37px/1.05 "Songti SC","STSong",serif}.family{margin-top:8px;font-size:13px;color:#34443a}.weather{padding-left:15px;border-left:1px solid rgba(18,60,45,.24);color:var(--green)}.temp{font:700 25px/1 "Songti SC","STSong",serif}.desc{margin-top:7px;font-size:12px;color:var(--muted)}
+    .primary{position:absolute;left:22px;right:22px;bottom:18px;height:50px;border:0;border-radius:7px;background:var(--green);color:#fff;font-size:16px;font-weight:750;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 8px 18px rgba(18,60,45,.18)}.primary img{width:21px;height:21px}
+    main{padding:0 18px}.title{display:flex;justify-content:space-between;align-items:baseline;margin-top:21px;margin-bottom:8px}.title strong{font-size:17px}.title span{font-size:12px;color:var(--muted)}
+    .advice{display:grid;grid-template-columns:42px 1fr 18px;gap:12px;align-items:center;padding:12px 0 15px;border-bottom:1px solid var(--line)}.advice-icon{width:42px;height:42px;border-radius:50%;background:#e5f0e9;display:grid;place-items:center}.advice-icon img{width:20px;height:20px}.advice b{display:block;font-size:14px}.advice p{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.45}.arrow{color:#8a958c;font-size:24px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);margin:14px 0 0;border-block:1px solid var(--line)}.stat{padding:15px 3px 13px;text-align:center;border-right:1px solid var(--line)}.stat:last-child{border:0}.num{font:700 25px/1 "Songti SC","STSong",serif;color:var(--green)}.label{margin-top:7px;font-size:11px;color:var(--muted)}
+    .heat{padding:13px;background:var(--surface);border:1px solid var(--line);border-radius:7px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:5px}.cell{aspect-ratio:1;border-radius:2px;background:#eae7de}.cell:nth-child(4n){background:#cfdfcf}.cell:nth-child(7n),.cell:nth-child(13n){background:#4f9468}.cell:nth-child(19n){background:var(--accent)}
+    .photos{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.photo{height:85px;overflow:hidden;border:1px solid var(--line);border-radius:7px;background:#e8e3d8}.photo img{width:100%;height:100%;object-fit:cover}.photo:nth-child(1) img{object-position:70% 50%}.photo:nth-child(2) img{object-position:90% 40%}.photo:nth-child(3) img{object-position:55% 65%}.photo:nth-child(4) img{object-position:100% 60%}
+    nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:390px;height:64px;border-top:1px solid var(--line);background:rgba(255,253,248,.97);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 9px 8px}.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#7c857d;font-size:10px}.tab img{width:20px;height:20px}.tab.active{color:#1f6b4b;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="status"><span>09:41</span><span>●●●</span></div>
+  <section class="hero">
+    <img src="../../miniprogram/images/herb-archive-hero.webp" alt="草本档案静物">
+    <div class="hero-head"><div><h1>连心药园</h1><div class="family">阳光社区 · 家庭 F018</div></div><div class="weather"><div class="temp">24°C</div><div class="desc">多云</div></div></div>
+    <button class="primary"><img src="../../miniprogram/images/ui-icons/white/camera.png" alt="">新增养护记录</button>
+  </section>
+  <main>
+    <section class="advice"><div class="advice-icon"><img src="../../miniprogram/images/ui-icons/brand/water.png" alt=""></div><div><b>薄荷 3 天未浇水</b><p>建议今天补充一次浇水，并拍照叶面与土壤状态。</p></div><div class="arrow">›</div></section>
+    <section class="stats"><div class="stat"><div class="num">47</div><div class="label">养护次数</div></div><div class="stat"><div class="num">128</div><div class="label">照片</div></div><div class="stat"><div class="num">92%</div><div class="label">确认率</div></div><div class="stat"><div class="num">11</div><div class="label">连续天</div></div></section>
+    <div class="title"><strong>近期养护日历</strong><span>过去 12 周</span></div>
+    <section class="heat"><div class="grid"><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i><i class="cell"></i></div></section>
+    <div class="title"><strong>最近照片证据</strong><span>查看全部</span></div>
+    <section class="photos"><div class="photo"><img src="../../miniprogram/images/herb-archive-hero.webp" alt="薄荷养护照片"></div><div class="photo"><img src="../../miniprogram/images/herb-archive-hero.webp" alt="药材土壤照片"></div><div class="photo"><img src="../../miniprogram/images/herb-archive-hero.webp" alt="药材生长照片"></div><div class="photo"><img src="../../miniprogram/images/herb-archive-hero.webp" alt="药材档案照片"></div></section>
+  </main>
+  <nav><div class="tab active"><img src="../../miniprogram/images/tab-home-active.png" alt="">首页</div><div class="tab"><img src="../../miniprogram/images/tab-records.png" alt="">记录</div><div class="tab"><img src="../../miniprogram/images/tab-submit.png" alt="">养护</div><div class="tab"><img src="../../miniprogram/images/tab-garden.png" alt="">药园</div><div class="tab"><img src="../../miniprogram/images/tab-profile.png" alt="">我的</div></nav>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<view class="stats-row">
+  <view wx:for="{{stats}}" wx:key="label" class="stat-item" style="flex: {{1/columns}}">
+    <view class="stat-value" style="color: {{item.color || 'var(--text-primary)'}}">
+      {{item.value}}
+    </view>
+    <view class="stat-label">{{item.label}}</view>
+  </view>
+</view>

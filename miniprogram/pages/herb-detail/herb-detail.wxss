@@ -1,0 +1,110 @@
+.herb-info {
+  margin-bottom: 30rpx;
+  padding: 30rpx;
+}
+
+.herb-info-icon {
+  width: 92rpx;
+  height: 92rpx;
+  flex-shrink: 0;
+  margin-right: 22rpx;
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 54rpx;
+}
+
+.herb-info-name {
+  font-size: 38rpx;
+  font-weight: 800;
+}
+
+.herb-info-date {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+.herb-info-status {
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.timeline-item {
+  display: flex;
+  padding-left: 22rpx;
+}
+
+.timeline-line {
+  position: relative;
+  width: 3rpx;
+  flex-shrink: 0;
+  margin-right: 22rpx;
+  background: linear-gradient(180deg, var(--primary-light), rgba(31, 107, 75, 0.08));
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 28rpx;
+  left: -9rpx;
+  width: 21rpx;
+  height: 21rpx;
+  border: 4rpx solid #fff;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 5rpx rgba(31, 107, 75, 0.12);
+}
+
+.timeline-card {
+  flex: 1;
+  margin-bottom: 22rpx;
+}
+
+.record-type-icon {
+  width: 64rpx;
+  height: 64rpx;
+  margin-right: 16rpx;
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+.record-date {
+  font-size: 24rpx;
+  color: var(--text-hint);
+}
+
+.record-type {
+  margin-top: 6rpx;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.photo-row {
+  display: flex;
+  gap: 8rpx;
+}
+
+.timeline-photo {
+  width: 164rpx;
+  height: 164rpx;
+  border-radius: 12rpx;
+  background: var(--bg-deep);
+}
+
+.record-desc {
+  font-size: 26rpx;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.bottom-action {
+  padding-bottom: 48rpx;
+}

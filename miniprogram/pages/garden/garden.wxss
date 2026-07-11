@@ -1,0 +1,153 @@
+.archive-band {
+  margin-bottom: 24rpx;
+  padding: 30rpx;
+  border-radius: 14rpx;
+  color: #fff;
+  background: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-soft);
+}
+
+.archive-band-title {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.archive-band-desc {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.summary-bar {
+  padding: 0;
+  border-width: 1rpx 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.summary-item {
+  flex: 1;
+  padding: 24rpx 8rpx 22rpx;
+  border-right: 1rpx solid var(--border);
+  text-align: center;
+}
+
+.summary-item:last-child {
+  border-right: none;
+}
+
+.summary-num {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.summary-label {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: var(--text-muted);
+}
+
+.herb-task {
+  margin-bottom: 0;
+  padding: 26rpx 0;
+  border-width: 0 0 1rpx;
+  border-radius: 0;
+  background: transparent;
+}
+
+.task-top {
+  display: grid;
+  grid-template-columns: 76rpx 1fr auto;
+  gap: 18rpx;
+  align-items: center;
+}
+
+.task-copy {
+  min-width: 0;
+}
+
+.herb-card-icon {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.herb-card-name {
+  font-size: 31rpx;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+.herb-card-date {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.herb-status-badge {
+  flex-shrink: 0;
+  min-height: 40rpx;
+  padding: 0 14rpx;
+  border-radius: 999rpx;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  font-size: 21rpx;
+  font-weight: 850;
+}
+
+.status-growing {
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.status-warning {
+  color: #8a4d00;
+  background: var(--warning-light);
+}
+
+.status-dead {
+  color: var(--danger);
+  background: var(--danger-light);
+}
+
+.status-harvested {
+  color: var(--info);
+  background: var(--info-light);
+}
+
+.growth-info {
+  font-size: 23rpx;
+  color: var(--text-muted);
+}
+
+.growth-bar {
+  height: 12rpx;
+  overflow: hidden;
+  border-radius: 999rpx;
+  background: var(--border);
+}
+
+.growth-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  background: var(--primary);
+  transition: width 0.5s ease;
+}

@@ -1,0 +1,44 @@
+.points-page { padding-bottom: 72rpx; }
+
+.points-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 34rpx 32rpx 30rpx;
+  border-radius: 16rpx;
+  color: #fff;
+  background: var(--primary-dark);
+  box-shadow: var(--shadow);
+}
+
+.points-bank-label { display: flex; align-items: center; gap: 10rpx; color: rgba(255,255,255,.78); font-size: 24rpx; }
+.points-balance { display: block; margin-top: 32rpx; font-family: "Songti SC", "STSong", serif; font-size: 82rpx; font-weight: 700; line-height: 1; }
+.points-unit { display: block; margin-top: 8rpx; color: rgba(255,255,255,.72); font-size: 24rpx; }
+.points-account-no { position: absolute; right: 30rpx; bottom: 32rpx; color: rgba(255,255,255,.62); font-size: 22rpx; }
+
+.points-summary { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 22rpx; border-block: 1rpx solid var(--border); }
+.points-summary-item { padding: 24rpx 8rpx; text-align: center; border-right: 1rpx solid var(--border); }
+.points-summary-item:last-child { border-right: none; }
+.points-summary-item text { font-family: "Songti SC", "STSong", serif; font-size: 36rpx; font-weight: 700; color: var(--primary-dark); }
+.points-summary-item view { margin-top: 7rpx; color: var(--text-muted); font-size: 21rpx; }
+
+.ledger-list, .rules-panel { padding: 0 22rpx; border: 1rpx solid var(--border); border-radius: var(--radius); background: var(--bg-card); }
+.ledger-row { display: grid; grid-template-columns: 58rpx 1fr auto; gap: 16rpx; align-items: center; padding: 24rpx 0; border-bottom: 1rpx solid var(--divider); }
+.ledger-row:last-child, .rule-row:last-child { border-bottom: none; }
+.ledger-icon { width: 58rpx; height: 58rpx; display: flex; align-items: center; justify-content: center; border-radius: 14rpx; background: var(--primary-soft); }
+.ledger-icon.debit { background: var(--warning-light); }
+.ledger-copy { min-width: 0; }
+.ledger-title { display: block; font-size: 26rpx; font-weight: 800; line-height: 1.35; }
+.ledger-meta { display: block; margin-top: 7rpx; color: var(--text-muted); font-size: 22rpx; }
+.ledger-no { display: block; overflow: hidden; margin-top: 5rpx; color: var(--text-hint); font-size: 18rpx; text-overflow: ellipsis; white-space: nowrap; }
+.ledger-amount { min-width: 104rpx; text-align: right; }
+.ledger-amount text { font-family: "Songti SC", "STSong", serif; font-size: 34rpx; font-weight: 700; }
+.ledger-amount view { margin-top: 6rpx; color: var(--text-hint); font-size: 20rpx; }
+.ledger-amount.positive text { color: var(--primary); }
+.ledger-amount.negative text { color: var(--warning); }
+
+.rule-row { display: flex; align-items: center; justify-content: space-between; gap: 24rpx; padding: 23rpx 0; border-bottom: 1rpx solid var(--divider); }
+.rule-title { display: block; font-size: 26rpx; font-weight: 800; }
+.rule-desc { display: block; margin-top: 6rpx; color: var(--text-muted); font-size: 22rpx; line-height: 1.45; }
+.rule-points { flex-shrink: 0; color: var(--primary); font-family: "Songti SC", "STSong", serif; font-size: 30rpx; font-weight: 700; }
+.primary-rule .rule-points { color: var(--accent); }
+.points-notice { display: flex; align-items: flex-start; gap: 10rpx; margin-top: 20rpx; color: var(--text-muted); font-size: 22rpx; line-height: 1.55; }

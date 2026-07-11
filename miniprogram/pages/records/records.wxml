@@ -1,0 +1,90 @@
+<view class="container">
+  <view class="page-head">
+    <text class="page-head-title">养护记录</text>
+    <text class="page-head-desc">按时间沉淀照片、描述与审核状态。</text>
+  </view>
+
+  <!-- 筛选栏 -->
+  <view class="filter-section">
+    <view class="filter-bar flex-row">
+      <view class="filter-chip {{!(filter.herbCode || filter.careType || filter.dateStart || filter.dateEnd) ? 'active' : ''}}" bindtap="clearFilters" hover-class="tap-chip">
+        全部
+      </view>
+      <view class="filter-chip {{filter.herbCode ? 'active' : ''}}" bindtap="onFilterTap" data-key="herb" hover-class="tap-chip">
+        <text>药材</text><lx-icon name="chevron-down" size="{{18}}" tone="{{filter.herbCode ? 'white' : 'muted'}}" />
+      </view>
+      <view class="filter-chip {{filter.careType ? 'active' : ''}}" bindtap="onFilterTap" data-key="type" hover-class="tap-chip">
+        <text>类型</text><lx-icon name="chevron-down" size="{{18}}" tone="{{filter.careType ? 'white' : 'muted'}}" />
+      </view>
+      <view class="filter-chip {{filter.dateStart || filter.dateEnd ? 'active' : ''}}" bindtap="onFilterTap" data-key="date" hover-class="tap-chip">
+        <text>日期</text><lx-icon name="chevron-down" size="{{18}}" tone="{{filter.dateStart || filter.dateEnd ? 'white' : 'muted'}}" />
+      </view>
+      <view class="filter-chip view-toggle" bindtap="toggleViewMode" hover-class="tap-chip">
+        <lx-icon name="{{viewMode === 'timeline' ? 'grid' : 'list'}}" size="{{20}}" tone="{{viewMode === 'timeline' ? 'brand' : 'white'}}" />
+        <text>{{viewMode === 'timeline' ? '照片墙' : '列表'}}</text>
+      </view>
+    </view>
+
+    <!-- 筛选下拉 -->
+    <view wx:if="{{activeFilter === 'herb'}}" class="filter-dropdown panel">
+      <picker mode="selector" range="{{herbOptions}}" range-key="herb_name" bindchange="onHerbFilter">
+        <view class="picker-item">全部药材</view>
+        <view wx:for="{{herbOptions}}" wx:key="_id" class="picker-item">
+          <lx-icon name="herb" size="{{24}}" tone="brand" />
+          <text>{{item.herb_name}}</text>
+        </view>
+      </picker>
+    </view>
+    <view wx:if="{{activeFilter === 'type'}}" class="filter-dropdown panel">
+      <picker mode="selector" range="{{careTypeOptions}}" range-key="label" bindchange="onCareTypeFilter">
+        <view class="picker-item">全部类型</view>
+        <view wx:for="{{careTypeOptions}}" wx:key="value" class="picker-item">
+          <lx-icon name="{{item.iconName}}" size="{{24}}" tone="brand" />
+          <text>{{item.label}}</text>
+        </view>
+      </picker>
+    </view>
+    <view wx:if="{{activeFilter === 'date'}}" class="filter-dropdown panel">
+      <view class="date-row flex-between">
+        <picker mode="date" bindchange="onDateStartChange">
+          <view class="date-btn">{{filter.dateStart || '开始'}}</view>
+        </picker>
+        <text>至</text>
+        <picker mode="date" bindchange="onDateEndChange">
+          <view class="date-btn">{{filter.dateEnd || '结束'}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 列表模式 -->
+  <view wx:if="{{viewMode === 'timeline'}}">
+    <view wx:if="{{records.length === 0 && !loading}}">
+      <empty-state iconName="record" text="暂无养护记录" showButton="{{true}}" buttonText="去新增记录" bind:action="goSubmit" />
+    </view>
+    <view wx:else class="record-flow">
+      <view wx:for="{{records}}" wx:key="_id" class="record-flow-item" bindtap="viewDetail" data-id="{{item._id}}">
+        <record-card record="{{item}}" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 照片墙模式 -->
+  <view wx:else>
+    <view wx:if="{{!records.length && !loading}}">
+      <empty-state iconName="image" text="暂无照片" />
+    </view>
+    <view wx:else>
+      <view wx:for="{{records}}" wx:key="_id" class="photo-wall-section">
+        <view wx:if="{{item.photos && item.photos.length}}" class="photo-wall-header flex-between mt-8 mb-8">
+          <text class="photo-wall-date">{{item.care_date}} · {{item.herb_name}}</text>
+          <text>{{item.photos.length}} 张</text>
+        </view>
+        <photo-grid photos="{{item.photos}}" columns="{{3}}" showEmpty="{{false}}" />
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="load-more">加载中...</view>
+  <view wx:elif="{{!hasMore && records.length}}" class="load-more">没有更多了</view>
+</view>

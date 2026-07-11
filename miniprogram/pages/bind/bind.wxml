@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="bind-header">
+    <view class="bind-icon">
+      <lx-icon name="herb" size="{{76}}" tone="brand" />
+    </view>
+    <text class="bind-title">连心药园</text>
+    <text class="bind-subtitle">请输入您的家庭编号和预留手机号</text>
+  </view>
+
+  <view class="bind-form panel">
+    <view class="form-row">
+      <text class="form-label">家庭编号</text>
+      <input class="form-input" placeholder="如 F001" value="{{familyCode}}" bindinput="onFamilyCodeInput" />
+    </view>
+    <view class="form-row">
+      <text class="form-label">预留手机号</text>
+      <input class="form-input" type="number" maxlength="11" placeholder="请输入预留手机号" value="{{phone}}" bindinput="onPhoneInput" />
+    </view>
+    <button class="btn btn-primary mt-24" bindtap="doBind" loading="{{loading}}" hover-class="tap-card">
+      {{loading ? '验证中...' : '绑定家庭账号'}}
+    </button>
+  </view>
+</view>

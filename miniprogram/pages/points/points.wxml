@@ -1,0 +1,52 @@
+<view class="container points-page">
+  <block wx:if="{{loading && !transactions.length}}">
+    <loading-card rows="{{4}}" showAvatar="{{false}}" />
+  </block>
+
+  <block wx:else>
+    <view class="points-hero">
+      <view class="points-bank-label"><lx-icon name="archive" size="{{24}}" tone="accent" /><text>连心积分银行</text></view>
+      <text class="points-balance">{{account.balance || 0}}</text>
+      <text class="points-unit">可用积分</text>
+      <view class="points-account-no">账户 {{familyCode}}</view>
+    </view>
+
+    <view class="points-summary">
+      <view class="points-summary-item"><text>{{account.total_earned || 0}}</text><view>累计入账</view></view>
+      <view class="points-summary-item"><text>{{account.transaction_count || 0}}</text><view>交易笔数</view></view>
+      <view class="points-summary-item"><text>{{account.total_reversed || 0}}</text><view>累计冲正</view></view>
+    </view>
+
+    <view class="section-title"><text>积分流水</text><text>逐笔可追溯</text></view>
+    <view wx:if="{{transactions.length}}" class="ledger-list">
+      <view wx:for="{{transactions}}" wx:key="transaction_no" class="ledger-row">
+        <view class="ledger-icon {{item.amount > 0 ? 'credit' : 'debit'}}">
+          <lx-icon name="{{item.type === 'reward' ? 'medal' : item.type === 'reversal' ? 'sync' : 'check'}}" size="{{24}}" tone="{{item.amount > 0 ? 'brand' : 'warning'}}" />
+        </view>
+        <view class="ledger-copy">
+          <text class="ledger-title">{{item.description}}</text>
+          <text class="ledger-meta">{{item.typeLabel}} · {{item.createdText}}</text>
+          <text class="ledger-no">{{item.transaction_no}}</text>
+        </view>
+        <view class="ledger-amount {{item.amount > 0 ? 'positive' : 'negative'}}">
+          <text>{{item.amountText}}</text>
+          <view>余额 {{item.balance_after}}</view>
+        </view>
+      </view>
+    </view>
+    <empty-state wx:else iconName="archive" text="暂无积分流水，养护记录审核通过后自动入账" />
+
+    <view class="section-title"><text>积分规则</text><text>第一期仅发放</text></view>
+    <view class="rules-panel">
+      <view wx:if="{{baseRule}}" class="rule-row primary-rule">
+        <view><text class="rule-title">{{baseRule.name}}</text><text class="rule-desc">{{baseRule.description}}</text></view>
+        <text class="rule-points">+{{baseRule.points}}</text>
+      </view>
+      <view wx:for="{{rewardRules}}" wx:key="code" class="rule-row">
+        <view><text class="rule-title">{{item.name}}</text><text class="rule-desc">{{item.description}}</text></view>
+        <text class="rule-points">+{{item.points}}</text>
+      </view>
+    </view>
+    <view class="points-notice"><lx-icon name="info" size="{{22}}" tone="muted" /><text>积分由系统或管理员发放，当前不支持兑换、转账和提现。</text></view>
+  </block>
+</view>

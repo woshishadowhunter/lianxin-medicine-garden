@@ -1,0 +1,59 @@
+.care-type-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.care-type-card {
+  width: calc(33.33% - 11rpx);
+  min-height: 172rpx;
+  padding: 26rpx 10rpx 22rpx;
+  border: 1rpx solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  box-shadow: none;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.care-type-card:active {
+  transform: translateY(2rpx) scale(0.99);
+  opacity: 0.88;
+}
+
+.care-type-press {
+  transform: translateY(2rpx) scale(0.99);
+  opacity: 0.86;
+}
+
+.care-type-card.selected {
+  border-color: var(--primary);
+  background: var(--primary-dark);
+  box-shadow: 0 8rpx 18rpx rgba(31, 107, 75, 0.14);
+  transform: translateY(-2rpx);
+}
+
+.care-type-icon {
+  width: 64rpx;
+  height: 64rpx;
+  margin: 0 auto 12rpx;
+  border-radius: 16rpx;
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.care-type-card.selected .care-type-icon {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.care-type-label {
+  font-size: 25rpx;
+  font-weight: 800;
+  color: var(--text-secondary);
+}
+
+.care-type-card.selected .care-type-label {
+  color: #fff;
+}

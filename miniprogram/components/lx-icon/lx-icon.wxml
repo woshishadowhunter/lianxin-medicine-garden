@@ -1,0 +1,6 @@
+<image
+  class="lx-icon {{className}}"
+  src="{{src}}"
+  mode="aspectFit"
+  style="width: {{size}}rpx; height: {{size}}rpx;"
+></image>

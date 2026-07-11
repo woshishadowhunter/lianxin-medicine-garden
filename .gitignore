@@ -1,0 +1,17 @@
+# WeChat Mini Program
+project.private.config.json
+
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# Claude
+.claude/

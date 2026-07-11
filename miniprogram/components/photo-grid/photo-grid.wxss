@@ -1,0 +1,46 @@
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.grid-item {
+  background: var(--bg-deep);
+  border: 1rpx solid var(--border);
+}
+
+.grid-item-press {
+  opacity: 0.78;
+  transform: scale(0.98);
+}
+
+.col-3 .grid-item {
+  width: calc(33.33% - 7rpx);
+  height: 220rpx;
+  border-radius: 14rpx;
+}
+
+.col-2 .grid-item {
+  width: calc(50% - 4rpx);
+  height: 300rpx;
+  border-radius: 14rpx;
+}
+
+.col-4 .grid-item {
+  width: calc(25% - 6rpx);
+  height: 160rpx;
+  border-radius: 10rpx;
+}
+
+.col-6 .grid-item {
+  width: calc(16.66% - 7rpx);
+  height: 96rpx;
+  border-radius: 8rpx;
+}
+
+.empty-hint {
+  padding: 56rpx 0;
+  text-align: center;
+  color: var(--text-hint);
+  font-size: 24rpx;
+}

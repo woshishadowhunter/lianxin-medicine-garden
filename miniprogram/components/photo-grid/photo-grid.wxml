@@ -1,0 +1,12 @@
+<view wx:if="{{photos && photos.length}}" class="photo-grid col-{{columns}}">
+  <image
+    wx:for="{{photos}}" wx:key="*this"
+    src="{{item}}" mode="aspectFill"
+    class="grid-item"
+    bindtap="preview" data-index="{{index}}"
+    hover-class="grid-item-press"
+  ></image>
+</view>
+<view wx:elif="{{showEmpty}}" class="empty-hint">
+  <text>暂无照片</text>
+</view>

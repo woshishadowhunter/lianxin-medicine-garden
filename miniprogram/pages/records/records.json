@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "养护记录",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "record-card": "/components/record-card/record-card",
+    "photo-grid": "/components/photo-grid/photo-grid",
+    "empty-state": "/components/empty-state/empty-state",
+    "stats-summary": "/components/stats-summary/stats-summary"
+  }
+}

@@ -1,0 +1,58 @@
+<view class="container">
+  <!-- 搜索 + 筛选 -->
+  <view class="filter-bar">
+    <view class="search-box card">
+      <input class="search-input" placeholder="搜索家庭编号（如 F001）..." bindinput="onSearch" value="{{searchKeyword}}" />
+    </view>
+    <view class="filter-row flex-row mt-16">
+      <picker mode="selector" range="{{['全部社区']}}" bindchange="onCommunityFilter">
+        <view class="filter-chip">{{filterCommunity || '全部社区'}} <lx-icon name="chevron-down" size="{{18}}" tone="muted" /></view>
+      </picker>
+      <text class="filter-count">共 {{families.length}} 组家庭</text>
+    </view>
+  </view>
+
+  <!-- 家庭列表 -->
+  <view wx:for="{{families}}" wx:key="_id" class="family-card card" bindtap="goDetail" data-id="{{item._id}}" hover-class="tap-card">
+    <view class="flex-between">
+      <view class="flex-row">
+        <view class="family-rank {{item.isActive ? 'active' : ''}}">
+          <lx-icon name="home" size="{{34}}" tone="{{item.isActive ? 'brand' : 'muted'}}" />
+        </view>
+        <view class="ml-16">
+          <view class="family-code">{{item.family_code}}</view>
+          <view class="family-community"><lx-icon name="location" size="{{20}}" tone="muted" />{{item.community}}</view>
+        </view>
+      </view>
+      <view class="family-status {{item.statusClass}}">
+        {{item.statusLabel}}
+      </view>
+    </view>
+
+    <view class="family-stats flex-between mt-16">
+      <view class="fstat">
+        <text class="fstat-val">{{item.taskCount}}</text>
+        <text class="fstat-label">种植任务</text>
+      </view>
+      <view class="fstat">
+        <text class="fstat-val">{{item.careCount}}</text>
+        <text class="fstat-label">养护记录</text>
+      </view>
+      <view class="fstat">
+        <text class="fstat-val">{{item.lastCareDate}}</text>
+        <text class="fstat-label">最近养护</text>
+      </view>
+      <view class="fstat">
+        <text class="fstat-val">{{item.member_count || 1}}</text>
+        <text class="fstat-label">成员数</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && !families.length}}">
+    <empty-state iconName="family" text="暂无匹配的家庭" />
+  </view>
+
+  <view wx:if="{{loading}}" class="load-more">加载中...</view>
+  <view wx:elif="{{!hasMore && families.length}}" class="load-more">— 没有更多了 —</view>
+</view>

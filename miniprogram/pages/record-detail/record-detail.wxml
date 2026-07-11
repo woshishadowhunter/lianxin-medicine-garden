@@ -1,0 +1,62 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="load-more">加载中...</view>
+
+  <block wx:elif="{{record}}">
+    <!-- 类型和状态 -->
+    <view class="detail-header card flex-between">
+      <view class="flex-row">
+        <view class="detail-type-icon">
+          <lx-icon name="{{record.careTypeIconName}}" size="{{40}}" tone="brand" />
+        </view>
+        <view>
+          <view class="detail-type">{{record.careTypeLabel}}</view>
+          <view class="detail-herb">{{record.herb_name}}</view>
+        </view>
+      </view>
+      <view class="tag tag-{{record.audit_status}}">
+        {{record.audit_status === 'pending' ? '待审核' : record.audit_status === 'confirmed' ? '已确认' : '需修正'}}
+      </view>
+    </view>
+
+    <!-- 日期和天气 -->
+    <view class="detail-meta card">
+      <view class="meta-row flex-between">
+        <text>养护日期</text>
+        <text>{{record.care_date}} {{record.care_time || ''}}</text>
+      </view>
+      <view wx:if="{{record.weather}}" class="meta-row flex-between">
+        <text>天气</text>
+        <text>{{record.weather}}</text>
+      </view>
+      <view wx:if="{{record.growth_stage}}" class="meta-row flex-between">
+        <text>生长阶段</text>
+        <text>{{record.growth_stage}}</text>
+      </view>
+    </view>
+
+    <!-- 照片 -->
+    <view wx:if="{{record.photos && record.photos.length}}" class="detail-photos card">
+      <view class="card-title">现场照片</view>
+      <view class="photo-grid-detail">
+        <image
+          wx:for="{{record.photos}}" wx:key="*this"
+          src="{{item}}" mode="aspectFill"
+          class="detail-photo"
+          bindtap="previewPhoto" data-url="{{item}}"
+        ></image>
+      </view>
+    </view>
+
+    <!-- 描述 -->
+    <view wx:if="{{record.description}}" class="detail-desc card">
+      <view class="card-title">养护描述</view>
+      <text>{{record.description}}</text>
+    </view>
+
+    <!-- 审核意见 -->
+    <view wx:if="{{record.audit_comment}}" class="detail-audit card">
+      <view class="card-title">审核意见</view>
+      <text class="text-warning">{{record.audit_comment}}</text>
+    </view>
+  </block>
+</view>

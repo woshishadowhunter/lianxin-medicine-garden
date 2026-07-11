@@ -1,0 +1,103 @@
+<view class="container">
+  <block wx:if="{{loading}}">
+    <loading-card rows="{{4}}" showAvatar="{{false}}" />
+  </block>
+
+  <block wx:elif="{{!isAnnualComplete}}">
+    <empty-state iconName="chart" text="年度尚未结束，数据持续收集中..." />
+  </block>
+
+  <block wx:else>
+    <!-- 年度标题 -->
+    <view class="annual-header card">
+      <view class="annual-year">2026</view>
+      <view class="annual-title">{{familyCode}} · 年度种植成效报告</view>
+      <view class="annual-community">
+        <lx-icon name="location" size="{{22}}" tone="white" />
+        <text>{{community}} · 种植周期：4月20日（谷雨）至今</text>
+      </view>
+    </view>
+
+    <!-- 核心数据 -->
+    <stats-summary stats="{{
+      [{ label:'养护总次数', value: stats.totalRecords, iconName:'record' },
+       { label:'照片总数', value: stats.totalPhotos, iconName:'camera' },
+       { label:'药材种类', value: stats.herbCount, iconName:'herb' },
+       { label:'勤奋度评分', value: stats.score + '分', iconName:'star', tone: stats.score >= 80 ? 'brand' : 'warning', color: stats.score >= 80 ? 'var(--primary)' : 'var(--warning)' }]
+    }}" columns="{{4}}" />
+
+    <!-- 成就徽章 -->
+    <view wx:if="{{badges.length}}" class="badges-section card">
+      <view class="card-title">年度成就</view>
+      <view class="badge-grid">
+        <view wx:for="{{badges}}" wx:key="label" class="badge-item">
+          <view class="badge-icon">
+            <lx-icon name="{{item.iconName}}" size="{{32}}" tone="accent" />
+          </view>
+          <view>
+            <text class="badge-label">{{item.label}}</text>
+            <text class="badge-desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 月度养护趋势 -->
+    <view wx:if="{{monthlyTrend}}" class="card mt-24">
+      <view class="card-title">月度养护趋势</view>
+      <chart type="bar" data="{{monthlyTrend}}" width="670" height="360" />
+    </view>
+
+    <!-- 养护类型分布 -->
+    <view wx:if="{{careTypeDist}}" class="card mt-24">
+      <view class="card-title">养护类型分布</view>
+      <chart type="pie" data="{{careTypeDist}}" width="670" height="400" />
+    </view>
+
+    <!-- 每种药材详情 -->
+    <view class="section-title mt-24">各药材养护详情</view>
+    <view wx:for="{{herbs}}" wx:key="name" class="herb-showcase card">
+      <view class="flex-between">
+        <view class="flex-row">
+          <view class="showcase-icon">
+            <lx-icon name="{{item.iconName}}" size="{{42}}" tone="brand" />
+          </view>
+          <view>
+            <view class="showcase-name">{{item.name}}</view>
+            <view class="showcase-status {{item.status === 'growing' ? 'text-success' : 'text-warning'}}">
+              {{item.status === 'growing' ? '生长中' : item.status === 'harvested' ? '已收获' : '需关注'}}
+            </view>
+          </view>
+        </view>
+        <view class="showcase-stats">
+          <text>{{item.recordCount}}次养护</text>
+          <text>|</text>
+          <text>{{item.photoCount}}张照片</text>
+        </view>
+      </view>
+
+      <!-- 首尾对比照片 -->
+      <view wx:if="{{item.firstPhoto && item.latestPhoto}}" class="compare-section mt-16">
+        <view class="compare-label">种植历程对比</view>
+        <view class="compare-photos flex-row">
+          <view class="compare-item" bindtap="previewCompare" data-before="{{item.firstPhoto}}" data-after="{{item.latestPhoto}}" hover-class="tap-card">
+            <image src="{{item.firstPhoto}}" mode="aspectFill" class="compare-img"></image>
+            <text class="compare-tag">首次记录 {{item.firstCare}}</text>
+          </view>
+          <lx-icon name="arrow-right" size="{{30}}" tone="accent" />
+          <view class="compare-item">
+            <image src="{{item.latestPhoto}}" mode="aspectFill" class="compare-img"></image>
+            <text class="compare-tag">最近记录 {{item.lastCare}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 养护类型分布小标签 -->
+      <view wx:if="{{item.careTypeStats}}" class="care-type-mini mt-12">
+        <view wx:for="{{['watering','weeding','fertilizing','pest_control','growth_check']}}" wx:for-item="t" wx:key="*this" class="type-mini-tag">
+          {{item.careTypeStats[t] || 0}}次
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

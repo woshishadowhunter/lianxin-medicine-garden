@@ -1,0 +1,83 @@
+.heatmap-container {
+  padding: 12rpx 0 2rpx;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.month-labels {
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.day-label-spacer {
+  width: 48rpx;
+  flex-shrink: 0;
+}
+
+.month-label {
+  flex: 1;
+  font-size: 20rpx;
+  color: var(--text-hint);
+}
+
+.day-labels {
+  width: 48rpx;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5rpx;
+}
+
+.day-label {
+  height: 28rpx;
+  line-height: 28rpx;
+  font-size: 18rpx;
+  color: var(--text-hint);
+}
+
+.heatmap-grid {
+  flex: 1;
+  display: flex;
+  gap: 5rpx;
+  overflow-x: auto;
+}
+
+.heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: 5rpx;
+}
+
+.heatmap-cell {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 6rpx;
+}
+
+.level-0 { background: #eae7de; }
+.level-1 { background: #cfdfcf; }
+.level-2 { background: #8fbaa0; }
+.level-3 { background: #4f9468; }
+.level-4 { background: #1f6b4b; }
+
+.heatmap-legend {
+  justify-content: flex-end;
+  margin-top: 16rpx;
+  gap: 5rpx;
+}
+
+.legend-cell {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 5rpx;
+}
+
+.legend-label {
+  margin: 0 4rpx;
+  font-size: 18rpx;
+  color: var(--text-hint);
+}

@@ -1,0 +1,77 @@
+<view class="container">
+  <block wx:if="{{loading}}">
+    <view class="load-more">加载中...</view>
+  </block>
+
+  <block wx:elif="{{!archives.length}}">
+    <empty-state iconName="archive" text="暂无生长档案" />
+  </block>
+
+  <block wx:else>
+    <view wx:for="{{archives}}" wx:key="id" class="archive-card card" bindtap="viewHerbDetail" data-id="{{item.id}}" hover-class="tap-card">
+      <!-- 药材标题 -->
+      <view class="archive-header flex-between">
+        <view class="flex-row">
+          <view class="archive-icon">
+            <lx-icon name="{{item.herbIconName}}" size="{{46}}" tone="brand" />
+          </view>
+          <view>
+            <view class="archive-name">{{item.herbName}}</view>
+            <view class="archive-date">种植于 {{item.plantDate}}</view>
+          </view>
+        </view>
+        <view class="archive-status {{item.status === 'growing' ? 'text-success' : 'text-warning'}}">
+          {{item.status === 'growing' ? '生长中' : item.status === 'harvested' ? '已收获' : item.status === 'warning' ? '需关注' : '已枯死'}}
+        </view>
+      </view>
+
+      <!-- 生长进度 -->
+      <view class="growth-section mt-16">
+        <view class="flex-between">
+          <text class="growth-label">生长进度</text>
+          <text class="growth-info">{{item.growthDays - item.harvestDays}}天 / {{item.growthDays}}天</text>
+        </view>
+        <view class="growth-bar mt-8">
+          <view class="growth-fill" style="width: {{(item.growthDays - item.harvestDays) / item.growthDays * 100}}%"></view>
+        </view>
+        <view class="harvest-hint mt-8">
+          距预计收获约 <text class="text-primary">{{item.harvestDays}}</text> 天
+        </view>
+      </view>
+
+      <!-- 关键数据 -->
+      <view class="archive-stats flex-between mt-16">
+        <view class="archive-stat">
+          <view class="archive-stat-val">{{item.careCount}}</view>
+          <view class="archive-stat-label">养护次数</view>
+        </view>
+        <view class="archive-stat">
+          <view class="archive-stat-val">{{item.allPhotos.length}}</view>
+          <view class="archive-stat-label">照片数</view>
+        </view>
+        <view class="archive-stat">
+          <view class="archive-stat-val">{{item.firstCareDate || '-'}}</view>
+          <view class="archive-stat-label">首次养护</view>
+        </view>
+        <view class="archive-stat">
+          <view class="archive-stat-val">{{item.lastCareDate || '-'}}</view>
+          <view class="archive-stat-label">最近养护</view>
+        </view>
+      </view>
+
+      <!-- 照片预览 -->
+      <view wx:if="{{item.recentPhotos.length}}" class="mt-16">
+        <photo-grid photos="{{item.recentPhotos}}" columns="{{6}}" showEmpty="{{false}}" />
+      </view>
+
+      <!-- 养护类型分布 -->
+      <view wx:if="{{item.careCount > 0}}" class="care-type-dist mt-16">
+        <view class="flex-row" style="gap:12rpx;">
+          <view wx:for="{{['watering','weeding','fertilizing','pest_control','growth_check']}}" wx:for-item="t" wx:key="*this" class="type-tag">
+            {{item.careTypeStats[t] || 0}}次
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

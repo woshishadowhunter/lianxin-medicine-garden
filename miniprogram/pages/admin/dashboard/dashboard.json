@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "数据总览",
+  "usingComponents": {
+    "chart": "/components/chart/chart",
+    "stats-summary": "/components/stats-summary/stats-summary",
+    "loading-card": "/components/loading-card/loading-card"
+  }
+}

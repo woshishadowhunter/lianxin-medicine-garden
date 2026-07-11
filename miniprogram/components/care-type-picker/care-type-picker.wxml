@@ -1,0 +1,13 @@
+<view class="care-type-grid">
+  <view
+    wx:for="{{careTypes}}" wx:key="value"
+    class="care-type-card {{selected === item.value ? 'selected' : ''}}"
+    bindtap="onSelect" data-type="{{item.value}}"
+    hover-class="care-type-press"
+  >
+    <view class="care-type-icon">
+      <lx-icon name="{{item.iconName}}" size="{{40}}" tone="{{selected === item.value ? 'white' : 'brand'}}" />
+    </view>
+    <text class="care-type-label">{{item.label}}</text>
+  </view>
+</view>

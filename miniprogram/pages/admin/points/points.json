@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "积分银行",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "loading-card": "/components/loading-card/loading-card",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

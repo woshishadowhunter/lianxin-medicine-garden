@@ -1,0 +1,1377 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>连心药园高级产品界面 v2</title>
+  <style>
+    :root {
+      --ink: #17251d;
+      --ink-2: #34443a;
+      --muted: #66736a;
+      --hint: #8a958c;
+      --bg: #eef2ed;
+      --bg-deep: #e2ebe3;
+      --surface: #ffffff;
+      --surface-2: #f8faf7;
+      --border: #dbe4dc;
+      --primary: #1f6b4b;
+      --primary-dark: #123c2d;
+      --primary-soft: #e5f0e9;
+      --accent: #b98b45;
+      --accent-soft: #f3eadb;
+      --warning: #d8922f;
+      --warning-soft: #faefd9;
+      --danger: #c95045;
+      --danger-soft: #f8e4e1;
+      --info: #3d739c;
+      --info-soft: #e2edf5;
+      --shadow: 0 18px 44px rgba(20, 54, 37, .12);
+      --soft-shadow: 0 8px 18px rgba(20, 54, 37, .08);
+      --radius: 8px;
+      --phone-w: 390px;
+      --phone-h: 844px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(31, 107, 75, .16), transparent 34%),
+        linear-gradient(180deg, #f7f9f6 0%, var(--bg) 58%, #e8eee8 100%);
+    }
+
+    .board {
+      width: 1800px;
+      min-height: 2280px;
+      padding: 54px;
+    }
+
+    .board-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 38px;
+    }
+
+    .board-title {
+      margin: 0;
+      font-size: 44px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .board-subtitle {
+      width: 680px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .board-meta {
+      text-align: right;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .canvas {
+      display: grid;
+      grid-template-columns: repeat(3, var(--phone-w));
+      gap: 54px 70px;
+      align-items: start;
+    }
+
+    .phone-wrap {
+      width: var(--phone-w);
+    }
+
+    .screen-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 0 12px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .screen-label strong {
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .phone {
+      width: var(--phone-w);
+      height: var(--phone-h);
+      padding: 12px;
+      border-radius: 36px;
+      background: #101812;
+      box-shadow: var(--shadow);
+    }
+
+    .screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 27px;
+      background:
+        linear-gradient(180deg, #e9f1e8 0%, var(--bg) 36%, var(--bg) 100%);
+    }
+
+    .screen.admin-screen {
+      background: linear-gradient(180deg, #eef2ed 0%, #f6f8f6 100%);
+    }
+
+    .statusbar {
+      height: 30px;
+      padding: 10px 22px 0;
+      display: flex;
+      justify-content: space-between;
+      color: rgba(23, 37, 29, .78);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .status-dots i {
+      width: 5px;
+      height: 5px;
+      display: block;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .75;
+    }
+
+    .content {
+      height: calc(100% - 30px);
+      overflow: hidden;
+      padding: 16px 18px 74px;
+    }
+
+    .content.no-tab {
+      padding-bottom: 18px;
+    }
+
+    .tabbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 64px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 12px 9px;
+      border-top: 1px solid rgba(219, 228, 220, .92);
+      background: rgba(255, 255, 255, .96);
+    }
+
+    .tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--hint);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .tab.active { color: var(--primary); }
+
+    .tab img { width: 21px; height: 21px; object-fit: contain; }
+
+    .icon {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 188px;
+      padding: 22px;
+      border-radius: 16px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 90% 12%, rgba(255, 255, 255, .16), transparent 28%),
+        linear-gradient(138deg, var(--primary-dark), #1d5f43 58%, #2c7957 100%);
+      box-shadow: 0 16px 34px rgba(18, 60, 45, .24);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -32px;
+      bottom: -58px;
+      width: 180px;
+      height: 180px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 50%;
+    }
+
+    .brand-row,
+    .row,
+    .between {
+      display: flex;
+      align-items: center;
+    }
+
+    .between { justify-content: space-between; }
+
+    .brand-mark {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .14);
+      border: 1px solid rgba(255, 255, 255, .18);
+    }
+
+    .brand-mark img { width: 30px; height: 30px; }
+
+    .brand-copy { margin-left: 13px; position: relative; z-index: 1; }
+
+    .brand-copy h2,
+    .page-head h2 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .brand-copy p,
+    .page-head p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: rgba(255, 255, 255, .72);
+      line-height: 1.4;
+    }
+
+    .hero-meta {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .meta-box {
+      min-width: 0;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .16);
+      font-size: 12px;
+      color: rgba(255, 255, 255, .76);
+    }
+
+    .meta-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .primary-action {
+      position: relative;
+      z-index: 1;
+      margin-top: 14px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 8px;
+      color: var(--primary-dark);
+      background: #fff;
+      font-size: 16px;
+      font-weight: 850;
+    }
+
+    .section {
+      margin-top: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .panel {
+      border: 1px solid rgba(31, 107, 75, .09);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .92);
+      box-shadow: 0 4px 12px rgba(20, 54, 37, .05);
+    }
+
+    .advice {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .advice-icon,
+    .round-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: var(--primary-soft);
+    }
+
+    .advice h4,
+    .task-title,
+    .record-title,
+    .menu-title,
+    .audit-title {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .advice p,
+    .task-sub,
+    .record-sub,
+    .menu-sub,
+    .audit-sub {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow: hidden;
+    }
+
+    .stat {
+      padding: 14px 8px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: 0; }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .heatmap {
+      padding: 14px;
+    }
+
+    .heat-grid {
+      display: grid;
+      grid-template-columns: repeat(14, 1fr);
+      gap: 4px;
+    }
+
+    .day {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      background: #e6ece6;
+    }
+
+    .day.lv1 { background: #cfe2d2; }
+    .day.lv2 { background: #8ab99a; }
+    .day.lv3 { background: #2f7f58; }
+    .day.lv4 { background: #b98b45; }
+
+    .photo-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .photo {
+      position: relative;
+      overflow: hidden;
+      min-height: 72px;
+      border-radius: 8px;
+      background:
+        linear-gradient(145deg, rgba(18, 60, 45, .18), rgba(185, 139, 69, .15)),
+        linear-gradient(135deg, #35533b, #9bbd8a 48%, #e2c884);
+    }
+
+    .photo::before,
+    .photo::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .28);
+      transform: rotate(-28deg);
+    }
+
+    .photo::before {
+      left: 14px;
+      bottom: -16px;
+      width: 16px;
+      height: 96px;
+    }
+
+    .photo::after {
+      left: 32px;
+      bottom: -26px;
+      width: 12px;
+      height: 84px;
+      background: rgba(255, 255, 255, .18);
+    }
+
+    .photo-label {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 7px;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 750;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, .32);
+    }
+
+    .page-head {
+      padding: 8px 2px 12px;
+    }
+
+    .page-head h2 { color: var(--ink); font-size: 26px; }
+    .page-head p { color: var(--muted); }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .step {
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, .62);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .step.active {
+      color: #fff;
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .selected-context {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 11px;
+      align-items: center;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+
+    .change-link {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .care-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .care-tile {
+      min-height: 86px;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink-2);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .care-tile.active {
+      color: #fff;
+      border-color: var(--primary);
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 10px 18px rgba(31, 107, 75, .18);
+    }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .upload-main {
+      min-height: 100px;
+      grid-column: span 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--primary);
+      border: 1px dashed rgba(31, 107, 75, .36);
+      border-radius: 8px;
+      background: rgba(229, 240, 233, .72);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .upload-grid .photo { min-height: 100px; }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      padding: 12px;
+    }
+
+    .field label {
+      color: var(--ink-2);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .field .input {
+      min-height: 50px;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--hint);
+      background: var(--surface-2);
+      font-size: 13px;
+    }
+
+    .bottom-cta {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 8px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 12px 26px rgba(18, 60, 45, .24);
+      font-size: 16px;
+      font-weight: 850;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 13px;
+      overflow: hidden;
+    }
+
+    .chip {
+      height: 33px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .chip.active {
+      color: #fff;
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .record-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .record-item {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      padding: 10px;
+    }
+
+    .record-photo {
+      min-height: 88px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .tag.pending { color: #8a4d00; background: var(--warning-soft); }
+    .tag.confirmed { color: var(--primary); background: var(--primary-soft); }
+    .tag.revision { color: var(--danger); background: var(--danger-soft); }
+    .tag.info { color: var(--info); background: var(--info-soft); }
+
+    .mini-photos {
+      display: flex;
+      gap: 6px;
+      margin-top: 9px;
+    }
+
+    .mini-photos .photo {
+      width: 46px;
+      min-height: 42px;
+      border-radius: 6px;
+    }
+
+    .task-list,
+    .menu-list,
+    .audit-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task-row {
+      padding: 13px;
+    }
+
+    .task-top {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .progress {
+      margin-top: 12px;
+      height: 7px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: #e3ebe4;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), #6fa77f);
+    }
+
+    .archive-band {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 15px;
+      color: #fff;
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(18, 60, 45, .96), rgba(31, 107, 75, .9)),
+        radial-gradient(circle at 84% 20%, rgba(185, 139, 69, .5), transparent 26%);
+    }
+
+    .profile-card {
+      padding: 18px;
+      border-radius: 16px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary-dark), #1d6043);
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, .14);
+      border: 1px solid rgba(255, 255, 255, .16);
+    }
+
+    .profile-name {
+      margin: 14px 0 4px;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .profile-meta {
+      color: rgba(255, 255, 255, .74);
+      font-size: 13px;
+    }
+
+    .sync-band {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 11px;
+      align-items: center;
+      padding: 12px;
+      border-color: rgba(61, 115, 156, .16);
+      background: var(--info-soft);
+    }
+
+    .menu-row {
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px;
+    }
+
+    .admin-top {
+      margin: -16px -18px 14px;
+      padding: 20px 18px 16px;
+      color: #fff;
+      background: var(--primary-dark);
+    }
+
+    .admin-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .admin-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .admin-tab {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, .72);
+      background: rgba(255, 255, 255, .1);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .admin-tab.active {
+      color: var(--primary-dark);
+      background: #fff;
+    }
+
+    .audit-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .audit-stat {
+      padding: 12px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .audit-stat strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .audit-stat span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 750;
+    }
+
+    .audit-row {
+      display: grid;
+      grid-template-columns: 20px 62px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px;
+    }
+
+    .check {
+      width: 17px;
+      height: 17px;
+      margin-top: 4px;
+      border: 1.5px solid var(--primary);
+      border-radius: 4px;
+      background: var(--primary-soft);
+    }
+
+    .audit-photo { min-height: 62px; border-radius: 7px; }
+
+    .audit-actions {
+      display: flex;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .small-btn {
+      height: 28px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 850;
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .small-btn.ghost {
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .solo .board {
+      width: var(--phone-w);
+      min-height: var(--phone-h);
+      padding: 0;
+    }
+
+    .solo .board-header,
+    .solo .screen-label {
+      display: none;
+    }
+
+    .solo .canvas {
+      display: block;
+    }
+
+    .solo .phone-wrap {
+      width: var(--phone-w);
+    }
+
+    .solo .phone {
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    .solo .screen {
+      border-radius: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="board">
+    <header class="board-header">
+      <div>
+        <h1 class="board-title">连心药园高级产品界面 v2</h1>
+        <p class="board-subtitle">以“现代药园档案系统”为方向，保留微信小程序任务效率，提升品牌标题、照片证据、养护操作、审核密度和状态反馈。</p>
+      </div>
+      <div class="board-meta">
+        <div>Design-first concept board</div>
+        <div>Mobile app screens · 390 × 844</div>
+        <div>2026-06-09</div>
+      </div>
+    </header>
+
+    <main class="canvas">
+      <section class="phone-wrap" data-screen="home">
+        <div class="screen-label"><strong>01 首页</strong><span>家庭看板与今日主动作</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar"><span>09:41</span><span class="status-dots"><i></i><i></i><i></i></span></div>
+            <div class="content">
+              <div class="hero">
+                <div class="brand-row">
+                  <div class="brand-mark"><img src="../../miniprogram/images/ui-icons/white/herb.png" alt=""></div>
+                  <div class="brand-copy">
+                    <h2>连心药园</h2>
+                    <p>阳光社区 · 家庭 F018</p>
+                  </div>
+                </div>
+                <div class="hero-meta">
+                  <div class="meta-box"><strong>4 株药材</strong>3 株生长中，1 株需关注</div>
+                  <div class="meta-box"><strong>24°C</strong>多云</div>
+                </div>
+                <div class="primary-action">
+                  <span class="icon"><img src="../../miniprogram/images/ui-icons/brand/camera.png" alt=""></span>
+                  新增养护记录
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>今日建议</h3><span>2 项</span></div>
+                <div class="panel advice">
+                  <div class="advice-icon"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/water.png" alt=""></span></div>
+                  <div>
+                    <h4>薄荷 3 天未浇水</h4>
+                    <p>建议今天补充一次浇水，并拍摄叶面与土壤状态。</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section panel stats">
+                <div class="stat"><strong>47</strong><span>养护次数</span></div>
+                <div class="stat"><strong>128</strong><span>照片</span></div>
+                <div class="stat"><strong>92%</strong><span>确认率</span></div>
+                <div class="stat"><strong>11</strong><span>连续天</span></div>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>近期养护日历</h3><span>过去 12 周</span></div>
+                <div class="panel heatmap">
+                  <div class="heat-grid">
+                    <i class="day lv1"></i><i class="day"></i><i class="day lv2"></i><i class="day lv3"></i><i class="day"></i><i class="day lv1"></i><i class="day lv2"></i><i class="day"></i><i class="day lv4"></i><i class="day lv1"></i><i class="day"></i><i class="day lv2"></i><i class="day lv3"></i><i class="day"></i>
+                    <i class="day"></i><i class="day lv1"></i><i class="day lv2"></i><i class="day"></i><i class="day lv3"></i><i class="day lv1"></i><i class="day"></i><i class="day lv2"></i><i class="day"></i><i class="day lv1"></i><i class="day lv3"></i><i class="day lv2"></i><i class="day"></i><i class="day lv1"></i>
+                    <i class="day lv2"></i><i class="day"></i><i class="day lv1"></i><i class="day lv3"></i><i class="day lv1"></i><i class="day"></i><i class="day lv2"></i><i class="day lv4"></i><i class="day"></i><i class="day lv1"></i><i class="day"></i><i class="day lv2"></i><i class="day lv3"></i><i class="day lv1"></i>
+                    <i class="day"></i><i class="day lv2"></i><i class="day lv1"></i><i class="day"></i><i class="day lv2"></i><i class="day lv3"></i><i class="day"></i><i class="day lv1"></i><i class="day lv2"></i><i class="day"></i><i class="day lv4"></i><i class="day lv1"></i><i class="day"></i><i class="day lv2"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>最近照片证据</h3><span>查看全部</span></div>
+                <div class="photo-strip">
+                  <div class="photo"><span class="photo-label">金银花 · 浇水</span></div>
+                  <div class="photo"><span class="photo-label">薄荷 · 长势</span></div>
+                  <div class="photo"><span class="photo-label">艾草 · 除草</span></div>
+                </div>
+              </div>
+            </div>
+            <nav class="tabbar">
+              <div class="tab active"><img src="../../miniprogram/images/tab-home-active.png" alt="">首页</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-records.png" alt="">记录</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-submit.png" alt="">养护</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-garden.png" alt="">药园</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-profile.png" alt="">我的</div>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap" data-screen="submit">
+        <div class="screen-label"><strong>02 新增养护</strong><span>照片优先的提交任务台</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar"><span>09:41</span><span class="status-dots"><i></i><i></i><i></i></span></div>
+            <div class="content">
+              <header class="page-head">
+                <h2>新增养护</h2>
+                <p>选药材、选类型、上传照片后提交审核。</p>
+              </header>
+
+              <div class="stepper">
+                <div class="step">1 药材</div>
+                <div class="step active">2 类型</div>
+                <div class="step">3 照片</div>
+                <div class="step">4 提交</div>
+              </div>
+
+              <div class="panel selected-context">
+                <div class="round-icon"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/herb.png" alt=""></span></div>
+                <div>
+                  <h4 class="task-title">薄荷</h4>
+                  <p class="task-sub">种植 50 天 · 已养护 12 次</p>
+                </div>
+                <span class="change-link">更换</span>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>养护类型</h3><span>必选</span></div>
+                <div class="care-grid">
+                  <div class="care-tile active"><span class="icon"><img src="../../miniprogram/images/ui-icons/white/water.png" alt=""></span>浇水</div>
+                  <div class="care-tile"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/weed.png" alt=""></span>除草</div>
+                  <div class="care-tile"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/fertilize.png" alt=""></span>施肥</div>
+                  <div class="care-tile"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/pest.png" alt=""></span>除虫</div>
+                  <div class="care-tile"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/camera.png" alt=""></span>长势</div>
+                  <div class="care-tile"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/record.png" alt=""></span>其他</div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>照片证据</h3><span>至少 1 张</span></div>
+                <div class="upload-grid">
+                  <div class="upload-main">
+                    <span class="icon"><img src="../../miniprogram/images/ui-icons/brand/camera.png" alt=""></span>
+                    拍照或选择照片
+                  </div>
+                  <div class="photo"><span class="photo-label">已添加水印</span></div>
+                  <div class="photo"><span class="photo-label">叶面近照</span></div>
+                  <div class="photo"><span class="photo-label">土壤状态</span></div>
+                </div>
+              </div>
+
+              <div class="section panel field">
+                <label>养护说明</label>
+                <div class="input">薄荷叶片舒展，土壤偏干，已补水。</div>
+              </div>
+            </div>
+            <div class="bottom-cta">提交记录，进入审核</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap" data-screen="records">
+        <div class="screen-label"><strong>03 养护记录</strong><span>照片证据流与轻筛选</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar"><span>09:41</span><span class="status-dots"><i></i><i></i><i></i></span></div>
+            <div class="content">
+              <header class="page-head">
+                <h2>养护记录</h2>
+                <p>按时间沉淀照片、描述与审核状态。</p>
+              </header>
+
+              <div class="filter-row">
+                <div class="chip active">全部</div>
+                <div class="chip">药材</div>
+                <div class="chip">类型</div>
+                <div class="chip">日期</div>
+                <div class="chip">照片墙</div>
+              </div>
+
+              <div class="record-list">
+                <article class="panel record-item">
+                  <div class="photo record-photo"><span class="photo-label">今日</span></div>
+                  <div>
+                    <div class="between">
+                      <h4 class="record-title">薄荷 · 浇水</h4>
+                      <span class="tag pending">待审核</span>
+                    </div>
+                    <p class="record-sub">6月9日 08:32 · 3 张照片</p>
+                    <p class="record-sub">土壤偏干，已完成补水并拍摄叶面状态。</p>
+                    <div class="mini-photos"><div class="photo"></div><div class="photo"></div><div class="photo"></div></div>
+                  </div>
+                </article>
+                <article class="panel record-item">
+                  <div class="photo record-photo"><span class="photo-label">06/08</span></div>
+                  <div>
+                    <div class="between">
+                      <h4 class="record-title">金银花 · 除草</h4>
+                      <span class="tag confirmed">已确认</span>
+                    </div>
+                    <p class="record-sub">6月8日 18:10 · 2 张照片</p>
+                    <p class="record-sub">清理根部杂草，保留生长对比照片。</p>
+                    <div class="mini-photos"><div class="photo"></div><div class="photo"></div></div>
+                  </div>
+                </article>
+                <article class="panel record-item">
+                  <div class="photo record-photo"><span class="photo-label">06/06</span></div>
+                  <div>
+                    <div class="between">
+                      <h4 class="record-title">艾草 · 长势确认</h4>
+                      <span class="tag revision">需修正</span>
+                    </div>
+                    <p class="record-sub">6月6日 17:44 · 照片角度需补拍</p>
+                    <p class="record-sub">管理员建议补充整株照片。</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <nav class="tabbar">
+              <div class="tab"><img src="../../miniprogram/images/tab-home.png" alt="">首页</div>
+              <div class="tab active"><img src="../../miniprogram/images/tab-records-active.png" alt="">记录</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-submit.png" alt="">养护</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-garden.png" alt="">药园</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-profile.png" alt="">我的</div>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap" data-screen="garden">
+        <div class="screen-label"><strong>04 我的药园</strong><span>任务行与生长档案</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar"><span>09:41</span><span class="status-dots"><i></i><i></i><i></i></span></div>
+            <div class="content">
+              <header class="page-head">
+                <h2>我的药园</h2>
+                <p>从谷雨到收获，跟踪每株药草的状态。</p>
+              </header>
+
+              <div class="archive-band">
+                <div>
+                  <h3 style="margin:0 0 5px;font-size:18px;">药材生长档案</h3>
+                  <p style="margin:0;color:rgba(255,255,255,.72);font-size:12px;">照片、节点和收获倒计时集中查看</p>
+                </div>
+                <span class="icon"><img src="../../miniprogram/images/ui-icons/white/archive.png" alt=""></span>
+              </div>
+
+              <div class="section panel stats">
+                <div class="stat"><strong>4</strong><span>全部</span></div>
+                <div class="stat"><strong>3</strong><span>生长中</span></div>
+                <div class="stat"><strong>1</strong><span>需关注</span></div>
+                <div class="stat"><strong>0</strong><span>已枯死</span></div>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>种植任务</h3><span>谷雨种植</span></div>
+                <div class="task-list">
+                  <article class="panel task-row">
+                    <div class="task-top">
+                      <div class="round-icon"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/herb.png" alt=""></span></div>
+                      <div>
+                        <h4 class="task-title">薄荷</h4>
+                        <p class="task-sub">上次浇水 3 天前 · 养护 12 次</p>
+                      </div>
+                      <span class="tag pending">需关注</span>
+                    </div>
+                    <div class="progress"><span style="width:56%"></span></div>
+                  </article>
+                  <article class="panel task-row">
+                    <div class="task-top">
+                      <div class="round-icon"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/herb.png" alt=""></span></div>
+                      <div>
+                        <h4 class="task-title">金银花</h4>
+                        <p class="task-sub">上次除草 昨天 · 养护 16 次</p>
+                      </div>
+                      <span class="tag confirmed">生长中</span>
+                    </div>
+                    <div class="progress"><span style="width:48%"></span></div>
+                  </article>
+                  <article class="panel task-row">
+                    <div class="task-top">
+                      <div class="round-icon"><span class="icon"><img src="../../miniprogram/images/ui-icons/brand/herb.png" alt=""></span></div>
+                      <div>
+                        <h4 class="task-title">艾草</h4>
+                        <p class="task-sub">上次确认 2 天前 · 养护 10 次</p>
+                      </div>
+                      <span class="tag confirmed">生长中</span>
+                    </div>
+                    <div class="progress"><span style="width:62%"></span></div>
+                  </article>
+                </div>
+              </div>
+            </div>
+            <nav class="tabbar">
+              <div class="tab"><img src="../../miniprogram/images/tab-home.png" alt="">首页</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-records.png" alt="">记录</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-submit.png" alt="">养护</div>
+              <div class="tab active"><img src="../../miniprogram/images/tab-garden-active.png" alt="">药园</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-profile.png" alt="">我的</div>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap" data-screen="profile">
+        <div class="screen-label"><strong>05 我的</strong><span>账号、同步与管理入口</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar"><span>09:41</span><span class="status-dots"><i></i><i></i><i></i></span></div>
+            <div class="content">
+              <div class="profile-card">
+                <div class="avatar"><span class="icon"><img src="../../miniprogram/images/ui-icons/white/profile.png" alt=""></span></div>
+                <div class="profile-name">F018 家庭账号</div>
+                <div class="profile-meta">阳光社区 · 3 名成员 · 已绑定</div>
+              </div>
+
+              <div class="section panel sync-band">
+                <div class="round-icon" style="background:#fff;"><span class="icon"><img src="../../miniprogram/images/ui-icons/info/sync.png" alt=""></span></div>
+                <div>
+                  <h4 class="menu-title">待同步记录</h4>
+                  <p class="menu-sub">2 条离线记录等待网络恢复</p>
+                </div>
+                <span class="change-link">同步</span>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>家庭档案</h3><span></span></div>
+                <div class="menu-list">
+                  <div class="panel menu-row">
+                    <span class="icon"><img src="../../miniprogram/images/ui-icons/brand/archive.png" alt=""></span>
+                    <div><h4 class="menu-title">药材生长档案</h4><p class="menu-sub">查看完整照片与节点</p></div>
+                    <span class="change-link">进入</span>
+                  </div>
+                  <div class="panel menu-row">
+                    <span class="icon"><img src="../../miniprogram/images/ui-icons/brand/chart.png" alt=""></span>
+                    <div><h4 class="menu-title">年度种植成效</h4><p class="menu-sub">家庭成果、评分和照片合集</p></div>
+                    <span class="change-link">查看</span>
+                  </div>
+                  <div class="panel menu-row">
+                    <span class="icon"><img src="../../miniprogram/images/ui-icons/brand/bell.png" alt=""></span>
+                    <div><h4 class="menu-title">养护提醒订阅</h4><p class="menu-sub">接收浇水、除草和审核提醒</p></div>
+                    <span class="tag confirmed">已开启</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <div class="section-title"><h3>管理员</h3><span></span></div>
+                <div class="panel menu-row">
+                  <span class="icon"><img src="../../miniprogram/images/ui-icons/accent/key.png" alt=""></span>
+                  <div><h4 class="menu-title">切换为管理员</h4><p class="menu-sub">进入审核、数据与导出工作台</p></div>
+                  <span class="change-link">验证</span>
+                </div>
+              </div>
+            </div>
+            <nav class="tabbar">
+              <div class="tab"><img src="../../miniprogram/images/tab-home.png" alt="">首页</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-records.png" alt="">记录</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-submit.png" alt="">养护</div>
+              <div class="tab"><img src="../../miniprogram/images/tab-garden.png" alt="">药园</div>
+              <div class="tab active"><img src="../../miniprogram/images/tab-profile-active.png" alt="">我的</div>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap" data-screen="admin">
+        <div class="screen-label"><strong>06 管理审核</strong><span>照片优先的密集工作台</span></div>
+        <div class="phone">
+          <div class="screen admin-screen">
+            <div class="statusbar"><span>09:41</span><span class="status-dots"><i></i><i></i><i></i></span></div>
+            <div class="content no-tab">
+              <div class="admin-top">
+                <div class="admin-title">
+                  <span class="icon"><img src="../../miniprogram/images/ui-icons/white/admin.png" alt=""></span>
+                  管理后台 · 审核中心
+                </div>
+                <div class="admin-tabs">
+                  <div class="admin-tab">总览</div>
+                  <div class="admin-tab active">审核</div>
+                  <div class="admin-tab">家庭</div>
+                  <div class="admin-tab">导出</div>
+                </div>
+              </div>
+
+              <div class="audit-stat-grid">
+                <div class="audit-stat"><strong style="color:var(--warning)">18</strong><span>待审核</span></div>
+                <div class="audit-stat"><strong>42</strong><span>今日提交</span></div>
+                <div class="audit-stat"><strong style="color:var(--primary)">91%</strong><span>本周通过</span></div>
+              </div>
+
+              <div class="filter-row">
+                <div class="chip active">待审核</div>
+                <div class="chip">社区</div>
+                <div class="chip">类型</div>
+                <div class="chip">全选</div>
+              </div>
+
+              <div class="audit-list">
+                <article class="panel audit-row">
+                  <div class="check"></div>
+                  <div class="photo audit-photo"><span class="photo-label">3张</span></div>
+                  <div>
+                    <div class="between">
+                      <h4 class="audit-title">F018 · 薄荷</h4>
+                      <span class="tag pending">待审核</span>
+                    </div>
+                    <p class="audit-sub">阳光社区 · 浇水 · 今天 08:32</p>
+                    <p class="audit-sub">照片清晰，含家庭编号和时间水印。</p>
+                    <div class="audit-actions"><div class="small-btn">确认通过</div><div class="small-btn ghost">要求修正</div></div>
+                  </div>
+                </article>
+                <article class="panel audit-row">
+                  <div class="check"></div>
+                  <div class="photo audit-photo"><span class="photo-label">2张</span></div>
+                  <div>
+                    <div class="between">
+                      <h4 class="audit-title">F067 · 金银花</h4>
+                      <span class="tag pending">待审核</span>
+                    </div>
+                    <p class="audit-sub">和谐社区 · 除草 · 今天 07:55</p>
+                    <p class="audit-sub">建议查看根部细节后批量确认。</p>
+                    <div class="audit-actions"><div class="small-btn">确认通过</div><div class="small-btn ghost">要求修正</div></div>
+                  </div>
+                </article>
+                <article class="panel audit-row">
+                  <div class="check"></div>
+                  <div class="photo audit-photo"><span class="photo-label">1张</span></div>
+                  <div>
+                    <div class="between">
+                      <h4 class="audit-title">F104 · 艾草</h4>
+                      <span class="tag pending">待审核</span>
+                    </div>
+                    <p class="audit-sub">绿洲社区 · 长势确认 · 昨天 19:20</p>
+                    <p class="audit-sub">照片角度偏近，需判断是否补拍。</p>
+                    <div class="audit-actions"><div class="small-btn">确认通过</div><div class="small-btn ghost">要求修正</div></div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const screen = params.get("screen");
+    if (screen) {
+      document.body.classList.add("solo");
+      document.querySelectorAll(".phone-wrap").forEach((node) => {
+        if (node.dataset.screen !== screen) node.remove();
+      });
+    }
+  </script>
+</body>
+</html>
