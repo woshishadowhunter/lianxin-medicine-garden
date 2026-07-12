@@ -65,4 +65,19 @@
       </view>
     </block>
   </view>
+
+  <view class="migration-section">
+    <view class="section-title"><text>旧数据升级</text><text>仅 v1 项目需要</text></view>
+    <view class="migration-panel">
+      <view class="migration-copy">
+        <text>升级为通用植物字段</text>
+        <view>保留原有任务、照片和积分，可安全重复执行。</view>
+      </view>
+      <button class="btn btn-outline" disabled="{{migrating}}" loading="{{migrating}}" bindtap="startPlantMigration">{{migrating ? '正在升级' : '开始升级'}}</button>
+      <view wx:if="{{migrationStatus}}" class="migration-status">{{migrationStatus}}</view>
+      <view wx:if="{{migrationResult}}" class="migration-summary">
+        目录 {{migrationResult.seeded}} 项 · 任务更新 {{migrationResult.planting_tasks.updated}} 条 · 记录更新 {{migrationResult.care_records.updated}} 条
+      </view>
+    </view>
+  </view>
 </view>

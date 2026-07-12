@@ -11,7 +11,7 @@
         全部
       </view>
       <view class="filter-chip {{filter.herbCode ? 'active' : ''}}" bindtap="onFilterTap" data-key="herb" hover-class="tap-chip">
-        <text>药材</text><lx-icon name="chevron-down" size="{{18}}" tone="{{filter.herbCode ? 'white' : 'muted'}}" />
+        <text>植物</text><lx-icon name="chevron-down" size="{{18}}" tone="{{filter.herbCode ? 'white' : 'muted'}}" />
       </view>
       <view class="filter-chip {{filter.careType ? 'active' : ''}}" bindtap="onFilterTap" data-key="type" hover-class="tap-chip">
         <text>类型</text><lx-icon name="chevron-down" size="{{18}}" tone="{{filter.careType ? 'white' : 'muted'}}" />
@@ -27,11 +27,11 @@
 
     <!-- 筛选下拉 -->
     <view wx:if="{{activeFilter === 'herb'}}" class="filter-dropdown panel">
-      <picker mode="selector" range="{{herbOptions}}" range-key="herb_name" bindchange="onHerbFilter">
-        <view class="picker-item">全部药材</view>
+      <picker mode="selector" range="{{herbOptions}}" range-key="plant_name" bindchange="onHerbFilter">
+        <view class="picker-item">全部植物</view>
         <view wx:for="{{herbOptions}}" wx:key="_id" class="picker-item">
           <lx-icon name="herb" size="{{24}}" tone="brand" />
-          <text>{{item.herb_name}}</text>
+          <text>{{item.plant_name}}</text>
         </view>
       </picker>
     </view>
@@ -77,7 +77,7 @@
     <view wx:else>
       <view wx:for="{{records}}" wx:key="_id" class="photo-wall-section">
         <view wx:if="{{item.photos && item.photos.length}}" class="photo-wall-header flex-between mt-8 mb-8">
-          <text class="photo-wall-date">{{item.care_date}} · {{item.herb_name}}</text>
+          <text class="photo-wall-date">{{item.care_date}} · {{item.plant_name}}</text>
           <text>{{item.photos.length}} 张</text>
         </view>
         <photo-grid photos="{{item.photos}}" columns="{{3}}" showEmpty="{{false}}" />

@@ -1,7 +1,7 @@
 /**
  * 数据初始化脚本
  *
- * 用途：生成 200 组家庭、11 种药材配置、种植任务分配和积分账户
+ * 用途：生成 200 组家庭、通用植物配置、种植任务分配和积分账户
  *
  * 使用方式：
  *   在微信开发者工具中，将此文件内容作为云函数 "initDatabase" 上传并执行一次
@@ -21,19 +21,32 @@ const COMMUNITIES = [
   '翠苑社区', '和风社区', '春雨社区', '金秋社区',
 ];
 
-const HERBS = [
-  { code: 'jyh',  name: '金银花', icon_name: 'herb', growth_days: 150 },
-  { code: 'bh',   name: '薄荷',   icon_name: 'herb', growth_days: 90  },
-  { code: 'gq',   name: '枸杞',   icon_name: 'herb', growth_days: 180 },
-  { code: 'ac',   name: '艾草',   icon_name: 'herb', growth_days: 120 },
-  { code: 'yxc',  name: '鱼腥草', icon_name: 'herb', growth_days: 100 },
-  { code: 'blg',  name: '板蓝根', icon_name: 'herb', growth_days: 140 },
-  { code: 'pgy',  name: '蒲公英', icon_name: 'herb', growth_days: 80  },
-  { code: 'jh',   name: '菊花',   icon_name: 'herb', growth_days: 130 },
-  { code: 'zs',   name: '紫苏',   icon_name: 'herb', growth_days: 100 },
-  { code: 'ymc',  name: '益母草', icon_name: 'herb', growth_days: 110 },
-  { code: 'gc',   name: '甘草',   icon_name: 'herb', growth_days: 160 },
+const PLANTS = [
+  { code: 'rose', name: '月季', category: 'flower', icon_name: 'growth', growth_days: 120 },
+  { code: 'sunflower', name: '向日葵', category: 'flower', icon_name: 'growth', growth_days: 100 },
+  { code: 'orchid', name: '兰花', category: 'flower', icon_name: 'growth', growth_days: 0 },
+  { code: 'pothos', name: '绿萝', category: 'foliage', icon_name: 'garden', growth_days: 0 },
+  { code: 'monstera', name: '龟背竹', category: 'foliage', icon_name: 'garden', growth_days: 0 },
+  { code: 'tomato', name: '番茄', category: 'vegetable', icon_name: 'herb', growth_days: 110 },
+  { code: 'lettuce', name: '生菜', category: 'vegetable', icon_name: 'herb', growth_days: 55 },
+  { code: 'pepper', name: '辣椒', category: 'vegetable', icon_name: 'herb', growth_days: 120 },
+  { code: 'strawberry', name: '草莓', category: 'fruit', icon_name: 'growth', growth_days: 120 },
+  { code: 'lemon', name: '柠檬', category: 'fruit', icon_name: 'growth', growth_days: 0 },
+  { code: 'jyh', name: '金银花', category: 'herb', icon_name: 'herb', growth_days: 150 },
+  { code: 'bh', name: '薄荷', category: 'herb', icon_name: 'herb', growth_days: 90 },
+  { code: 'gq', name: '枸杞', category: 'herb', icon_name: 'herb', growth_days: 180 },
+  { code: 'ac', name: '艾草', category: 'herb', icon_name: 'herb', growth_days: 120 },
+  { code: 'yxc', name: '鱼腥草', category: 'herb', icon_name: 'herb', growth_days: 100 },
+  { code: 'blg', name: '板蓝根', category: 'herb', icon_name: 'herb', growth_days: 140 },
+  { code: 'pgy', name: '蒲公英', category: 'herb', icon_name: 'herb', growth_days: 80 },
+  { code: 'jh', name: '菊花', category: 'herb', icon_name: 'herb', growth_days: 130 },
+  { code: 'zs', name: '紫苏', category: 'herb', icon_name: 'herb', growth_days: 100 },
+  { code: 'ymc', name: '益母草', category: 'herb', icon_name: 'herb', growth_days: 110 },
+  { code: 'gc', name: '甘草', category: 'herb', icon_name: 'herb', growth_days: 160 },
+  { code: 'succulent', name: '多肉植物', category: 'other', icon_name: 'garden', growth_days: 0 },
 ];
+
+const LEGACY_HERB_CODES = ['jyh', 'bh', 'gq', 'ac', 'yxc', 'blg', 'pgy', 'jh', 'zs', 'ymc', 'gc'];
 
 const PLANT_DATE = '2026-04-20';
 const MIN_ADMIN_PASSWORD_LENGTH = 8;
@@ -53,10 +66,10 @@ function assignCommunity(index) {
   return COMMUNITIES[index % COMMUNITIES.length];
 }
 
-/** 为每个家庭随机分配 3-5 种药材 */
-function assignHerbs() {
+/** 为每个家庭随机分配 3-5 种植物 */
+function assignPlants() {
   const count = 3 + Math.floor(Math.random() * 3); // 3, 4, or 5
-  const shuffled = [...HERBS].sort(() => Math.random() - 0.5);
+  const shuffled = [...PLANTS].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
 
@@ -92,19 +105,23 @@ exports.main = async (event = {}) => {
     });
     console.log('  管理员账号已创建');
 
-    // 2. 创建 11 种药材配置
-    console.log('2/5 创建药材配置...');
-    const herbInsertTasks = HERBS.map(herb =>
-      db.collection('herbs').add({
+    // 2. 创建通用植物配置，并保留旧本草集合
+    console.log('2/5 创建植物配置...');
+    const plantInsertTasks = PLANTS.map(plant =>
+      db.collection('plants').add({
         data: {
-          ...herb,
+          ...plant,
           description: '',
+          is_active: true,
           created_at: new Date(),
         },
       })
     );
-    await Promise.all(herbInsertTasks);
-    console.log(`  ${HERBS.length} 种药材已创建`);
+    const herbInsertTasks = PLANTS.filter(plant => LEGACY_HERB_CODES.includes(plant.code)).map(plant =>
+      db.collection('herbs').add({ data: { ...plant, description: '', created_at: new Date() } })
+    );
+    await Promise.all([...plantInsertTasks, ...herbInsertTasks]);
+    console.log(`  ${PLANTS.length} 种植物已创建`);
 
     // 3. 创建 200 组家庭
     console.log('3/5 创建家庭数据...');
@@ -133,16 +150,24 @@ exports.main = async (event = {}) => {
     const taskInsertPromises = [];
 
     for (const code of familyCodes) {
-      const herbs = assignHerbs();
-      for (const herb of herbs) {
+      const plants = assignPlants();
+      for (const plant of plants) {
         taskInsertPromises.push(
           db.collection('planting_tasks').add({
             data: {
               family_code: code,
-              herb_code: herb.code,
-              herb_name: herb.name,
+              plant_code: plant.code,
+              plant_name: plant.name,
+              plant_category: plant.category,
+              plant_icon_name: plant.icon_name,
+              growth_days: plant.growth_days,
+              source: 'preset',
+              cover_image: '',
+              owner_openid: '',
+              herb_code: plant.code,
+              herb_name: plant.name,
               herb_icon: '',
-              herb_icon_name: herb.icon_name,
+              herb_icon_name: plant.icon_name,
               plant_date: PLANT_DATE,
               status: 'growing',
               care_count: 0,
@@ -182,7 +207,8 @@ exports.main = async (event = {}) => {
       success: true,
       summary: {
         admins: 1,
-        herbs: HERBS.length,
+        plants: PLANTS.length,
+        herbs: LEGACY_HERB_CODES.length,
         families: familyCodes.length,
         tasks: taskCount,
         points_accounts: familyCodes.length,

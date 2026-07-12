@@ -1,5 +1,5 @@
-const { HERBS, CARE_TYPES } = require('../../utils/constants');
-const { formatDate } = require('../../utils/date');
+const { PRESET_PLANTS, CARE_TYPES } = require('../../utils/constants');
+const { normalizePlantTask } = require('../../utils/plant');
 
 Page({
   data: {
@@ -41,7 +41,7 @@ Page({
         db.collection('families').where({ family_code: familyCode }).get(),
       ]);
 
-      const tasks = tasksRes.data;
+      const tasks = tasksRes.data.map(normalizePlantTask);
       const records = recordsRes.data;
       const family = familyRes.data[0] || {};
 
@@ -90,17 +90,17 @@ Page({
       });
       this.setData({ careTypeDist: { labels: typeLabels, data: typeData } });
 
-      // === 每种药材统计 ===
+      // === 每株植物统计 ===
       const herbs = tasks.map(task => {
-        const herbConfig = HERBS.find(h => h.code === task.herb_code) || {};
+        const plantConfig = PRESET_PLANTS.find(plant => plant.code === task.plant_code) || {};
         const herbRecords = records.filter(r => r.task_id === task._id);
         const allPhotos = herbRecords.flatMap(r => (r.photos || []));
         const careTypeStats = {};
         herbRecords.forEach(r => { careTypeStats[r.care_type] = (careTypeStats[r.care_type] || 0) + 1; });
 
         return {
-          name: task.herb_name,
-          iconName: herbConfig.iconName || 'herb',
+          name: task.plant_name,
+          iconName: task.plant_icon_name || plantConfig.iconName || 'garden',
           status: task.status,
           recordCount: herbRecords.length,
           photoCount: allPhotos.length,
@@ -123,7 +123,7 @@ Page({
       const badges = [];
       if (score >= 90) badges.push({ iconName: 'trophy', label: '养护标兵', desc: '养护勤奋度超过90分' });
       if (records.length >= 100) badges.push({ iconName: 'medal', label: '百次养护', desc: '累计养护超过100次' });
-      if (tasks.length >= 4) badges.push({ iconName: 'herb', label: '药材达人', desc: '成功种植4种以上药材' });
+      if (tasks.length >= 4) badges.push({ iconName: 'garden', label: '植物达人', desc: '持续记录4株以上植物' });
       if (totalPhotos >= 50) badges.push({ iconName: 'camera', label: '记录大师', desc: '拍摄超过50张养护照片' });
       records.forEach(r => {
         if (r.care_type === 'growth_check' && !badges.find(b => b.iconName === 'search')) {
@@ -167,7 +167,7 @@ Page({
     const withPhotos = records.filter(r => r.photos && r.photos.length > 0).length;
     score += Math.round((withPhotos / records.length) * 15);
 
-    // 覆盖度分：每种药材都有养护记录
+    // 覆盖度分：每株植物都有养护记录
     const herbCoverage = tasks.filter(t => {
       const taskRecords = records.filter(r => r.task_id === t._id);
       return taskRecords.length > 0;

@@ -1,4 +1,5 @@
-const { COMMUNITIES, HERBS, CARE_TYPES } = require('../../../utils/constants');
+const { CARE_TYPES } = require('../../../utils/constants');
+const { normalizePlantTask } = require('../../../utils/plant');
 
 Page({
   data: {
@@ -47,7 +48,7 @@ Page({
         loading: false,
       });
 
-      // 社区排名和药材统计（可以略微延迟加载）
+      // 社区排名和植物统计（可以略微延迟加载）
       this.loadSecondaryCharts();
 
     } catch (err) {
@@ -101,7 +102,7 @@ Page({
       const data = [];
       CARE_TYPES.forEach(ct => {
         if (counts[ct.value]) {
-          labels.push(ct.icon + ct.label);
+          labels.push(ct.label);
           data.push(counts[ct.value]);
         }
       });
@@ -110,7 +111,7 @@ Page({
     } catch (e) { return null; }
   },
 
-  /** 社区排名 + 药材统计 */
+  /** 社区排名 + 植物统计 */
   async loadSecondaryCharts() {
     try {
       const db = wx.cloud.database();
@@ -135,10 +136,12 @@ Page({
         series: [{ name: '养护次数', data: sortedCom.map(e => e[1]), color: '#b98b45' }],
       };
 
-      // 药材种植统计
+      // 植物种植统计
       const tasksRes = await db.collection('planting_tasks').get();
       const herbCounts = {};
-      tasksRes.data.forEach(t => { herbCounts[t.herb_name] = (herbCounts[t.herb_name] || 0) + 1; });
+      tasksRes.data.map(normalizePlantTask).forEach(task => {
+        herbCounts[task.plant_name] = (herbCounts[task.plant_name] || 0) + 1;
+      });
 
       const sortedHerbs = Object.entries(herbCounts).sort((a, b) => b[1] - a[1]);
       const herbStats = {

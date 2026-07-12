@@ -5,8 +5,8 @@
       <view class="brand-mark">
         <lx-icon name="herb" size="{{58}}" tone="white" />
       </view>
-      <text class="brand-title">连心药园</text>
-      <text class="guide-desc">绑定家庭账号后，查看药草任务、养护记录和生长提醒。</text>
+      <text class="brand-title">连心植物园</text>
+      <text class="guide-desc">绑定家庭账号，记录花草蔬果的每一次生长。</text>
       <button class="btn btn-primary guide-action" bindtap="goBind" hover-class="tap-card">绑定家庭账号</button>
     </view>
   </block>
@@ -17,22 +17,36 @@
 
   <!-- 首页内容 -->
   <block wx:elif="{{familyCode}}">
-    <view class="home-hero">
-      <image class="hero-backdrop" src="/images/herb-archive-hero.webp" mode="aspectFill"></image>
+    <view class="journal-masthead">
       <view class="brand-row">
         <view class="brand-copy">
-          <text class="home-title">连心药园</text>
+          <text class="journal-label">家庭植物观察簿</text>
+          <text class="home-title">连心植物园</text>
           <text class="home-subtitle">{{familyInfo.community || '社区信息待完善'}} · 家庭 {{familyInfo.family_code || familyCode}}</text>
         </view>
-        <view class="weather-box">
-          <text class="weather-temp">{{weather.temp}}</text>
-          <text class="weather-desc">{{weather.desc}}</text>
+        <view class="points-stamp" bindtap="navigateTo" data-url="/pages/points/points" hover-class="tap-chip">
+          <text>{{pointsBalance}}</text>
+          <view>积分</view>
         </view>
       </view>
-      <view class="hero-action" bindtap="navigateTo" data-url="/pages/submit/submit" hover-class="tap-card">
-        <lx-icon name="camera" size="{{28}}" tone="white" />
-        <text>新增养护记录</text>
+    </view>
+
+    <view wx:if="{{featuredStory}}" class="story-feature" bindtap="navigateTo" data-url="/pages/records/records" hover-class="tap-card">
+      <image src="{{featuredStory.photo}}" mode="aspectFill"></image>
+      <view class="story-caption">
+        <view><text>{{featuredStory.plantName}}</text><text>{{featuredStory.date}}</text></view>
+        <text class="story-note">{{featuredStory.description}}</text>
       </view>
+    </view>
+    <view wx:else class="story-empty">
+      <view><lx-icon name="camera" size="{{38}}" tone="brand" /></view>
+      <text>第一张成长照片，会成为家庭观察簿的封面。</text>
+    </view>
+
+    <view class="primary-record-action" bindtap="navigateTo" data-url="/pages/submit/submit" hover-class="tap-card">
+      <lx-icon name="camera" size="{{30}}" tone="white" />
+      <view><text>拍照记录成长</text><text>上传照片，审核通过后获得积分</text></view>
+      <lx-icon name="arrow-right" size="{{24}}" tone="white" />
     </view>
 
     <!-- 今日建议 -->
@@ -53,7 +67,7 @@
       </view>
       <view class="advice-copy">
         <text class="advice-title">养护节奏正常</text>
-        <text class="advice-text">所有药材都在按时养护，继续保持当前记录节奏。</text>
+        <text class="advice-text">所有植物都在按时记录，继续保持当前观察节奏。</text>
       </view>
     </view>
 
@@ -74,7 +88,7 @@
     <view wx:if="{{recentPhotos.length}}" class="recent-photos">
       <view wx:for="{{recentPhotos}}" wx:key="photo" class="recent-photo" bindtap="navigateTo" data-url="/pages/records/records" hover-class="tap-card">
         <image src="{{item.photo}}" mode="aspectFill"></image>
-        <text>{{item.herbName || '养护照片'}}</text>
+        <text>{{item.plantName || '成长照片'}}</text>
       </view>
     </view>
 

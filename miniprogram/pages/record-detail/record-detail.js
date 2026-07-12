@@ -1,4 +1,5 @@
 const { CARE_TYPES, WEATHERS, GROWTH_STAGES } = require('../../utils/constants');
+const { normalizePlantRecord } = require('../../utils/plant');
 
 Page({
   data: {
@@ -14,7 +15,7 @@ Page({
     try {
       const db = wx.cloud.database();
       const res = await db.collection('care_records').doc(id).get();
-      const record = res.data;
+      const record = normalizePlantRecord(res.data);
       const careType = CARE_TYPES.find(c => c.value === record.care_type);
       this.setData({
         record: {

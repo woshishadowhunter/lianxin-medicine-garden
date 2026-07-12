@@ -10,7 +10,7 @@
         </view>
         <view>
           <view class="detail-type">{{record.careTypeLabel}}</view>
-          <view class="detail-herb">{{record.herb_name}}</view>
+          <view class="detail-herb">{{record.plant_name}}</view>
         </view>
       </view>
       <view class="tag tag-{{record.audit_status}}">

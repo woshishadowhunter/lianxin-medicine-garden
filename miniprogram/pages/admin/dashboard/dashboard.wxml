@@ -48,9 +48,9 @@
       </view>
     </view>
 
-    <!-- 药材种植分布 -->
+    <!-- 植物种植分布 -->
     <view class="chart-card card">
-      <view class="card-title">药材种植分布</view>
+      <view class="card-title">植物种植分布</view>
       <chart wx:if="{{herbStats}}" type="bar" data="{{herbStats}}" width="670" height="360" title="" />
       <view wx:else class="chart-empty">暂无数据</view>
     </view>

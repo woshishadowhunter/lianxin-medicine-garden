@@ -9,15 +9,16 @@
 
   <block wx:else>
     <view wx:for="{{archives}}" wx:key="id" class="archive-card card" bindtap="viewHerbDetail" data-id="{{item.id}}" hover-class="tap-card">
-      <!-- 药材标题 -->
+      <!-- 植物标题 -->
       <view class="archive-header flex-between">
         <view class="flex-row">
           <view class="archive-icon">
-            <lx-icon name="{{item.herbIconName}}" size="{{46}}" tone="brand" />
+            <image wx:if="{{item.coverImage}}" src="{{item.coverImage}}" mode="aspectFill" class="archive-cover"></image>
+            <lx-icon wx:else name="{{item.plantIconName}}" size="{{46}}" tone="brand" />
           </view>
           <view>
-            <view class="archive-name">{{item.herbName}}</view>
-            <view class="archive-date">种植于 {{item.plantDate}}</view>
+            <view class="archive-name">{{item.plantName}}</view>
+            <view class="archive-date">{{item.categoryLabel}} · 种植于 {{item.plantDate}}</view>
           </view>
         </view>
         <view class="archive-status {{item.status === 'growing' ? 'text-success' : 'text-warning'}}">
@@ -26,7 +27,7 @@
       </view>
 
       <!-- 生长进度 -->
-      <view class="growth-section mt-16">
+      <view wx:if="{{item.hasGrowthCycle}}" class="growth-section mt-16">
         <view class="flex-between">
           <text class="growth-label">生长进度</text>
           <text class="growth-info">{{item.growthDays - item.harvestDays}}天 / {{item.growthDays}}天</text>
@@ -38,6 +39,8 @@
           距预计收获约 <text class="text-primary">{{item.harvestDays}}</text> 天
         </view>
       </view>
+
+      <view wx:else class="long-term-note">已陪伴 {{item.elapsedDays}} 天，这是一株适合长期观察的植物。</view>
 
       <!-- 关键数据 -->
       <view class="archive-stats flex-between mt-16">

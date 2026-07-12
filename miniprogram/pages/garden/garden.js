@@ -1,11 +1,15 @@
-const { HERB_STATUS, HERBS } = require('../../utils/constants');
+const { PLANT_STATUS, PLANT_CATEGORIES, PRESET_PLANTS } = require('../../utils/constants');
 const { daysUntilHarvest } = require('../../utils/date');
+const { normalizePlantTask } = require('../../utils/plant');
 
 Page({
   data: {
+    allTasks: [],
     tasks: [],
     loading: true,
     summary: { total: 0, growing: 0, warning: 0, dead: 0 },
+    categories: [{ value: 'all', label: '全部' }, ...PLANT_CATEGORIES],
+    selectedCategory: 'all',
   },
 
   onShow() {
@@ -28,22 +32,26 @@ Page({
 
       let growingCount = 0, warningCount = 0, deadCount = 0;
 
-      const tasks = res.data.map(task => {
-        const herbConfig = HERBS.find(h => h.code === task.herb_code) || {};
-        const harvestDays = daysUntilHarvest(task.plant_date, herbConfig.growthDays || 150);
-        const totalDays = herbConfig.growthDays || 150;
-        const elapsedDays = totalDays - harvestDays;
-        const progress = Math.min(100, Math.max(5, Math.round((elapsedDays / totalDays) * 100)));
+      const tasks = res.data.map(rawTask => {
+        const task = normalizePlantTask(rawTask);
+        const plantConfig = PRESET_PLANTS.find(plant => plant.code === task.plant_code) || {};
+        const totalDays = task.growth_days || plantConfig.growthDays || 0;
+        const harvestDays = totalDays ? daysUntilHarvest(task.plant_date, totalDays) : 0;
+        const elapsedDays = totalDays ? totalDays - harvestDays : Math.max(0, Math.floor((Date.now() - new Date(task.plant_date).getTime()) / 86400000));
+        const progress = totalDays ? Math.min(100, Math.max(5, Math.round((elapsedDays / totalDays) * 100))) : 0;
 
-        const statusInfo = HERB_STATUS[task.status] || HERB_STATUS.growing;
+        const statusInfo = PLANT_STATUS[task.status] || PLANT_STATUS.growing;
         if (task.status === 'growing') growingCount++;
         if (task.status === 'warning') warningCount++;
         if (task.status === 'dead') deadCount++;
 
         return {
           ...task,
-          herbIconName: herbConfig.iconName || 'herb',
+          plantIconName: task.plant_icon_name || plantConfig.iconName || 'garden',
+          categoryLabel: (PLANT_CATEGORIES.find(category => category.value === task.plant_category) || {}).label || '其他',
           harvestDays,
+          elapsedDays,
+          hasGrowthCycle: totalDays > 0,
           progress,
           statusLabel: statusInfo.label,
           statusIconName: statusInfo.iconName,
@@ -51,6 +59,7 @@ Page({
       });
 
       this.setData({
+        allTasks: tasks,
         tasks,
         summary: {
           total: tasks.length,
@@ -72,5 +81,19 @@ Page({
 
   goGrowthArchive() {
     wx.navigateTo({ url: '/pages/growth-archive/growth-archive' });
+  },
+
+  selectCategory(e) {
+    const selectedCategory = e.currentTarget.dataset.value;
+    this.setData({
+      selectedCategory,
+      tasks: selectedCategory === 'all'
+        ? this.data.allTasks
+        : this.data.allTasks.filter(task => task.plant_category === selectedCategory),
+    });
+  },
+
+  goAddPlant() {
+    wx.navigateTo({ url: '/pages/plant-add/plant-add' });
   },
 });

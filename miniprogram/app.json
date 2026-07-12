@@ -4,6 +4,7 @@
     "pages/records/records",
     "pages/submit/submit",
     "pages/garden/garden",
+    "pages/plant-add/plant-add",
     "pages/profile/profile",
     "pages/herb-detail/herb-detail",
     "pages/record-detail/record-detail",
@@ -39,7 +40,7 @@
     "backgroundColor": "#f4f1e8",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#f4f1e8",
-    "navigationBarTitleText": "连心药园",
+    "navigationBarTitleText": "连心植物园",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -68,7 +69,7 @@
       },
       {
         "pagePath": "pages/garden/garden",
-        "text": "药园",
+        "text": "植物",
         "iconPath": "images/tab-garden.png",
         "selectedIconPath": "images/tab-garden-active.png"
       },

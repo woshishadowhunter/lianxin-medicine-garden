@@ -4,7 +4,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Project Overview
 
-连心药园 (Lianxin Medicine Garden) — a WeChat mini program for 200 families across 5-8 communities to record daily herb-planting care activities. Families submit care records (watering, weeding, fertilizing, etc.) with photo evidence; administrators review and approve them. The project runs from Guyu (April 20, 2026) through year-end, culminating in annual reports.
+连心植物园 (Lianxin Plant Journal) — a WeChat mini program for family and community planting activities. It supports flowers, foliage plants, vegetables, fruit trees, herbs, and custom plants. Families submit photo-backed care records; administrators review them, issue points, monitor participation, and export reports.
 
 Full requirements: `docs/requirements.md`
 Database schema: `docs/database-schema.md`
@@ -38,19 +38,21 @@ miniprogram/
 │   ├── index/                # 🏠 Home dashboard (Tab)
 │   ├── records/              # 📋 Care records timeline/photo wall (Tab)
 │   ├── submit/               # ➕ Multi-step submit form (Tab)
-│   ├── garden/               # 🌿 Herb task cards + growth progress (Tab)
+│   ├── garden/               # Plant collection, category filters, status (Tab)
+│   ├── plant-add/            # Preset catalog and custom plant creation
 │   ├── profile/              # 👤 User center + admin entry (Tab)
 │   ├── bind/                 # Family code + phone verification
-│   ├── herb-detail/          # Single herb growth timeline
+│   ├── herb-detail/          # Single plant timeline (legacy route retained)
 │   ├── record-detail/        # Single record full detail
-│   ├── growth-archive/       # All herbs growth archives with stats
+│   ├── growth-archive/       # All plant growth archives with stats
 │   └── admin/
 │       ├── dashboard/        # Data overview with stats
 │       ├── audit/            # Record review (approve/reject/batch)
 │       ├── families/         # Family list + detail
 │       └── export/           # Data export (4 report types)
 ├── utils/
-│   ├── constants.js          # Care types, herb config, communities, enums
+│   ├── constants.js          # Care types, plant catalog, communities, enums
+│   ├── plant.js              # Generic/legacy plant normalization
 │   ├── date.js               # formatDate, timeAgo, daysUntilHarvest
 │   ├── photo.js              # compressImages, uploadPhoto, getCloudPath
 │   └── offline.js            # saveOffline, syncAll, getQueue, network monitor
@@ -66,7 +68,7 @@ cloudfunctions/
 └── exportData/               # Generate CSV by export type
 
 scripts/
-└── init-database.js          # Run once: 200 families + 11 herbs + task assignments
+└── init-database.js          # Run once: families + mixed plants + task assignments
 ```
 
 ### Reusable Components
@@ -83,8 +85,8 @@ scripts/
 ### Database Collections
 
 - `families` — family_code (F001-F200), community, phone, contact_name, member_count, openid
-- `herbs` — 11 herb configs: code, name, icon (emoji), growth_days
-- `planting_tasks` — family_code + herb_code + plant_date (2026-04-20) + status (growing/harvested/warning/dead) + care_count
+- `plants` — preset catalog across six categories; `herbs` remains for v1 compatibility
+- `planting_tasks` — family_code + plant identity/category/source + plant_date + status + care_count; new tasks also write `herb_*` aliases
 - `care_records` — **core**: task_id, care_type, photos (JSON array of cloud fileIDs), description, weather, growth_stage, care_date, audit_status (pending/confirmed/needs_revision)
 - `admin_logs` — action, record_ids, new_status, admin_openid
 - `admins` — name, password, role (admin/super_admin)
@@ -116,7 +118,7 @@ scripts/
 ## Development Status
 
 - [x] Phase 1 — Foundation: project structure, cloud config, DB schema, seed script, tab navigation
-- [x] Phase 2 — User-facing core: home dashboard with heatmap/reminders, multi-step submit with offline support, timeline/photo-wall records, herb task cards, growth archives, binding flow
+- [x] Phase 2 — User-facing core: photo journal home, multi-step submit, timeline/photo wall, plant collection, growth archives, binding flow
 - [x] Phase 3 — Admin: canvas chart component (bar/pie/hbar), real-time data dashboard with 4 chart types, audit center with inline expansion + quick comment templates + batch operations, family management with search/filter/activity status, Excel export via node-xlsx with CSV fallback (5 report types including annual multi-sheet)
 - [x] Phase 4 — Final polish: push notifications (notify.js + sendReminder cloud function), photo watermarks via canvas (utils/photo.js), annual showcase page with scoring system/badges/charts, subpackage loading for admin pages
 - [x] All phases complete — 120+ source files, 15 pages, 8 components, 8 cloud functions, 5 utility modules, 1 seed script, 2 docs
@@ -124,7 +126,7 @@ scripts/
 ## Initialization Data
 
 - 200 families (F001-F200) distributed across 8 communities
-- 11 herb types with emoji icons and growth cycles (80-180 days)
-- Each family randomly assigned 3-5 herbs, all planted 2026-04-20
+- 22 preset plants covering six categories, including all original 11 herbs
+- Each initialized family is assigned 3-5 mixed plants; families can add preset or custom plants later
 - 1 super-admin account is created by the seed script using a deployment-provided password.
 - Run seed via cloud function: deploy `scripts/init-database.js` as `initDatabase`

@@ -75,6 +75,7 @@ async function auditRecord(id, status, comment, adminOpenid) {
       const balanceAfter = Number(account.balance || 0) + amount;
       if (balanceAfter < 0) throw new Error(`家庭 ${record.family_code} 积分余额异常，无法冲正`);
       const transactionId = `pt_${hashId(`care:${id}:${sequence}:${status}`)}`;
+      const plantName = record.plant_name || record.herb_name || '植物';
 
       await transaction.collection('points_transactions').doc(transactionId).set({
         data: {
@@ -86,7 +87,7 @@ async function auditRecord(id, status, comment, adminOpenid) {
           source_type: 'care_record',
           source_id: id,
           rule_code: 'care_confirmed',
-          description: amount > 0 ? `${record.herb_name || '药材'}养护记录审核通过` : `${record.herb_name || '药材'}养护积分冲正`,
+          description: amount > 0 ? `${plantName}养护记录审核通过` : `${plantName}养护积分冲正`,
           operator_openid: adminOpenid,
           created_at: db.serverDate(),
         },

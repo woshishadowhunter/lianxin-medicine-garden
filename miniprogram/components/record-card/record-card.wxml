@@ -15,7 +15,7 @@
   <view class="record-body">
     <view class="record-head flex-between">
       <view class="record-main">
-        <view class="record-herb">{{record.herb_name || ''}} · {{typeLabel}}</view>
+        <view class="record-herb">{{record.plant_name || record.herb_name || '植物'}} · {{typeLabel}}</view>
         <view class="record-date">{{record.care_date}} {{record.care_time || ''}}</view>
       </view>
       <view wx:if="{{showAudit}}" class="tag {{statusClass}}">{{statusLabel}}</view>

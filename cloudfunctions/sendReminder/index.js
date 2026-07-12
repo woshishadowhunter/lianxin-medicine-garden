@@ -68,7 +68,7 @@ async function remindInactiveUsers() {
             thing1: { value: family.family_code },
             thing2: { value: '超过3天未养护' },
             date3: { value: dateStr },
-            thing4: { value: '请及时养护您的药材' },
+            thing4: { value: '请及时查看并养护您的植物' },
           },
           page: 'pages/submit/submit',
         });
@@ -114,7 +114,7 @@ async function notifyAuditResults(ids) {
         touser: familyRes.data[0].openid,
         templateId: 'YOUR_AUDIT_RESULT_TEMPLATE_ID',
         data: {
-          thing1: { value: record.herb_name },
+          thing1: { value: record.plant_name || record.herb_name || '植物' },
           thing2: { value: statusText },
           thing5: { value: comment },
           date3: { value: record.care_date },

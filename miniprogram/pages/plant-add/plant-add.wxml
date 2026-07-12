@@ -1,0 +1,95 @@
+<view class="container plant-add-page">
+  <view class="page-head">
+    <text class="page-head-title">添加一株植物</text>
+    <text class="page-head-desc">从植物库选择，或建立自己的观察对象。</text>
+  </view>
+
+  <view class="mode-switch" role="tablist">
+    <view class="mode-option {{mode === 'catalog' ? 'active' : ''}}" data-mode="catalog" bindtap="switchMode" hover-class="tap-chip">植物库</view>
+    <view class="mode-option {{mode === 'custom' ? 'active' : ''}}" data-mode="custom" bindtap="switchMode" hover-class="tap-chip">自定义植物</view>
+  </view>
+
+  <view wx:if="{{error}}" class="inline-message">{{error}}</view>
+
+  <block wx:if="{{mode === 'catalog'}}">
+    <block wx:if="{{!selectedPlant}}">
+      <view class="search-field">
+        <lx-icon name="search" size="{{26}}" tone="muted" />
+        <input value="{{keyword}}" placeholder="搜索月季、绿萝、番茄……" bindinput="onKeywordInput" />
+      </view>
+      <scroll-view scroll-x class="category-scroll" enable-flex>
+        <view class="category-row">
+          <view wx:for="{{categories}}" wx:key="value" class="filter-chip {{selectedCategory === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectCategory" hover-class="tap-chip">{{item.label}}</view>
+        </view>
+      </scroll-view>
+
+      <loading-card wx:if="{{loading}}" rows="{{4}}" showAvatar="{{true}}" />
+      <view wx:elif="{{filteredCatalog.length}}" class="catalog-list">
+        <view wx:for="{{filteredCatalog}}" wx:key="code" class="catalog-row" data-plant="{{item}}" bindtap="selectPlant" hover-class="tap-card">
+          <view class="catalog-icon"><lx-icon name="{{item.icon_name || item.iconName || 'garden'}}" size="{{34}}" tone="brand" /></view>
+          <view class="catalog-copy">
+            <view class="catalog-name">{{item.name}}</view>
+            <view class="catalog-meta">{{item.categoryLabel}} · {{item.growth_days || item.growthDays ? '建议周期 ' + (item.growth_days || item.growthDays) + ' 天' : '长期观察'}}</view>
+          </view>
+          <lx-icon name="arrow-right" size="{{24}}" tone="muted" />
+        </view>
+      </view>
+      <empty-state wx:else iconName="search" text="植物库中没有匹配项，可切换到自定义植物" />
+    </block>
+
+    <view wx:else class="selection-sheet">
+      <view class="selection-head">
+        <view class="selection-icon"><lx-icon name="{{selectedPlant.icon_name || selectedPlant.iconName || 'garden'}}" size="{{42}}" tone="brand" /></view>
+        <view class="selection-copy"><text>{{selectedPlant.name}}</text><view>{{selectedPlant.categoryLabel}}</view></view>
+        <text class="change-link" bindtap="clearSelection">更换</text>
+      </view>
+      <label class="form-field">
+        <text>植物昵称（可选）</text>
+        <input value="{{nickname}}" maxlength="30" placeholder="例如：阳台上的小月季" data-field="nickname" bindinput="onFieldInput" />
+      </label>
+      <label class="form-field">
+        <text>种植日期</text>
+        <picker mode="date" value="{{plantDate}}" end="{{today}}" bindchange="onFieldInput" data-field="plantDate">
+          <view class="picker-value">{{plantDate}}</view>
+        </picker>
+      </label>
+      <view class="cover-field" bindtap="chooseCover" hover-class="tap-card">
+        <image wx:if="{{coverImage}}" src="{{coverImage}}" mode="aspectFill" />
+        <view wx:else><lx-icon name="camera" size="{{34}}" tone="brand" /><text>添加封面照片（可选）</text></view>
+      </view>
+      <text wx:if="{{coverImage}}" class="remove-cover" bindtap="removeCover">移除照片</text>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="custom-form">
+      <label class="form-field">
+        <text>植物名称</text>
+        <input value="{{customName}}" maxlength="30" placeholder="输入你正在种植的植物" data-field="customName" bindinput="onFieldInput" />
+      </label>
+      <view class="field-label">植物类别</view>
+      <view class="custom-categories">
+        <view wx:for="{{customCategories}}" wx:key="value" class="category-choice {{customCategory === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectCustomCategory" hover-class="tap-chip">{{item.label}}</view>
+      </view>
+      <label class="form-field">
+        <text>种植日期</text>
+        <picker mode="date" value="{{plantDate}}" end="{{today}}" bindchange="onFieldInput" data-field="plantDate">
+          <view class="picker-value">{{plantDate}}</view>
+        </picker>
+      </label>
+      <label class="form-field">
+        <text>预计成长周期（天）</text>
+        <input type="number" value="{{growthDays}}" placeholder="不确定可填 0，按长期观察展示" data-field="growthDays" bindinput="onFieldInput" />
+      </label>
+      <view class="cover-field" bindtap="chooseCover" hover-class="tap-card">
+        <image wx:if="{{coverImage}}" src="{{coverImage}}" mode="aspectFill" />
+        <view wx:else><lx-icon name="camera" size="{{34}}" tone="brand" /><text>添加封面照片（可选）</text></view>
+      </view>
+      <text wx:if="{{coverImage}}" class="remove-cover" bindtap="removeCover">移除照片</text>
+    </view>
+  </block>
+
+  <view wx:if="{{selectedPlant || mode === 'custom'}}" class="submit-dock">
+    <button class="btn btn-primary" disabled="{{submitting}}" loading="{{submitting}}" bindtap="submitPlant">{{submitting ? '正在添加' : '加入我的植物园'}}</button>
+  </view>
+</view>

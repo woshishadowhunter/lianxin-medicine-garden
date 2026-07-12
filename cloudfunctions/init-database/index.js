@@ -1,4 +1,6 @@
 const cloud = require('wx-server-sdk');
+const { LEGACY_HERB_CODES, PLANTS, buildSeedTask } = require('./plant-seed');
+
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 
@@ -7,27 +9,15 @@ const COMMUNITIES = [
   '翠苑社区', '和风社区', '春雨社区', '金秋社区',
 ];
 
-const HERBS = [
-  { code: 'jyh',  name: '金银花', icon_name: 'herb', growth_days: 150 },
-  { code: 'bh',   name: '薄荷',   icon_name: 'herb', growth_days: 90  },
-  { code: 'gq',   name: '枸杞',   icon_name: 'herb', growth_days: 180 },
-  { code: 'ac',   name: '艾草',   icon_name: 'herb', growth_days: 120 },
-  { code: 'yxc',  name: '鱼腥草', icon_name: 'herb', growth_days: 100 },
-  { code: 'blg',  name: '板蓝根', icon_name: 'herb', growth_days: 140 },
-  { code: 'pgy',  name: '蒲公英', icon_name: 'herb', growth_days: 80  },
-  { code: 'jh',   name: '菊花',   icon_name: 'herb', growth_days: 130 },
-  { code: 'zs',   name: '紫苏',   icon_name: 'herb', growth_days: 100 },
-  { code: 'ymc',  name: '益母草', icon_name: 'herb', growth_days: 110 },
-  { code: 'gc',   name: '甘草',   icon_name: 'herb', growth_days: 160 },
-];
+const HERBS = PLANTS.filter(plant => LEGACY_HERB_CODES.includes(plant.code));
 
 const PLANT_DATE = '2026-04-20';
 const MIN_ADMIN_PASSWORD_LENGTH = 8;
 const BATCH_SIZE = 20;
 
-function assignHerbs() {
+function assignPlants() {
   const count = 3 + Math.floor(Math.random() * 3);
-  const shuffled = [...HERBS].sort(() => Math.random() - 0.5);
+  const shuffled = [...PLANTS].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
 
@@ -88,12 +78,15 @@ exports.main = async (event = {}) => {
     });
     console.log('  管理员已创建');
 
-    // 2. 药材配置
-    console.log('2/5 创建药材配置...');
+    // 2. 植物配置；同时保留旧本草集合
+    console.log('2/5 创建植物配置...');
+    await batchInsert('plants', PLANTS.map(plant => ({
+      ...plant, is_active: true, created_at: new Date(),
+    })));
     await batchInsert('herbs', HERBS.map(h => ({
       ...h, description: '', created_at: new Date(),
     })));
-    console.log(`  ${HERBS.length} 种药材已创建`);
+    console.log(`  ${PLANTS.length} 种植物已创建（含 ${HERBS.length} 种兼容本草）`);
 
     // 3. 家庭数据
     console.log('3/5 创建家庭数据...');
@@ -119,19 +112,10 @@ exports.main = async (event = {}) => {
     const taskRecords = [];
     for (let i = 0; i < 200; i++) {
       const code = `F${String(i + 1).padStart(3, '0')}`;
-      const herbs = assignHerbs();
-      for (const herb of herbs) {
+      const plants = assignPlants();
+      for (const plant of plants) {
         taskRecords.push({
-          family_code: code,
-          herb_code: herb.code,
-          herb_name: herb.name,
-          herb_icon: '',
-          herb_icon_name: herb.icon_name,
-          plant_date: PLANT_DATE,
-          status: 'growing',
-          care_count: 0,
-          last_care_date: '',
-          last_care_type: '',
+          ...buildSeedTask(code, plant, PLANT_DATE),
           created_at: new Date(),
           updated_at: new Date(),
         });
@@ -149,6 +133,7 @@ exports.main = async (event = {}) => {
       success: true,
       summary: {
         admins: 1,
+        plants: PLANTS.length,
         herbs: HERBS.length,
         families: 200,
         tasks: taskRecords.length,

@@ -82,6 +82,8 @@
   justify-content: center;
 }
 
+.herb-cover { width: 100%; height: 100%; border-radius: 16rpx; }
+
 .herb-icon.small {
   width: 64rpx;
   height: 64rpx;

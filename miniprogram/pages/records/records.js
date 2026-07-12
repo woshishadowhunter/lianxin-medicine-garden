@@ -1,4 +1,5 @@
-const { CARE_TYPES, HERBS } = require('../../utils/constants');
+const { CARE_TYPES } = require('../../utils/constants');
+const { normalizePlantRecord, normalizePlantTask } = require('../../utils/plant');
 
 Page({
   data: {
@@ -37,7 +38,7 @@ Page({
       const db = wx.cloud.database();
       const res = await db.collection('planting_tasks')
         .where({ family_code: app.globalData.familyCode }).get();
-      this.setData({ herbOptions: res.data });
+      this.setData({ herbOptions: res.data.map(normalizePlantTask) });
     } catch (err) { /* ignore */ }
   },
 
@@ -60,8 +61,8 @@ Page({
       const res = await query.get();
 
       // 前端筛选（云数据库不支持复杂组合查询）
-      let filtered = res.data;
-      if (filter.herbCode) filtered = filtered.filter(r => r.herb_code === filter.herbCode);
+      let filtered = res.data.map(normalizePlantRecord);
+      if (filter.herbCode) filtered = filtered.filter(r => r.plant_code === filter.herbCode);
       if (filter.careType) filtered = filtered.filter(r => r.care_type === filter.careType);
       if (filter.dateStart) filtered = filtered.filter(r => r.care_date >= filter.dateStart);
       if (filter.dateEnd) filtered = filtered.filter(r => r.care_date <= filter.dateEnd);
@@ -85,7 +86,7 @@ Page({
   },
 
   onHerbFilter(e) {
-    const code = this.data.herbOptions[e.detail.value]?.herb_code || '';
+    const code = this.data.herbOptions[e.detail.value]?.plant_code || '';
     this.setData({ 'filter.herbCode': code, records: [], page: 1, hasMore: true, activeFilter: '' });
     this.loadRecords();
   },
@@ -127,7 +128,7 @@ Page({
   /** 获取所有筛选后的照片用于照片墙 */
   get allPhotos() {
     return this.data.records.flatMap(r =>
-      (r.photos || []).map(photo => ({ photo, id: r._id, date: r.care_date, herb: r.herb_name }))
+      (r.photos || []).map(photo => ({ photo, id: r._id, date: r.care_date, plant: r.plant_name }))
     );
   },
 });

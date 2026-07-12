@@ -11,13 +11,13 @@
 
   <view class="page-head">
     <text class="page-head-title">新增养护</text>
-    <text class="page-head-desc">选药材、选类型、上传照片后提交审核。</text>
+    <text class="page-head-desc">选植物、选类型、上传照片后提交审核。</text>
   </view>
 
   <!-- 步骤指示器 -->
   <view class="steps">
     <view class="step {{step === 'select-herb' ? 'active' : step === 'select-type' || step === 'upload-photo' || step === 'describe' ? 'done' : ''}}">
-      <text>1 药材</text>
+      <text>1 植物</text>
     </view>
     <view class="step {{step === 'select-type' ? 'active' : step === 'upload-photo' || step === 'describe' ? 'done' : ''}}">
       <text>2 类型</text>
@@ -30,12 +30,12 @@
     </view>
   </view>
 
-  <!-- 步骤1: 选择药材 -->
+  <!-- 步骤1: 选择植物 -->
   <view wx:if="{{step === 'select-herb'}}">
     <view wx:if="{{!familyCode}}" class="bind-guide panel">
       <lx-icon name="herb" size="{{48}}" tone="muted" />
       <view class="bind-guide-title">尚未绑定家庭</view>
-      <view class="bind-guide-desc">请先绑定家庭账号，才能查看您的药材养护任务</view>
+      <view class="bind-guide-desc">请先绑定家庭账号，才能查看您的植物养护任务</view>
       <button class="btn btn-primary" bindtap="goBind" hover-class="tap-card">去绑定家庭账号</button>
     </view>
 
@@ -45,16 +45,17 @@
 
     <view wx:else>
       <view class="section-title">
-        <text>选择药材</text>
+        <text>选择植物</text>
         <text>{{herbs.length}} 项</text>
       </view>
       <view wx:for="{{herbs}}" wx:key="_id" class="herb-select-item panel" bindtap="selectHerb" data-herb="{{item}}" hover-class="tap-card">
         <view class="herb-icon">
-          <lx-icon name="herb" size="{{38}}" tone="brand" />
+          <image wx:if="{{item.cover_image}}" src="{{item.cover_image}}" mode="aspectFill" class="herb-cover"></image>
+          <lx-icon wx:else name="{{item.plant_icon_name || 'garden'}}" size="{{38}}" tone="brand" />
         </view>
         <view class="flex-1">
-          <view class="herb-name">{{item.herb_name}}</view>
-          <view class="herb-date">种植于 {{item.plant_date}} · 已养护 {{item.care_count || 0}} 次</view>
+          <view class="herb-name">{{item.plant_name}}</view>
+          <view class="herb-date">种植于 {{item.plant_date}} · 已记录 {{item.care_count || 0}} 次</view>
         </view>
         <lx-icon name="arrow-right" size="{{28}}" tone="muted" />
       </view>
@@ -62,7 +63,7 @@
         <empty-state iconName="herb" text="{{herbsError}}" />
       </view>
       <view wx:elif="{{!herbs.length && !herbsError}}" class="mt-24">
-        <empty-state iconName="herb" text="暂无待养护的药材" />
+        <empty-state iconName="garden" text="暂无可记录的植物，请先在植物园添加" />
       </view>
     </view>
   </view>
@@ -71,11 +72,11 @@
   <view wx:if="{{step === 'select-type'}}">
     <view class="selected-context panel">
       <view class="herb-icon small">
-        <lx-icon name="herb" size="{{30}}" tone="brand" />
+        <lx-icon name="{{selectedHerb.plant_icon_name || 'garden'}}" size="{{30}}" tone="brand" />
       </view>
       <view class="flex-1">
-        <view class="herb-name">{{selectedHerb.herb_name}}</view>
-        <view class="herb-date">种植 {{selectedHerb.plant_date}} · 已养护 {{selectedHerb.care_count || 0}} 次</view>
+        <view class="herb-name">{{selectedHerb.plant_name}}</view>
+        <view class="herb-date">种植 {{selectedHerb.plant_date}} · 已记录 {{selectedHerb.care_count || 0}} 次</view>
       </view>
       <view class="change-link" bindtap="goBack" hover-class="tap-opacity">更换</view>
     </view>
@@ -123,8 +124,8 @@
   <!-- 步骤4: 填写描述 -->
   <view wx:if="{{step === 'describe'}}">
     <view class="selected-summary panel">
-      <lx-icon name="herb" size="{{26}}" tone="brand" />
-      <text>{{selectedHerb.herb_name}}</text>
+      <lx-icon name="{{selectedHerb.plant_icon_name || 'garden'}}" size="{{26}}" tone="brand" />
+      <text>{{selectedHerb.plant_name}}</text>
       <text class="summary-divider">|</text>
       <text>{{selectedCareTypeLabel || selectedCareType}}</text>
       <text class="summary-divider">|</text>

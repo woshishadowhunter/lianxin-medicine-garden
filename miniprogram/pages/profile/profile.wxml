@@ -5,7 +5,7 @@
       <view class="bind-icon">
         <lx-icon name="herb" size="{{76}}" tone="brand" />
       </view>
-      <text class="bind-title">连心药园</text>
+      <text class="bind-title">连心植物园</text>
       <text class="bind-subtitle">绑定家庭账号，开始记录养护。</text>
     </view>
 
@@ -61,7 +61,7 @@
       <view class="menu-item panel" bindtap="goGrowthArchive" hover-class="tap-card">
         <view class="menu-icon"><lx-icon name="archive" size="{{28}}" tone="brand" /></view>
         <view class="menu-copy">
-          <text class="menu-title">药材生长档案</text>
+          <text class="menu-title">植物成长档案</text>
           <text class="menu-sub">查看完整照片与节点</text>
         </view>
         <text class="menu-action">进入</text>
@@ -141,8 +141,8 @@
       <view class="menu-item panel" bindtap="showAbout" hover-class="tap-card">
         <view class="menu-icon muted"><lx-icon name="info" size="{{28}}" tone="muted" /></view>
         <view class="menu-copy">
-          <text class="menu-title">关于连心药园</text>
-          <text class="menu-sub">社区中草药种植记录项目</text>
+          <text class="menu-title">关于连心植物园</text>
+          <text class="menu-sub">社区家庭植物种植记录项目</text>
         </view>
         <text class="menu-action">查看</text>
       </view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "添加植物",
+  "usingComponents": {
+    "loading-card": "/components/loading-card/loading-card",
+    "empty-state": "/components/empty-state/empty-state"
+  }
+}

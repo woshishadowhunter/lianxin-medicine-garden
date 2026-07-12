@@ -12,10 +12,10 @@ const BASE_RULE = {
 };
 
 const REWARD_RULES = [
-  { code: 'growth_quality', name: '种植效果优秀', points: 50, description: '药材长势、叶色和整体状态表现优秀' },
+  { code: 'growth_quality', name: '成长状态优秀', points: 50, description: '植物长势、叶色和整体状态表现优秀' },
   { code: 'stage_milestone', name: '关键生长节点', points: 30, description: '完成开花、结果或阶段性成长记录' },
-  { code: 'excellent_harvest', name: '优秀收获成果', points: 100, description: '收获质量和过程档案完整' },
-  { code: 'community_example', name: '社区示范家庭', points: 80, description: '养护持续、记录规范，具有示范作用' },
+  { code: 'excellent_harvest', name: '完整成长档案', points: 100, description: '照片连续、观察完整并记录关键变化' },
+  { code: 'community_example', name: '社区绿色示范', points: 80, description: '养护持续、记录规范，具有示范作用' },
 ];
 
 function hashId(value) {
@@ -188,6 +188,7 @@ async function backfillConfirmed(openid) {
 
   let issued = 0;
   for (const record of result.data) {
+    const plantName = record.plant_name || record.herb_name || '植物';
     const posting = await postTransaction({
       familyCode: record.family_code,
       amount: BASE_RULE.points,
@@ -195,7 +196,7 @@ async function backfillConfirmed(openid) {
       sourceType: 'care_record',
       sourceId: record._id,
       ruleCode: BASE_RULE.code,
-      description: `${record.herb_name || '药材'}历史养护记录补发`,
+      description: `${plantName}历史养护记录补发`,
       operatorOpenid: openid,
       requestKey: `care-backfill:${record._id}`,
     });

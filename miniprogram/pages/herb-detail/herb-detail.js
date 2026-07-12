@@ -1,5 +1,5 @@
-const { CARE_TYPES } = require('../../utils/constants');
-const { daysUntilHarvest, formatDate } = require('../../utils/date');
+const { CARE_TYPES, PLANT_CATEGORIES } = require('../../utils/constants');
+const { normalizePlantRecord, normalizePlantTask } = require('../../utils/plant');
 
 Page({
   data: {
@@ -17,12 +17,14 @@ Page({
   async loadDetail() {
     try {
       const db = wx.cloud.database();
-      const app = getApp();
-
       // 加载任务详情
       const taskRes = await db.collection('planting_tasks')
         .doc(this.data.taskId).get();
-      const task = taskRes.data;
+      const task = normalizePlantTask(taskRes.data);
+      const plantDate = new Date(task.plant_date);
+      task.elapsedDays = Number.isNaN(plantDate.getTime()) ? 0 : Math.max(0, Math.floor((Date.now() - plantDate.getTime()) / 86400000));
+      task.categoryLabel = (PLANT_CATEGORIES.find(category => category.value === task.plant_category) || {}).label || '其他';
+      task.sourceLabel = task.source === 'custom' ? '家庭自定义' : task.source === 'legacy' ? '原有种植任务' : '预设植物库';
 
       // 加载养护记录时间线
       const recordsRes = await db.collection('care_records')
@@ -32,7 +34,7 @@ Page({
         .get();
 
       const records = recordsRes.data.map(r => ({
-        ...r,
+        ...normalizePlantRecord(r),
         typeIconName: (CARE_TYPES.find(c => c.value === r.care_type) || {}).iconName || 'record',
       }));
 

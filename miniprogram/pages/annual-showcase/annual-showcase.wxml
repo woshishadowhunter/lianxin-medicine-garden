@@ -22,7 +22,7 @@
     <stats-summary stats="{{
       [{ label:'养护总次数', value: stats.totalRecords, iconName:'record' },
        { label:'照片总数', value: stats.totalPhotos, iconName:'camera' },
-       { label:'药材种类', value: stats.herbCount, iconName:'herb' },
+       { label:'植物数量', value: stats.herbCount, iconName:'garden' },
        { label:'勤奋度评分', value: stats.score + '分', iconName:'star', tone: stats.score >= 80 ? 'brand' : 'warning', color: stats.score >= 80 ? 'var(--primary)' : 'var(--warning)' }]
     }}" columns="{{4}}" />
 
@@ -54,8 +54,8 @@
       <chart type="pie" data="{{careTypeDist}}" width="670" height="400" />
     </view>
 
-    <!-- 每种药材详情 -->
-    <view class="section-title mt-24">各药材养护详情</view>
+    <!-- 每株植物详情 -->
+    <view class="section-title mt-24">各植物养护详情</view>
     <view wx:for="{{herbs}}" wx:key="name" class="herb-showcase card">
       <view class="flex-between">
         <view class="flex-row">

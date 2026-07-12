@@ -111,3 +111,13 @@
   line-height: 1.5;
   color: var(--danger);
 }
+
+.migration-section { margin-top: 42rpx; }
+.migration-panel { padding: 24rpx; border: 1rpx solid var(--border); border-radius: 12rpx; background: var(--bg-card); }
+.migration-copy text { display: block; font-size: 29rpx; font-weight: 800; color: var(--text-primary); }
+.migration-copy view { margin-top: 8rpx; font-size: 23rpx; line-height: 1.5; color: var(--text-muted); }
+.migration-panel .btn { width: 100%; margin-top: 20rpx; }
+.migration-status,
+.migration-summary { margin-top: 16rpx; padding: 16rpx; border-radius: 8rpx; font-size: 23rpx; line-height: 1.5; }
+.migration-status { color: var(--text-secondary); background: var(--surface-2); }
+.migration-summary { color: var(--primary-dark); background: var(--primary-soft); }

@@ -1,4 +1,5 @@
 const cloud = require('wx-server-sdk');
+const { CATEGORY_LABELS, buildPlantStatusRows, getPlantCategory, getPlantName } = require('./domain');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 
@@ -22,8 +23,9 @@ exports.main = async (event) => {
       case 'community_compare':
         sheets = await exportCommunityCompare();
         break;
+      case 'plant_status':
       case 'herb_status':
-        sheets = await exportHerbStatus();
+        sheets = await exportPlantStatus();
         break;
       case 'points_ledger':
         sheets = await exportPointsLedger();
@@ -62,10 +64,10 @@ exports.main = async (event) => {
 
 async function exportAllRecords() {
   const res = await db.collection('care_records').orderBy('care_date', 'desc').limit(5000).get();
-  const rows = [['家庭编号', '药材名称', '养护类型', '养护日期', '养护时间', '天气', '生长阶段', '描述', '审核状态', '审核意见', '创建时间']];
+  const rows = [['家庭编号', '植物类别', '植物名称', '养护类型', '养护日期', '养护时间', '天气', '生长阶段', '描述', '审核状态', '审核意见', '创建时间']];
   res.data.forEach(r => {
     rows.push([
-      r.family_code, r.herb_name, r.care_type,
+      r.family_code, CATEGORY_LABELS[getPlantCategory(r)] || CATEGORY_LABELS.other, getPlantName(r), r.care_type,
       r.care_date, r.care_time || '', r.weather || '',
       r.growth_stage || '', r.description || '',
       r.audit_status === 'confirmed' ? '已确认' : r.audit_status === 'pending' ? '待审核' : '需修正',
@@ -147,22 +149,9 @@ async function exportCommunityCompare() {
   return [{ name: '社区养护对比', data: rows }];
 }
 
-async function exportHerbStatus() {
+async function exportPlantStatus() {
   const tasksRes = await db.collection('planting_tasks').get();
-  const herbStats = {};
-  tasksRes.data.forEach(t => {
-    if (!herbStats[t.herb_name]) herbStats[t.herb_name] = { growing: 0, harvested: 0, warning: 0, dead: 0 };
-    herbStats[t.herb_name][t.status] = (herbStats[t.herb_name][t.status] || 0) + 1;
-  });
-
-  const rows = [['药材名称', '生长中', '已收获', '需关注', '已枯死', '总计', '存活率']];
-  Object.entries(herbStats).forEach(([name, s]) => {
-    const total = s.growing + s.harvested + s.warning + s.dead;
-    const alive = s.growing + s.harvested;
-    rows.push([name, String(s.growing), String(s.harvested), String(s.warning), String(s.dead), String(total), total > 0 ? ((alive / total) * 100).toFixed(1) + '%' : '0%']);
-  });
-
-  return [{ name: '药材生长状况', data: rows }];
+  return [{ name: '植物生长状况', data: buildPlantStatusRows(tasksRes.data) }];
 }
 
 async function exportPointsLedger() {
@@ -212,7 +201,7 @@ async function exportPointsLedger() {
 async function exportAnnualReport() {
   const s1 = await exportFamilySummary();
   const s2 = await exportCommunityCompare();
-  const s3 = await exportHerbStatus();
+  const s3 = await exportPlantStatus();
   const s4 = await exportPointsLedger();
   return [...s1, ...s2, ...s3, ...s4];
 }
