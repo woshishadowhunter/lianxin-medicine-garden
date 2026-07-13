@@ -1,15 +1,3 @@
-.archive-band {
-  margin-bottom: 24rpx;
-  padding: 30rpx;
-  border-radius: 14rpx;
-  color: #fff;
-  background: var(--primary-dark);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: var(--shadow-soft);
-}
-
 .garden-actions {
   display: flex;
   gap: 14rpx;
@@ -38,23 +26,8 @@
 
 .garden-category-scroll { width: 100%; margin: 10rpx 0 8rpx; white-space: nowrap; }
 .garden-category-row { display: inline-flex; gap: 12rpx; padding-right: 20rpx; }
-.filter-chip { min-height: 64rpx; padding: 0 24rpx; display: inline-flex; align-items: center; border: 1rpx solid var(--border); border-radius: 999rpx; color: var(--text-secondary); background: var(--bg-card); font-size: 23rpx; font-weight: 700; }
+.filter-chip { min-height: 64rpx; padding: 0 24rpx; display: inline-flex; align-items: center; border: 1rpx solid var(--border); border-radius: 8rpx; color: var(--text-secondary); background: var(--bg-card); font-size: 23rpx; font-weight: 700; }
 .filter-chip.active { color: #fff; border-color: var(--primary); background: var(--primary); }
-
-.archive-band-title {
-  display: block;
-  font-size: 34rpx;
-  font-weight: 900;
-  line-height: 1.25;
-}
-
-.archive-band-desc {
-  display: block;
-  margin-top: 8rpx;
-  font-size: 24rpx;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.74);
-}
 
 .summary-bar {
   padding: 0;

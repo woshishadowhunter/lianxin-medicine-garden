@@ -1,5 +1,5 @@
 {
-  "description": "连心药园 - 社区中草药种植记录小程序",
+  "description": "连心植物园 - 社区家庭植物种植记录与积分兑换小程序",
   "miniprogramRoot": "miniprogram/",
   "cloudfunctionRoot": "cloudfunctions/",
   "packOptions": {
@@ -63,7 +63,7 @@
   "compileType": "miniprogram",
   "libVersion": "3.6.0",
   "appid": "touristappid",
-  "projectname": "lianxin-herb-garden",
+  "projectname": "lianxin-plant-journal",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
   "condition": {},
   "editorSetting": {

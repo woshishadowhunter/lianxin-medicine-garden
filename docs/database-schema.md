@@ -93,6 +93,8 @@
 | balance | number | 当前余额 |
 | total_earned | number | 累计正向入账 |
 | total_reversed | number | 累计冲正绝对值 |
+| total_redeemed | number | 累计兑换扣除积分 |
+| total_refunded | number | 取消兑换后累计退回积分 |
 | transaction_count | number | 流水数量 |
 | version | number | 账户版本 |
 | created_at / updated_at | Date | 时间戳 |
@@ -105,27 +107,48 @@
 | family_code | string | 家庭编号 |
 | amount | number | 有符号积分值 |
 | balance_after | number | 交易后余额 |
-| type | string | care_award/reward/reversal |
+| type | string | care_award/reward/reversal/redemption/redemption_refund |
 | source_type / source_id | string | 来源类型和 ID |
 | rule_code | string | 计分规则 |
 | description | string | 流水摘要 |
 | operator_openid | string | 操作人 |
 | created_at | Date | 入账时间 |
 
-## 8. admins 与 admin_logs
+## 8. points_redemptions
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| redemption_no | string | 确定性兑换编号，用于防止网络重试重复扣分 |
+| family_code | string | 家庭编号 |
+| reward_code / reward_name | string | 兑换项目 |
+| quantity / points_cost | number | 数量与扣除积分 |
+| status | string | pending/ready/fulfilled/canceled |
+| pickup_code | string | 四位现场领取码 |
+| due_at | Date | 最晚备货日期，默认申请后 7 天 |
+| created_at / ready_at / fulfilled_at / canceled_at | Date | 各阶段时间 |
+
+## 9. points_reward_stock 与 points_redemption_logs
+
+`points_reward_stock` 以兑换项目编码为文档 ID，记录 `available`、`reserved`、`fulfilled`、`total_received` 和版本号。兑换时在事务内从可用库存转入预留，发放时转为已发，取消时归还可用库存。
+
+`points_redemption_logs` 保存兑换状态变化、库存调整、操作人和备注，供管理员追溯。
+
+## 10. admins 与 admin_logs
 
 `admins` 保存管理员身份、密码和角色；`admin_logs` 保存审核等管理动作。管理员权限必须在云函数内通过 openid 验证，客户端 `isAdmin` 只用于界面状态。
 
-## 9. 建议索引
+## 11. 建议索引
 
 - `plants`: `code` unique，`category + is_active`
 - `planting_tasks`: `family_code + status`，`family_code + plant_category`
 - `care_records`: `family_code + care_date(desc)`，`task_id + care_date(desc)`，`audit_status + created_at(desc)`
 - `family_members`: `family_code + openid`
 - `points_transactions`: `family_code + created_at(desc)`
+- `points_redemptions`: `family_code + created_at(desc)`，`status + created_at(desc)`，`status + due_at(asc)`
+- `points_redemption_logs`: `redemption_no + created_at(desc)`
 - `admins`: `openid`
 
-## 10. 迁移原则
+## 12. 迁移原则
 
 - 新字段采用补充式写入，不删除旧字段。
 - `migratePlants.seedCatalog` 使用固定文档 ID，可重复执行。

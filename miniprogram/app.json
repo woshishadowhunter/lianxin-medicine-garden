@@ -37,16 +37,16 @@
     "lx-icon": "/components/lx-icon/lx-icon"
   },
   "window": {
-    "backgroundColor": "#f4f1e8",
+    "backgroundColor": "#f3f7f4",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#f4f1e8",
+    "navigationBarBackgroundColor": "#f3f7f4",
     "navigationBarTitleText": "连心植物园",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#95a096",
-    "selectedColor": "#1f6b4b",
-    "backgroundColor": "#fffdf8",
+    "selectedColor": "#2f7355",
+    "backgroundColor": "#ffffff",
     "borderStyle": "white",
     "list": [
       {

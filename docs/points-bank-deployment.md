@@ -9,6 +9,26 @@
 5. 创建 `docs/database-schema.md` 中列出的集合。
 6. 为管理员设置长度至少 8 位的独立强密码，不要写入仓库。
 
+积分兑换上线前必须确认以下集合已经创建，且客户端均无直接写权限：
+
+- `points_accounts`
+- `points_transactions`
+- `points_redemptions`
+- `points_reward_stock`
+- `points_redemption_logs`
+
+必须在云数据库控制台建立以下复合索引：
+
+| 集合 | 索引字段 |
+| --- | --- |
+| points_transactions | `family_code` 升序 + `created_at` 降序 |
+| points_redemptions | `family_code` 升序 + `created_at` 降序 |
+| points_redemptions | `status` 升序 + `created_at` 降序 |
+| points_redemptions | `status` 升序 + `due_at` 升序 |
+| points_redemption_logs | `redemption_no` 升序 + `created_at` 降序 |
+
+索引未生效前不要开放兑换入口，否则家庭订单和管理员队列查询会失败。
+
 ## 2. 需要部署的云函数
 
 - `login`
@@ -138,6 +158,7 @@
 - 审核确认：发放 10 分，`points_status=awarded`。
 - 已发分记录改为需修正：冲正 10 分，`points_status=reversed`。
 - 同一审核状态重复提交：不重复记账。
+- 如果家庭已经使用了积分，审核冲正可以形成负余额；后续新积分先抵扣负余额，负余额期间不能兑换。
 
 ### 管理员奖励
 
@@ -154,9 +175,19 @@
 
 管理员可调用 `pointsBank.backfillConfirmed`，每次处理最多 20 条已确认但未发分的记录。重复调用直到待补发数为 0。
 
+### 积分兑换与发放
+
+- 家庭可兑换四季种子包、儿童园艺手套、迷你浇水壶和家庭种植礼包。
+- 每次仅兑换一份，兑换请求 ID 保存在客户端本地，网络重试不会重复扣分。
+- 兑换时积分扣除、库存预留、积分流水和兑换单在同一个事务内写入。
+- 管理员按“待备货 → 待领取 → 已发放”推进，默认应在 7 天内完成备货。
+- 家庭在待备货阶段可取消；管理员在发放前可取消。取消时积分退款与库存归还同事务完成。
+- 家庭领取时出示四位领取码，管理员核对后确认发放。
+- 管理端首屏显示待备货、待领取和超期数量，并可按礼品补充或减少可用库存。
+
 ## 8. 数据库权限建议
 
-- `points_accounts` 和 `points_transactions` 禁止客户端直接写入。
+- `points_accounts`、`points_transactions`、`points_redemptions`、`points_reward_stock` 和 `points_redemption_logs` 禁止客户端直接写入。
 - `admins` 和 `admin_logs` 禁止普通家庭读取或写入。
 - `planting_tasks` 的创建优先通过 `plantManager`。
 - `care_records` 的创建通过 `submitRecord`。
@@ -172,9 +203,13 @@
 4. 分别提交带照片的养护记录。
 5. 管理员确认一条记录，验证余额增加 10 分。
 6. 将该记录改为需修正，验证产生 -10 分冲正流水。
-7. 查看首页成长照片、植物园分类、植物详情和积分流水。
-8. 导出植物状态和积分流水文件。
-9. 确认一个旧本草任务和旧记录仍可查看。
+7. 兑换一份礼品，验证积分扣除、库存预留和兑换单同时生成。
+8. 管理员标记备货完成，家庭端确认显示四位领取码。
+9. 管理员核码后确认发放，验证预留库存转为已发放。
+10. 另建一笔兑换并取消，验证积分和库存均自动退回。
+11. 查看首页成长照片、植物园分类、植物详情和积分流水。
+12. 导出植物状态和积分流水文件。
+13. 确认一个旧本草任务和旧记录仍可查看。
 
 ## 10. 自动化检查
 

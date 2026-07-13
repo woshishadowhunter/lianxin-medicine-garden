@@ -4,7 +4,7 @@
   </block>
 
   <block wx:elif="{{!tasks.length}}">
-    <empty-state iconName="herb" text="暂无种植任务" />
+    <empty-state iconName="herb" text="还没有植物，先添加第一株吧" showButton="{{true}}" buttonText="添加植物" bind:action="goAddPlant" />
   </block>
 
   <block wx:else>
@@ -22,14 +22,6 @@
         <lx-icon name="archive" size="{{30}}" tone="brand" />
         <text>成长档案</text>
       </view>
-    </view>
-
-    <view class="archive-band" bindtap="goGrowthArchive" hover-class="tap-card" style="display:none">
-      <view>
-        <text class="archive-band-title">植物成长档案</text>
-        <text class="archive-band-desc">照片、节点和收获倒计时集中查看</text>
-      </view>
-      <lx-icon name="archive" size="{{34}}" tone="white" />
     </view>
 
     <scroll-view scroll-x class="garden-category-scroll" enable-flex>

@@ -193,6 +193,8 @@ exports.main = async (event = {}) => {
         balance: 0,
         total_earned: 0,
         total_reversed: 0,
+        total_redeemed: 0,
+        total_refunded: 0,
         transaction_count: 0,
         version: 0,
         created_at: new Date(),

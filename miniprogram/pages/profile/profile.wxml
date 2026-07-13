@@ -37,7 +37,7 @@
 
     <view class="points-entry" bindtap="goPoints" hover-class="tap-card">
       <view class="points-entry-mark"><lx-icon name="medal" size="{{30}}" tone="accent" /></view>
-      <view class="points-entry-copy"><text>连心积分银行</text><view>每笔积分都有可追溯流水</view></view>
+      <view class="points-entry-copy"><text>成长积分中心</text><view>兑换好物，查看备货与领取进度</view></view>
       <view class="points-entry-balance"><text>{{pointsBalance}}</text><view>积分</view></view>
       <lx-icon name="arrow-right" size="{{24}}" tone="muted" />
     </view>
@@ -117,8 +117,8 @@
         <view class="menu-item panel" bindtap="goAdminPoints" hover-class="tap-card">
           <view class="menu-icon accent"><lx-icon name="medal" size="{{28}}" tone="accent" /></view>
           <view class="menu-copy">
-            <text class="menu-title">积分银行</text>
-            <text class="menu-sub">发放奖励并审计积分流水</text>
+            <text class="menu-title">积分兑现台</text>
+            <text class="menu-sub">处理兑换、库存与现场发放</text>
           </view>
           <text class="menu-action">进入</text>
         </view>

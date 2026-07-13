@@ -7,7 +7,7 @@
 
 Lianxin Plant Journal is an open source WeChat Mini Program for community and family planting activities. Families can track flowers, foliage plants, vegetables, fruit trees, herbs, and custom plants with photo-backed care records. Administrators review evidence, issue points, monitor participation, and export long-term reports.
 
-连心植物园是一套面向社区、学校和家庭种植活动的开源微信小程序。花卉、绿植、蔬菜、果树、本草和其他自定义植物都可以建立成长档案、提交照片记录并在审核通过后获得积分。
+连心植物园是一套面向社区、学校和家庭种植活动的开源微信小程序。花卉、绿植、蔬菜、果树、本草和其他自定义植物都可以建立成长档案、提交照片记录、获得积分并兑换种植好物。
 
 ## What Changed in v2
 
@@ -31,6 +31,7 @@ Lianxin Plant Journal is an open source WeChat Mini Program for community and fa
 - Administrator review with approval, correction, and batch operations
 - Ten points for each confirmed photo-backed care record
 - Idempotent points transactions and automatic reversal on correction
+- Atomic reward redemption, inventory reservation, cancellation refunds, pickup codes, and fulfillment queues
 - Community statistics, annual showcases, Excel/CSV exports, and reminders
 
 ## Architecture
@@ -44,7 +45,7 @@ cloudfunctions/
   plantManager/              Catalog listing and secure task creation
   submitRecord/              Server-validated care record submission
   auditReview/               Review and points posting/reversal
-  pointsBank/                Accounts, ledger, rewards, and backfill
+  pointsBank/                Accounts, ledger, redemption, stock, fulfillment, and backfill
   migratePlants/             Idempotent catalog seed and legacy migration
   init-database/             New deployment initialization
 tests/                       Node built-in test suite
@@ -78,6 +79,9 @@ Get-ChildItem miniprogram,cloudfunctions,scripts -Recurse -Filter *.js | ForEach
 - New records start as `pending`.
 - Confirmation awards 10 points exactly once.
 - Changing an awarded record to `needs_revision` posts a 10-point reversal.
+- A redemption atomically deducts points and reserves stock.
+- Pending redemptions can be canceled with an atomic point refund and stock release.
+- Administrators prepare rewards within 7 days and verify the four-digit pickup code before fulfillment.
 - Administrator rewards use fixed rules and idempotent request IDs.
 - The first release does not support redemption, transfer, or withdrawal.
 

@@ -7,7 +7,7 @@ Page({
       { value: 'family_summary', label: '家庭养护统计汇总', desc: '200组家庭的养护次数排名', iconName: 'family' },
       { value: 'community_compare', label: '社区养护对比', desc: '各社区养护活跃度对比', iconName: 'community' },
       { value: 'plant_status', label: '植物生长状况统计', desc: '按类别和名称统计植物生长状态', iconName: 'garden' },
-      { value: 'points_ledger', label: '积分银行流水', desc: '家庭积分账户和逐笔交易明细', iconName: 'medal' },
+      { value: 'points_ledger', label: '积分账户流水', desc: '家庭积分账户和逐笔交易明细', iconName: 'medal' },
       { value: 'annual_report', label: '年度综合报告（多Sheet）', desc: '一键导出全部统计报表', iconName: 'chart' },
     ],
     selectedType: 'all_records',

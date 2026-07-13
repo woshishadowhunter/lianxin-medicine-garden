@@ -1,7 +1,7 @@
 {
   "name": "pointsBank",
   "version": "1.0.0",
-  "description": "积分银行账户与流水服务",
+  "description": "成长积分账户、兑换、库存与发放服务",
   "main": "index.js",
   "dependencies": {
     "wx-server-sdk": "~2.6.3"

@@ -77,9 +77,11 @@ v2 视觉方向记录在 `docs/superpowers/specs/2026-07-12-all-plants-expansion
 - Filter Chips：筛选是轻量控件，不做大弹窗优先。
 - Status Tag：待审核、已确认、需修正、需关注等状态有固定颜色和文字。
 - Admin Audit Row：管理端采用更密集的记录行，照片、家庭、植物、时间、状态、操作同屏可判断。
-- Points Bank Card：积分账户使用墨绿银行账户卡，余额是主数字，累计入账和冲正作为次级指标。
-- Ledger Row：积分流水必须同时显示摘要、时间、交易编号、有符号金额和交易后余额。
-- Admin Reward Panel：奖励发放采用家庭账户、固定奖励规则和备注三段式表单，提交前二次确认。
+- Points Center：可用余额是主数字，兑换好物、我的兑换和积分明细使用同级标签切换。
+- Redemption Card：必须显示所需积分、可用库存、积分差额和明确的兑换状态。
+- Fulfillment Queue：管理端首屏优先显示超期、待备货和待领取，核对四位领取码后完成发放。
+- Ledger Row：积分明细必须显示摘要、时间、有符号金额和交易后余额。
+- Admin Reward Panel：额外奖励采用家庭账户、固定奖励规则和备注三段式表单，提交前二次确认。
 
 ## Interaction States
 

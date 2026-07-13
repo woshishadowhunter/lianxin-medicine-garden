@@ -1,27 +1,74 @@
-.admin-points-page { padding-bottom: 70rpx; }
-.admin-banner { margin-bottom: 24rpx; padding: 28rpx 24rpx; border-radius: 14rpx; color: #fff; background: var(--primary-dark); }
-.admin-title { display: flex; align-items: center; gap: 10rpx; font-size: 30rpx; font-weight: 800; }
-.nav-tab { color: rgba(255,255,255,.76); font-size: 23rpx; font-weight: 700; }
-.bank-summary { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1rpx solid var(--border); }
-.bank-summary > view { padding: 28rpx 6rpx; text-align: center; border-right: 1rpx solid var(--border); }
-.bank-summary > view:last-child { border-right: none; }
-.bank-summary text { font-family: "Songti SC", "STSong", serif; font-size: 40rpx; font-weight: 700; color: var(--primary-dark); }
-.bank-summary view view { margin-top: 8rpx; color: var(--text-muted); font-size: 21rpx; }
-.backfill-banner { display: grid; grid-template-columns: 1fr auto; gap: 18rpx; align-items: center; margin-top: 20rpx; padding: 20rpx 22rpx; border: 1rpx solid rgba(216,146,47,.25); border-radius: 12rpx; background: var(--warning-light); }
-.backfill-banner text { display: block; color: #7c4a0a; font-size: 25rpx; font-weight: 800; }
-.backfill-banner view view { margin-top: 5rpx; color: #8c631f; font-size: 21rpx; line-height: 1.45; }
-.backfill-banner button { min-width: 142rpx; min-height: 66rpx; margin: 0; padding: 0 18rpx; border-radius: 10rpx; color: #fff; background: var(--warning); font-size: 23rpx; font-weight: 800; }
-.issue-panel { padding: 26rpx; }
-.form-field { margin-bottom: 24rpx; }
-.field-label { display: block; margin-bottom: 11rpx; color: var(--text-secondary); font-size: 24rpx; font-weight: 800; }
-.picker-value { min-height: 78rpx; padding: 0 20rpx; border: 1rpx solid var(--border); border-radius: 12rpx; background: var(--surface-2); display: flex; align-items: center; justify-content: space-between; font-size: 26rpx; }
-.reward-note { width: 100%; min-height: 138rpx; padding: 18rpx 20rpx; border: 1rpx solid var(--border); border-radius: 12rpx; background: var(--surface-2); font-size: 26rpx; line-height: 1.5; }
-.account-search { height: 72rpx; margin-bottom: 14rpx; padding: 0 20rpx; border: 1rpx solid var(--border); border-radius: 12rpx; background: var(--bg-card); display: flex; align-items: center; gap: 12rpx; }
-.account-search input { flex: 1; font-size: 25rpx; }
-.account-table, .recent-ledger { padding: 0 22rpx; border: 1rpx solid var(--border); border-radius: var(--radius); background: var(--bg-card); }
-.account-row { display: grid; grid-template-columns: 1fr auto 110rpx; gap: 18rpx; align-items: center; padding: 22rpx 0; border-bottom: 1rpx solid var(--divider); }
-.account-row:last-child, .recent-row:last-child { border-bottom: none; }
-.account-code { display: block; font-size: 26rpx; font-weight: 800; }.account-community { display: block; margin-top: 5rpx; color: var(--text-muted); font-size: 21rpx; }
-.account-earned { color: var(--text-muted); font-size: 21rpx; }.account-balance { text-align: right; color: var(--primary-dark); font-family: "Songti SC", "STSong", serif; font-size: 32rpx; font-weight: 700; }.account-balance text { margin-left: 4rpx; font-family: inherit; font-size: 20rpx; font-weight: 400; }
-.recent-row { display: flex; align-items: center; justify-content: space-between; gap: 20rpx; padding: 22rpx 0; border-bottom: 1rpx solid var(--divider); }
-.recent-title { display: block; font-size: 24rpx; font-weight: 700; }.recent-meta { display: block; margin-top: 6rpx; color: var(--text-muted); font-size: 20rpx; }.recent-amount { flex-shrink: 0; font-family: "Songti SC", "STSong", serif; font-size: 30rpx; font-weight: 700; }.recent-amount.positive { color: var(--primary); }.recent-amount.negative { color: var(--warning); }
+.admin-points-page { padding-bottom: 72rpx; }
+.admin-banner { margin-bottom: 22rpx; padding: 28rpx; color: #fff; background: #294f3d; }
+.admin-title { display: flex; align-items: center; gap: 10rpx; font-size: 29rpx; font-weight: 850; }
+.admin-subtitle { display: block; margin-top: 14rpx; color: rgba(255,255,255,.7); font-size: 22rpx; }
+.nav-tab { padding: 9rpx 13rpx; border: 1rpx solid rgba(255,255,255,.34); font-size: 21rpx; }
+.work-summary { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1rpx solid var(--border); }
+.summary-item { padding: 21rpx 4rpx; text-align: center; border-right: 1rpx solid var(--border); }
+.summary-item:last-child { border-right: none; }
+.summary-item text { display: block; color: var(--primary-dark); font-size: 34rpx; font-weight: 850; }
+.summary-item view { margin-top: 6rpx; color: var(--text-muted); font-size: 19rpx; }
+.summary-item.urgent text { color: #b14635; }
+.backfill-banner { display: flex; align-items: center; justify-content: space-between; gap: 20rpx; margin-top: 22rpx; padding: 20rpx; border-left: 6rpx solid #dc9f32; background: #fff7df; }
+.backfill-banner text { display: block; color: #76500c; font-size: 24rpx; font-weight: 850; }
+.backfill-banner view view { margin-top: 5rpx; color: #8c7445; font-size: 20rpx; line-height: 1.45; }
+.backfill-banner button { flex-shrink: 0; margin: 0; padding: 10rpx 17rpx; border: none; border-radius: 6rpx; color: #fff; background: #9a6b15; font-size: 20rpx; line-height: 1.3; }
+.section-title { margin-top: 34rpx; }
+.queue-tabs { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 14rpx; border-bottom: 1rpx solid var(--border); }
+.queue-tabs view { position: relative; padding: 17rpx 4rpx; color: var(--text-muted); font-size: 21rpx; font-weight: 750; text-align: center; }
+.queue-tabs view.active { color: var(--primary-dark); }
+.queue-tabs view.active::after { content: ""; position: absolute; left: 20%; right: 20%; bottom: -1rpx; height: 5rpx; background: var(--primary); }
+.queue-tabs view.alert { color: #ad4637; }
+.queue-tabs view.alert::after { background: #ad4637; }
+.fulfillment-list { display: flex; flex-direction: column; border-top: 1rpx solid var(--border); }
+.fulfillment-row { padding: 22rpx 2rpx; border-bottom: 1rpx solid var(--divider); }
+.fulfillment-row.overdue { padding-left: 16rpx; border-left: 5rpx solid #c64d3a; }
+.fulfillment-head, .fulfillment-actions { display: flex; align-items: center; justify-content: space-between; gap: 18rpx; }
+.family-code { margin-right: 12rpx; color: var(--primary-dark); font-size: 25rpx; font-weight: 900; }
+.reward-name { font-size: 25rpx; font-weight: 780; }
+.queue-status { flex-shrink: 0; color: var(--text-muted); font-size: 21rpx; }
+.fulfillment-meta { display: flex; flex-wrap: wrap; gap: 12rpx 24rpx; margin-top: 13rpx; color: var(--text-muted); font-size: 20rpx; }
+.danger-text { color: #b14635; font-weight: 800; }
+.fulfillment-actions { margin-top: 18rpx; }
+.fulfillment-actions > text { color: var(--text-hint); font-size: 19rpx; }
+.fulfillment-actions > view { display: flex; gap: 10rpx; }
+.fulfillment-actions button { margin: 0; padding: 11rpx 16rpx; border-radius: 6rpx; font-size: 20rpx; font-weight: 800; line-height: 1.25; }
+.fulfillment-actions button::after { border: none; }
+.primary-action { color: #fff; background: var(--primary); }
+.cancel-action { border: 1rpx solid #d7aaa1; color: #a94536; background: #fff; }
+.queue-more { width: 100%; margin-top: 16rpx; padding: 17rpx; border: 1rpx solid var(--border); border-radius: 6rpx; color: var(--primary-dark); background: #fff; font-size: 21rpx; font-weight: 800; line-height: 1.3; }
+.queue-more::after { border: none; }
+.stock-table { border-block: 1rpx solid var(--border); }
+.stock-row { display: grid; grid-template-columns: 52rpx 1fr auto; gap: 14rpx; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid var(--divider); }
+.stock-row:last-child { border-bottom: none; }
+.stock-icon { width: 52rpx; height: 52rpx; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--primary-soft); }
+.stock-copy { min-width: 0; }
+.stock-copy text { display: block; font-size: 24rpx; font-weight: 820; }
+.stock-copy view { margin-top: 6rpx; color: var(--text-muted); font-size: 19rpx; }
+.stock-actions { display: flex; gap: 8rpx; }
+.stock-actions button { min-width: 70rpx; margin: 0; padding: 9rpx 11rpx; border: 1rpx solid var(--border); border-radius: 5rpx; color: var(--primary-dark); background: #fff; font-size: 19rpx; line-height: 1.2; }
+.stock-actions button::after { border: none; }
+.issue-panel { padding: 22rpx; }
+.form-field { margin-bottom: 20rpx; }
+.field-label { display: block; margin-bottom: 9rpx; color: var(--text-muted); font-size: 21rpx; font-weight: 750; }
+.picker-value { display: flex; align-items: center; justify-content: space-between; min-height: 76rpx; padding: 0 18rpx; border: 1rpx solid var(--border); background: var(--surface-2); font-size: 23rpx; }
+.reward-note { width: 100%; min-height: 130rpx; padding: 17rpx 18rpx; box-sizing: border-box; border: 1rpx solid var(--border); background: var(--surface-2); font-size: 23rpx; line-height: 1.5; }
+.account-search { display: flex; align-items: center; gap: 10rpx; padding: 16rpx 18rpx; border: 1rpx solid var(--border); background: var(--bg-card); }
+.account-search input { flex: 1; font-size: 23rpx; }
+.account-table { margin-top: 12rpx; border-block: 1rpx solid var(--border); }
+.account-row { display: grid; grid-template-columns: 1fr auto 100rpx; gap: 16rpx; align-items: center; padding: 18rpx 0; border-bottom: 1rpx solid var(--divider); }
+.account-row:last-child { border-bottom: none; }
+.account-code { display: block; font-size: 23rpx; font-weight: 850; }
+.account-community { display: block; margin-top: 4rpx; color: var(--text-muted); font-size: 19rpx; }
+.account-earned { color: var(--text-muted); font-size: 20rpx; }
+.account-balance { color: var(--primary-dark); font-size: 28rpx; font-weight: 850; text-align: right; }
+.account-balance text { margin-left: 3rpx; font-size: 18rpx; }
+.recent-ledger { border-block: 1rpx solid var(--border); }
+.recent-row { display: flex; align-items: center; justify-content: space-between; gap: 20rpx; padding: 19rpx 0; border-bottom: 1rpx solid var(--divider); }
+.recent-row:last-child { border-bottom: none; }
+.recent-row > view { min-width: 0; }
+.recent-title { display: block; overflow: hidden; font-size: 22rpx; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
+.recent-meta { display: block; margin-top: 5rpx; color: var(--text-muted); font-size: 19rpx; }
+.recent-amount { flex-shrink: 0; font-size: 25rpx; font-weight: 850; }
+.recent-amount.positive { color: var(--primary); }
+.recent-amount.negative { color: var(--warning); }

@@ -88,6 +88,9 @@ scripts/
 - `plants` — preset catalog across six categories; `herbs` remains for v1 compatibility
 - `planting_tasks` — family_code + plant identity/category/source + plant_date + status + care_count; new tasks also write `herb_*` aliases
 - `care_records` — **core**: task_id, care_type, photos (JSON array of cloud fileIDs), description, weather, growth_stage, care_date, audit_status (pending/confirmed/needs_revision)
+- `points_accounts` / `points_transactions` — available balance and immutable earning, redemption, refund, and reversal ledger
+- `points_redemptions` — family redemption orders with pending/ready/fulfilled/canceled status and pickup code
+- `points_reward_stock` / `points_redemption_logs` — available/reserved/fulfilled inventory and fulfillment audit trail
 - `admin_logs` — action, record_ids, new_status, admin_openid
 - `admins` — name, password, role (admin/super_admin)
 
@@ -114,6 +117,8 @@ scripts/
 - **Care date editable**: users can backdate records; admin validates reasonableness.
 - **Offline-first**: care record submission works without network; syncs on reconnect.
 - **Multi-member**: multiple WeChat accounts bind to same family_code.
+- **Atomic redemption**: point deduction and stock reservation commit together; cancellation refunds points and releases stock together.
+- **Fulfillment SLA**: rewards should be prepared within 7 days, then verified with the four-digit pickup code before fulfillment.
 
 ## Development Status
 

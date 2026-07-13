@@ -10,6 +10,11 @@ function hashId(value) {
   return crypto.createHash('sha1').update(String(value)).digest('hex');
 }
 
+function isDocumentNotFound(error) {
+  const message = String(error && (error.message || error.errMsg) || '');
+  return /document.*not.*exist|not.*found|不存在/i.test(message);
+}
+
 function resolvePointsDelta(status, pointsStatus) {
   if (status === 'confirmed' && pointsStatus !== 'awarded') {
     return { amount: CARE_CONFIRM_POINTS, pointsStatus: 'awarded' };
@@ -22,24 +27,44 @@ function resolvePointsDelta(status, pointsStatus) {
 
 async function assertAdmin(openid) {
   const result = await db.collection('admins').where({ openid }).limit(1).get();
-  if (!result.data.length) throw new Error('管理员身份已失效，请重新登录');
-  return result.data[0];
+  const admin = result.data[0];
+  if (!admin || !['admin', 'super_admin'].includes(admin.role)) throw new Error('管理员身份已失效，请重新登录');
+  return admin;
 }
 
 async function ensureAccount(familyCode) {
-  const existing = await db.collection('points_accounts').where({ _id: familyCode }).limit(1).get();
-  if (existing.data.length) return;
-  await db.collection('points_accounts').doc(familyCode).set({
-    data: {
+  try {
+    const existing = await db.collection('points_accounts').doc(familyCode).get();
+    if (existing.data) return existing.data;
+  } catch (err) {
+    if (!isDocumentNotFound(err)) throw err;
+  }
+  const history = await db.collection('points_transactions').where({ family_code: familyCode }).limit(1).get();
+  if (history.data.length) throw new Error(`家庭 ${familyCode} 积分账户缺失，请先修复台账`);
+
+  return db.runTransaction(async transaction => {
+    const accountRef = transaction.collection('points_accounts').doc(familyCode);
+    try {
+      const existing = await accountRef.get();
+      if (existing.data) return existing.data;
+    } catch (err) {
+      if (!isDocumentNotFound(err)) throw err;
+    }
+    const now = new Date();
+    const account = {
       family_code: familyCode,
       balance: 0,
       total_earned: 0,
       total_reversed: 0,
+      total_redeemed: 0,
+      total_refunded: 0,
       transaction_count: 0,
       version: 0,
-      created_at: db.serverDate(),
-      updated_at: db.serverDate(),
-    },
+      created_at: now,
+      updated_at: now,
+    };
+    await accountRef.set({ data: account });
+    return account;
   });
 }
 
@@ -73,7 +98,6 @@ async function auditRecord(id, status, comment, adminOpenid) {
 
     if (amount) {
       const balanceAfter = Number(account.balance || 0) + amount;
-      if (balanceAfter < 0) throw new Error(`家庭 ${record.family_code} 积分余额异常，无法冲正`);
       const transactionId = `pt_${hashId(`care:${id}:${sequence}:${status}`)}`;
       const plantName = record.plant_name || record.herb_name || '植物';
 
