@@ -1,5 +1,6 @@
-const { HERBS, CARE_TYPES } = require('../../utils/constants');
-const { daysUntilHarvest, formatDate } = require('../../utils/date');
+const { PRESET_PLANTS, PLANT_CATEGORIES } = require('../../utils/constants');
+const { daysUntilHarvest } = require('../../utils/date');
+const { normalizePlantRecord, normalizePlantTask } = require('../../utils/plant');
 
 Page({
   data: {
@@ -33,13 +34,17 @@ Page({
         .limit(500)
         .get();
 
-      const records = recordsRes.data;
+      const records = recordsRes.data.map(normalizePlantRecord);
 
-      // 为每种药材构建生长档案
-      const archives = tasksRes.data.map(task => {
-        const herbConfig = HERBS.find(h => h.code === task.herb_code) || {};
+      // 为每株植物构建生长档案
+      const archives = tasksRes.data.map(rawTask => {
+        const task = normalizePlantTask(rawTask);
+        const plantConfig = PRESET_PLANTS.find(plant => plant.code === task.plant_code) || {};
         const taskRecords = records.filter(r => r.task_id === task._id);
-        const harvestDays = daysUntilHarvest(task.plant_date, herbConfig.growth_days || 150);
+        const growthDays = task.growth_days || plantConfig.growthDays || 0;
+        const harvestDays = growthDays ? daysUntilHarvest(task.plant_date, growthDays) : 0;
+        const plantDateValue = new Date(task.plant_date);
+        const elapsedDays = Number.isNaN(plantDateValue.getTime()) ? 0 : Math.max(0, Math.floor((Date.now() - plantDateValue.getTime()) / 86400000));
 
         // 照片集合
         const allPhotos = taskRecords.flatMap(r =>
@@ -58,13 +63,17 @@ Page({
 
         return {
           id: task._id,
-          herbName: task.herb_name,
-          herbIconName: herbConfig.iconName || 'herb',
-          herbCode: task.herb_code,
+          plantName: task.plant_name,
+          plantIconName: task.plant_icon_name || plantConfig.iconName || 'garden',
+          plantCode: task.plant_code,
+          categoryLabel: (PLANT_CATEGORIES.find(category => category.value === task.plant_category) || {}).label || '其他',
+          coverImage: task.cover_image,
           plantDate: task.plant_date,
           status: task.status,
-          growthDays: herbConfig.growth_days || 150,
+          growthDays,
           harvestDays,
+          elapsedDays,
+          hasGrowthCycle: growthDays > 0,
           careCount: taskRecords.length,
           firstCareDate: firstRecord ? firstRecord.care_date : null,
           lastCareDate: lastRecord ? lastRecord.care_date : null,

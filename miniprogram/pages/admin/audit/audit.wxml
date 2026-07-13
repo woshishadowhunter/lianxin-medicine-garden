@@ -79,7 +79,7 @@
       <view class="audit-main" bindtap="toggleExpand" data-id="{{item._id}}" hover-class="tap-opacity">
         <view class="audit-head flex-between">
           <view>
-            <view class="audit-family">{{item.family_code}} · {{item.herb_name}}</view>
+            <view class="audit-family">{{item.family_code}} · {{item.plant_name}}</view>
             <view class="audit-meta">{{item.care_date}} · {{item.care_type}}</view>
           </view>
           <text class="tag tag-{{item.audit_status}}">

@@ -1,0 +1,158 @@
+.plant-add-page { padding-bottom: 164rpx; }
+
+.mode-switch {
+  display: flex;
+  padding: 6rpx;
+  margin-bottom: 24rpx;
+  border: 1rpx solid var(--border);
+  border-radius: 14rpx;
+  background: var(--surface-2);
+}
+
+.mode-option {
+  flex: 1;
+  min-height: 76rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10rpx;
+  color: var(--text-muted);
+  font-weight: 750;
+}
+
+.mode-option.active { color: #fff; background: var(--primary-dark); }
+
+.inline-message {
+  margin-bottom: 20rpx;
+  padding: 18rpx 20rpx;
+  border: 1rpx solid var(--warning);
+  border-radius: 10rpx;
+  color: #704500;
+  background: var(--warning-light);
+  font-size: 24rpx;
+  line-height: 1.5;
+}
+
+.search-field {
+  min-height: 84rpx;
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  padding: 0 22rpx;
+  border: 1rpx solid var(--border);
+  border-radius: 12rpx;
+  background: var(--bg-card);
+}
+
+.search-field input { flex: 1; font-size: 27rpx; color: var(--text-primary); }
+.category-scroll { width: 100%; margin: 18rpx 0 10rpx; white-space: nowrap; }
+.category-row { display: inline-flex; gap: 12rpx; padding-right: 20rpx; }
+
+.filter-chip,
+.category-choice {
+  min-height: 66rpx;
+  padding: 0 24rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid var(--border);
+  border-radius: 999rpx;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.filter-chip.active,
+.category-choice.active { color: #fff; border-color: var(--primary); background: var(--primary); }
+.catalog-list { margin-top: 6rpx; }
+
+.catalog-row {
+  min-height: 112rpx;
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  border-bottom: 1rpx solid var(--border);
+}
+
+.catalog-icon,
+.selection-icon {
+  width: 72rpx;
+  height: 72rpx;
+  flex: 0 0 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12rpx;
+  background: var(--primary-soft);
+}
+
+.catalog-copy { flex: 1; min-width: 0; }
+.catalog-name { font-size: 29rpx; font-weight: 800; }
+.catalog-meta { margin-top: 5rpx; color: var(--text-muted); font-size: 23rpx; }
+
+.selection-sheet,
+.custom-form {
+  padding: 26rpx;
+  border: 1rpx solid var(--border);
+  border-radius: 14rpx;
+  background: var(--bg-card);
+}
+
+.selection-head { display: flex; align-items: center; gap: 16rpx; padding-bottom: 22rpx; border-bottom: 1rpx solid var(--border); }
+.selection-copy { flex: 1; }
+.selection-copy text { font-size: 32rpx; font-weight: 850; }
+.selection-copy view { margin-top: 5rpx; color: var(--text-muted); font-size: 23rpx; }
+.change-link,
+.remove-cover { color: var(--primary); font-size: 24rpx; font-weight: 750; }
+
+.form-field { display: block; margin-top: 26rpx; }
+.form-field > text,
+.field-label { display: block; margin-bottom: 12rpx; color: var(--text-secondary); font-size: 24rpx; font-weight: 750; }
+.field-label { margin-top: 26rpx; }
+
+.form-field input,
+.picker-value {
+  min-height: 84rpx;
+  padding: 0 20rpx;
+  display: flex;
+  align-items: center;
+  border: 1rpx solid var(--border);
+  border-radius: 10rpx;
+  color: var(--text-primary);
+  background: var(--surface-2);
+  font-size: 27rpx;
+}
+
+.custom-categories { display: flex; flex-wrap: wrap; gap: 12rpx; }
+.category-choice { min-height: 64rpx; }
+
+.cover-field {
+  min-height: 180rpx;
+  margin-top: 26rpx;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx dashed var(--primary);
+  border-radius: 10rpx;
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.cover-field image { width: 100%; height: 260rpx; }
+.cover-field view { display: flex; flex-direction: column; align-items: center; gap: 12rpx; font-size: 24rpx; font-weight: 700; }
+.remove-cover { display: block; padding: 14rpx 0 0; text-align: right; }
+
+.submit-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  padding: 18rpx 28rpx calc(18rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid var(--border);
+  background: var(--bg-card);
+}
+
+.submit-dock .btn { width: 100%; }

@@ -32,7 +32,7 @@ async function compressImages(filePaths) {
 
 /**
  * 给图片添加水印（使用离屏 Canvas）
- * 绘制半透明对角线平铺文字：连心药园 · 家庭编号 · 日期
+ * 绘制半透明对角线平铺文字：连心植物园 · 家庭编号 · 日期
  * @param {string} filePath - 源图片路径
  * @param {object} options - { familyCode, date }
  * @returns {Promise<string>} 带水印的图片路径
@@ -40,7 +40,7 @@ async function compressImages(filePaths) {
 function addWatermark(filePath, options = {}) {
   return new Promise((resolve) => {
     const { familyCode = '', date = '' } = options;
-    const watermarkText = familyCode ? `连心药园 · ${familyCode} · ${date}` : `连心药园 · ${date}`;
+    const watermarkText = familyCode ? `连心植物园 · ${familyCode} · ${date}` : `连心植物园 · ${date}`;
 
     // 超时保护：模拟器中 getImageInfo 可能挂起，5秒后回退原图
     const safetyTimer = setTimeout(() => {

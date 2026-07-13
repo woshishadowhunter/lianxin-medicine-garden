@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "积分银行",
+  "navigationBarTitleText": "积分兑现台",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "loading-card": "/components/loading-card/loading-card",

@@ -1,4 +1,5 @@
 const { CARE_TYPES, COMMUNITIES } = require('../../../utils/constants');
+const { normalizePlantRecord } = require('../../../utils/plant');
 
 Page({
   data: {
@@ -63,9 +64,9 @@ Page({
       const res = await query.get();
 
       // 前端筛选
-      let filtered = res.data;
+      let filtered = res.data.map(normalizePlantRecord);
       if (this.data.filterCommunity) filtered = filtered.filter(r => r.family_code && r.family_code.includes(this.data.filterCommunity));
-      if (this.data.filterHerb) filtered = filtered.filter(r => r.herb_name === this.data.filterHerb);
+      if (this.data.filterHerb) filtered = filtered.filter(r => r.plant_name === this.data.filterHerb);
       if (this.data.filterType) filtered = filtered.filter(r => r.care_type === this.data.filterType);
 
       this.setData({

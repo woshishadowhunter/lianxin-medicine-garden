@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "连心药园",
+  "navigationBarTitleText": "连心植物园",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "stats-summary": "/components/stats-summary/stats-summary",

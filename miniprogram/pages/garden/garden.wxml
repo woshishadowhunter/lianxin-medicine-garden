@@ -4,22 +4,31 @@
   </block>
 
   <block wx:elif="{{!tasks.length}}">
-    <empty-state iconName="herb" text="暂无种植任务" />
+    <empty-state iconName="herb" text="还没有植物，先添加第一株吧" showButton="{{true}}" buttonText="添加植物" bind:action="goAddPlant" />
   </block>
 
   <block wx:else>
     <view class="page-head">
-      <text class="page-head-title">我的药园</text>
-      <text class="page-head-desc">从谷雨到收获，跟踪每株药草的状态。</text>
+      <text class="page-head-title">我的植物园</text>
+      <text class="page-head-desc">花草蔬果都在这里，持续记录每一株的变化。</text>
     </view>
 
-    <view class="archive-band" bindtap="goGrowthArchive" hover-class="tap-card">
-      <view>
-        <text class="archive-band-title">药材生长档案</text>
-        <text class="archive-band-desc">照片、节点和收获倒计时集中查看</text>
+    <view class="garden-actions">
+      <view class="add-plant-action" bindtap="goAddPlant" hover-class="tap-card">
+        <lx-icon name="add" size="{{30}}" tone="white" />
+        <view><text>添加植物</text><view>从植物库选择或自定义</view></view>
       </view>
-      <lx-icon name="archive" size="{{34}}" tone="white" />
+      <view class="archive-link" bindtap="goGrowthArchive" hover-class="tap-card">
+        <lx-icon name="archive" size="{{30}}" tone="brand" />
+        <text>成长档案</text>
+      </view>
     </view>
+
+    <scroll-view scroll-x class="garden-category-scroll" enable-flex>
+      <view class="garden-category-row">
+        <view wx:for="{{categories}}" wx:key="value" class="filter-chip {{selectedCategory === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectCategory" hover-class="tap-chip">{{item.label}}</view>
+      </view>
+    </scroll-view>
 
     <view class="summary-bar panel flex-between">
       <view class="summary-item">
@@ -41,17 +50,19 @@
     </view>
 
     <view class="section-title">
-      <text>种植任务</text>
-      <text>谷雨种植</text>
+      <text>{{selectedCategory === 'all' ? '全部植物' : '分类植物'}}</text>
+      <text>{{tasks.length}} 株</text>
     </view>
     <view wx:for="{{tasks}}" wx:key="_id" class="herb-task panel" bindtap="goDetail" data-id="{{item._id}}" hover-class="tap-card">
       <view class="task-top">
         <view class="herb-card-icon">
-          <lx-icon name="{{item.herbIconName}}" size="{{38}}" tone="brand" />
+          <image wx:if="{{item.cover_image}}" src="{{item.cover_image}}" mode="aspectFill" class="task-cover"></image>
+          <lx-icon wx:else name="{{item.plantIconName}}" size="{{38}}" tone="brand" />
         </view>
         <view class="task-copy">
-          <view class="herb-card-name">{{item.herb_name}}</view>
-          <view class="herb-card-date">上次养护 {{item.last_care_date || '暂无记录'}} · 养护 {{item.care_count || 0}} 次</view>
+          <view class="herb-card-name">{{item.plant_name}}</view>
+          <view class="plant-category-label">{{item.categoryLabel}}</view>
+          <view class="herb-card-date">上次养护 {{item.last_care_date || '暂无记录'}} · 记录 {{item.care_count || 0}} 次</view>
         </view>
         <view class="herb-status-badge status-{{item.status}}">
           <lx-icon name="{{item.statusIconName}}" size="{{20}}" tone="{{item.status === 'warning' ? 'warning' : item.status === 'dead' ? 'danger' : 'brand'}}" />
@@ -59,7 +70,7 @@
         </view>
       </view>
 
-      <view class="growth-section mt-16">
+      <view wx:if="{{item.hasGrowthCycle}}" class="growth-section mt-16">
         <view class="flex-between">
           <text class="growth-info">生长进度 {{item.progress}}%</text>
           <text class="growth-info">距收获约 {{item.harvestDays}} 天</text>
@@ -68,6 +79,7 @@
           <view class="growth-fill" style="width: {{item.progress}}%"></view>
         </view>
       </view>
+      <view wx:else class="companion-days">已陪伴 {{item.elapsedDays}} 天，继续记录它的日常变化</view>
     </view>
   </block>
 </view>

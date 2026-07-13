@@ -63,7 +63,7 @@ Page({
   subscribeReminder() {
     wx.showModal({
       title: '订阅养护提醒',
-      content: '订阅后，当您的药材超过3天未养护时，我们将通过微信服务通知提醒您。同时您也会收到审核结果通知。',
+      content: '订阅后，当您的植物超过3天没有养护记录时，我们将通过微信服务通知提醒您。同时您也会收到审核结果通知。',
       confirmText: '去订阅',
       success: async (res) => {
         if (res.confirm) {
@@ -135,8 +135,8 @@ Page({
 
   showAbout() {
     wx.showModal({
-      title: '关于连心药园',
-      content: '连心药园用于记录社区家庭中草药种植养护过程，沉淀照片证据、审核记录和年度种植成效。',
+      title: '关于连心植物园',
+      content: '连心植物园用于记录社区家庭的花卉、绿植、蔬菜、果树和本草养护过程，沉淀照片证据、审核记录和年度种植成效。',
       showCancel: false,
       confirmText: '知道了',
     });

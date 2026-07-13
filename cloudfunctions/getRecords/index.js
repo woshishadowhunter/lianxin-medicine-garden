@@ -3,14 +3,15 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 
 exports.main = async (event) => {
-  const { family_code, herb_code, care_type, audit_status, page = 1, pageSize = 20 } = event;
+  const { family_code, plant_code, herb_code, care_type, audit_status, page = 1, pageSize = 20 } = event;
 
   try {
     let query = db.collection('care_records');
     const conditions = {};
 
     if (family_code) conditions.family_code = family_code;
-    if (herb_code) conditions.herb_code = herb_code;
+    if (plant_code) conditions.plant_code = plant_code;
+    else if (herb_code) conditions.herb_code = herb_code;
     if (care_type) conditions.care_type = care_type;
     if (audit_status) conditions.audit_status = audit_status;
 
@@ -28,7 +29,12 @@ exports.main = async (event) => {
 
     return {
       success: true,
-      data: res.data,
+      data: res.data.map(record => ({
+        ...record,
+        plant_code: record.plant_code || record.herb_code || '',
+        plant_name: record.plant_name || record.herb_name || '植物',
+        plant_category: record.plant_category || 'herb',
+      })),
       total: total.total,
       page,
       pageSize,

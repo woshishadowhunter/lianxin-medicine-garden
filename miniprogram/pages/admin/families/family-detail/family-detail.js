@@ -1,3 +1,5 @@
+const { normalizePlantRecord, normalizePlantTask } = require('../../../../utils/plant');
+
 Page({
   data: {
     familyId: '',
@@ -29,8 +31,8 @@ Page({
 
       this.setData({
         family,
-        tasks: tasksRes.data,
-        records: recordsRes.data,
+        tasks: tasksRes.data.map(normalizePlantTask),
+        records: recordsRes.data.map(normalizePlantRecord),
         loading: false,
       });
     } catch (err) {

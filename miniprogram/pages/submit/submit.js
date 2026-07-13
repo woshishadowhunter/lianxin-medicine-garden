@@ -2,6 +2,7 @@ const { CARE_TYPES, WEATHERS, GROWTH_STAGES } = require('../../utils/constants')
 const { formatDate, generateId } = require('../../utils/date');
 const { compressImages, addWatermarks, uploadPhoto, getCloudPath } = require('../../utils/photo');
 const { isOnline, saveOffline, getQueueCount } = require('../../utils/offline');
+const { normalizePlantTask } = require('../../utils/plant');
 
 Page({
   data: {
@@ -76,7 +77,7 @@ Page({
         .where({ family_code: familyCode, status: 'growing' })
         .get();
 
-      // 如果生长中的为空，回退显示该家庭全部药材（不限状态）
+      // 如果生长中的为空，回退显示该家庭全部植物（不限状态）
       if (!res.data.length) {
         res = await db.collection('planting_tasks')
           .where({ family_code: familyCode })
@@ -85,23 +86,23 @@ Page({
           this.setData({
             herbs: [],
             herbsLoading: false,
-            herbsError: `家庭 ${familyCode} 暂无种植任务，请联系管理员分配药材`
+            herbsError: `家庭 ${familyCode} 暂无植物，请先在植物园中添加`
           });
           return;
         }
         // 有任务但不是 growing 状态
-        this.setData({ herbs: res.data, herbsLoading: false });
-        wx.showToast({ title: `已加载 ${res.data.length} 个药材（含非生长中状态）`, icon: 'none', duration: 2500 });
+        this.setData({ herbs: res.data.map(normalizePlantTask), herbsLoading: false });
+        wx.showToast({ title: `已加载 ${res.data.length} 株植物（含非生长中状态）`, icon: 'none', duration: 2500 });
         return;
       }
 
-      this.setData({ herbs: res.data, herbsLoading: false });
+      this.setData({ herbs: res.data.map(normalizePlantTask), herbsLoading: false });
     } catch (err) {
       console.error('加载任务失败:', err);
       this.setData({ herbs: [], herbsLoading: false });
       const msg = err.errMsg || err.message || '数据库查询失败';
       this.setData({ herbsError: msg });
-      wx.showToast({ title: '加载药材失败，下拉刷新重试', icon: 'none' });
+      wx.showToast({ title: '加载植物失败，下拉刷新重试', icon: 'none' });
     }
   },
 
@@ -211,6 +212,9 @@ Page({
           task_id: taskId,
           herb_code: selectedHerb.herb_code,
           herb_name: selectedHerb.herb_name,
+          plant_code: selectedHerb.plant_code,
+          plant_name: selectedHerb.plant_name,
+          plant_category: selectedHerb.plant_category,
           care_type: selectedCareType,
           photos: photos.map(p => p.path), // 本地路径
           description,
@@ -273,6 +277,9 @@ Page({
           task_id: taskId,
           herb_code: selectedHerb.herb_code,
           herb_name: selectedHerb.herb_name,
+          plant_code: selectedHerb.plant_code,
+          plant_name: selectedHerb.plant_name,
+          plant_category: selectedHerb.plant_category,
           care_type: selectedCareType,
           photos: uploadedUrls,
           description,
@@ -301,6 +308,9 @@ Page({
         task_id: taskId,
         herb_code: selectedHerb.herb_code,
         herb_name: selectedHerb.herb_name,
+        plant_code: selectedHerb.plant_code,
+        plant_name: selectedHerb.plant_name,
+        plant_category: selectedHerb.plant_category,
         care_type: selectedCareType,
         photos: photos.map(p => p.path),
         description,

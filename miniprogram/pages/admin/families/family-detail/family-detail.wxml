@@ -23,7 +23,7 @@
             <lx-icon name="herb" size="{{30}}" tone="brand" />
           </view>
           <view>
-            <view>{{item.herb_name}}</view>
+            <view>{{item.plant_name}}</view>
             <view class="task-date">种植于 {{item.plant_date}}</view>
           </view>
         </view>
@@ -36,7 +36,7 @@
       <view wx:for="{{records}}" wx:key="_id" class="record-item">
         <view class="flex-between">
           <view class="flex-row">
-            <text>{{item.care_type}} {{item.herb_name}}</text>
+            <text>{{item.care_type}} {{item.plant_name}}</text>
           </view>
           <view class="tag tag-{{item.audit_status}}">
             {{item.audit_status === 'confirmed' ? '已确认' : item.audit_status === 'pending' ? '待审核' : '需修正'}}

@@ -3,7 +3,7 @@
     <view class="bind-icon">
       <lx-icon name="herb" size="{{76}}" tone="brand" />
     </view>
-    <text class="bind-title">连心药园</text>
+    <text class="bind-title">连心植物园</text>
     <text class="bind-subtitle">请输入您的家庭编号和预留手机号</text>
   </view>
 

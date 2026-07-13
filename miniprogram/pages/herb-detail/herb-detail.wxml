@@ -2,16 +2,18 @@
   <view wx:if="{{loading}}" class="load-more">加载中...</view>
 
   <block wx:elif="{{task}}">
-    <!-- 药材信息卡 -->
+    <!-- 植物信息 -->
     <view class="herb-info card">
       <view class="flex-row">
         <view class="herb-info-icon">
-          <lx-icon name="herb" size="{{52}}" tone="brand" />
+          <image wx:if="{{task.cover_image}}" src="{{task.cover_image}}" mode="aspectFill" class="detail-cover"></image>
+          <lx-icon wx:else name="{{task.plant_icon_name || 'garden'}}" size="{{52}}" tone="brand" />
         </view>
         <view class="flex-1">
-          <view class="herb-info-name">{{task.herb_name}}</view>
+          <view class="herb-info-name">{{task.plant_name}}</view>
+          <view class="plant-detail-meta">{{task.categoryLabel}} · {{task.sourceLabel}}</view>
           <view class="herb-info-date">种植日期：{{task.plant_date}}</view>
-          <view class="herb-info-status">{{task.statusIcon}} {{task.statusLabel}}</view>
+          <view class="herb-info-status">已陪伴 {{task.elapsedDays}} 天</view>
         </view>
       </view>
     </view>

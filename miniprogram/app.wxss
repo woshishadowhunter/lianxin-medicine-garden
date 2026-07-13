@@ -1,31 +1,32 @@
-/* === 连心药园 高级产品界面 v2 === */
+/* === 连心植物园产品界面 v3 === */
 
 page {
-  --primary: #1f6b4b;
-  --primary-dark: #123c2d;
-  --primary-light: #dfece3;
-  --primary-soft: #e5f0e9;
-  --accent: #b98b45;
-  --accent-light: #f3eadb;
-  --danger: #c95045;
-  --danger-light: #f8e4e1;
-  --warning: #d8922f;
-  --warning-light: #faefd9;
-  --info: #3d739c;
-  --info-light: #e2edf5;
-  --bg: #f4f1e8;
-  --bg-deep: #ebe6d9;
-  --bg-card: #fffdf8;
-  --surface-2: #f8f5ed;
-  --text-primary: #17251d;
-  --text-secondary: #34443a;
-  --text-muted: #66736a;
-  --text-hint: #8a958c;
-  --border: #ded8ca;
-  --divider: #ebe6da;
+  --primary: #2f7355;
+  --primary-dark: #193f31;
+  --primary-light: #dcece3;
+  --primary-soft: #e8f3ed;
+  --accent: #dfa62f;
+  --accent-dark: #865b08;
+  --accent-light: #fff2cf;
+  --danger: #b94e43;
+  --danger-light: #f9e7e4;
+  --warning: #d18525;
+  --warning-light: #fff1d8;
+  --info: #397aa4;
+  --info-light: #e4f0f7;
+  --bg: #f3f7f4;
+  --bg-deep: #e4ece6;
+  --bg-card: #ffffff;
+  --surface-2: #f7f9f6;
+  --text-primary: #17261e;
+  --text-secondary: #34473c;
+  --text-muted: #65766c;
+  --text-hint: #8b9a91;
+  --border: #d5e0d8;
+  --divider: #e7ede9;
   --shadow: 0 14rpx 36rpx rgba(45, 55, 43, 0.1);
   --shadow-soft: 0 6rpx 18rpx rgba(45, 55, 43, 0.06);
-  --radius: 14rpx;
+  --radius: 12rpx;
 
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -79,7 +80,7 @@ button::after {
   overflow: hidden;
   padding: 34rpx 32rpx;
   margin-bottom: 28rpx;
-  border-radius: 18rpx;
+  border-radius: 12rpx;
   color: #fff;
   background: var(--primary-dark);
   box-shadow: var(--shadow);
@@ -157,7 +158,7 @@ button::after {
   min-height: 88rpx;
   padding: 0 42rpx;
   border: none;
-  border-radius: 16rpx;
+  border-radius: 10rpx;
   font-size: 29rpx;
   font-weight: 850;
   line-height: 1.2;

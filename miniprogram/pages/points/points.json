@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "积分账户",
+  "navigationBarTitleText": "成长积分",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "empty-state": "/components/empty-state/empty-state",

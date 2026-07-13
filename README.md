@@ -1,119 +1,116 @@
-# Lianxin Medicine Garden
+# Lianxin Plant Journal / 连心植物园
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![Platform: WeChat Mini Program](https://img.shields.io/badge/Platform-WeChat%20Mini%20Program-07C160.svg)
-![Status: v1.0](https://img.shields.io/badge/Status-v1.0-blue.svg)
+![Status: v2.0](https://img.shields.io/badge/Status-v2.0-blue.svg)
+[![CI](https://github.com/woshishadowhunter/lianxin-medicine-garden/actions/workflows/ci.yml/badge.svg)](https://github.com/woshishadowhunter/lianxin-medicine-garden/actions/workflows/ci.yml)
 
-Lianxin Medicine Garden is an open source WeChat Mini Program for community herb-growing activities. It helps families record daily plant care with photo evidence and helps administrators review records, track participation, and export summary data.
+Lianxin Plant Journal is an open source WeChat Mini Program for community and family planting activities. Families can track flowers, foliage plants, vegetables, fruit trees, herbs, and custom plants with photo-backed care records. Administrators review evidence, issue points, monitor participation, and export long-term reports.
 
-The project was designed for a community-scale activity with about 200 families across multiple neighborhoods, but the codebase can be reused for schools, community groups, public welfare programs, and other long-running activity record systems.
+连心植物园是一套面向社区、学校和家庭种植活动的开源微信小程序。花卉、绿植、蔬菜、果树、本草和其他自定义植物都可以建立成长档案、提交照片记录、获得积分并兑换种植好物。
 
-## Project Status
+## What Changed in v2
 
-This repository is the first open source release of a complete Mini Program implementation. It is intended as a reusable template for community activity operations, labor education programs, school-family collaboration, and public welfare projects.
+- Expanded from eleven herbs to six plant categories
+- Added a preset plant catalog and family-created custom plants
+- Added category filters, plant cover photos, and long-term observation mode
+- Reworked the family experience into a photo-led observation journal
+- Generalized review, reminders, points, statistics, and exports
+- Preserved legacy `herb_*` data through additive compatibility fields
+- Added repeatable catalog seeding and legacy migration cloud functions
+- Added Node tests for normalization, validation, idempotency, exports, and visible copy
 
-The original deployment scenario covers:
-
-- About 200 participating families
-- 5-8 community neighborhoods
-- Long-running daily care records from planting season through year-end
-- Family submissions, administrator review, participation scoring, and annual reporting
-
-## Screenshots
-
-| Home | Submit | Records |
-| --- | --- | --- |
-| ![Home dashboard](docs/design/lianxin-premium-home.png) | ![Care submission](docs/design/lianxin-premium-submit.png) | ![Records timeline](docs/design/lianxin-premium-records.png) |
-
-| Garden | Profile | Admin |
-| --- | --- | --- |
-| ![Garden tasks](docs/design/lianxin-premium-garden.png) | ![Profile center](docs/design/lianxin-premium-profile.png) | ![Admin dashboard](docs/design/lianxin-premium-admin.png) |
-
-## Features
+## Core Features
 
 - Family binding by family code and phone verification
-- Daily herb care submissions with required photo evidence
-- Offline-first submission queue with automatic retry
-- Care record timeline and photo wall
-- Herb task cards and growth archives
-- Administrator dashboard, audit workflow, family management, and data export
-- Annual showcase, scoring, badges, charts, and reminders
-- WeChat Cloud Development backend with cloud functions and cloud database collections
+- Preset catalog selection plus custom plant creation
+- Flowers, foliage plants, vegetables, fruit trees, herbs, and other plants
+- Watering, pruning, fertilizing, weeding, pest control, and growth observations
+- Mandatory photo evidence with watermarking and offline queue support
+- Timeline, photo wall, plant detail, and growth archive views
+- Administrator review with approval, correction, and batch operations
+- Ten points for each confirmed photo-backed care record
+- Idempotent points transactions and automatic reversal on correction
+- Atomic reward redemption, inventory reservation, cancellation refunds, pickup codes, and fulfillment queues
+- Community statistics, annual showcases, Excel/CSV exports, and reminders
 
-## Why This Project Matters
-
-Many community and school programs still rely on chat groups, spreadsheets, and manual photo collection. This project turns that workflow into a reusable open source system with clear roles, auditable submissions, offline support, and exportable records.
-
-The codebase is useful for developers building similar WeChat Mini Program workflows that need:
-
-- Family or participant binding
-- Photo-backed activity records
-- Administrator review and correction loops
-- Offline-first mobile submission
-- Community-level statistics and reports
-
-## Tech Stack
-
-- WeChat Mini Program native framework: WXML, WXSS, JavaScript
-- WeChat Cloud Development: cloud functions, cloud database, cloud storage
-- Target base library: 3.6.0+
-
-## Repository Layout
+## Architecture
 
 ```text
-miniprogram/        Mini Program frontend pages, components, utilities, and assets
-cloudfunctions/     WeChat Cloud Functions
-docs/               Requirements, database schema, and design notes
-scripts/            Database initialization helpers
+miniprogram/                 Native WeChat Mini Program UI
+  pages/plant-add/           Preset and custom plant creation
+  pages/garden/              Plant collection and category filters
+  utils/plant.js             Legacy-compatible plant normalization
+cloudfunctions/
+  plantManager/              Catalog listing and secure task creation
+  submitRecord/              Server-validated care record submission
+  auditReview/               Review and points posting/reversal
+  pointsBank/                Accounts, ledger, redemption, stock, fulfillment, and backfill
+  migratePlants/             Idempotent catalog seed and legacy migration
+  init-database/             New deployment initialization
+tests/                       Node built-in test suite
+docs/                        Requirements, schema, deployment, and design
 ```
+
+The data model is additive. New tasks and records write `plant_*` fields and legacy `herb_*` aliases. Readers prefer `plant_*` and fall back to old fields, so existing records, photos, and points remain available without a destructive migration.
 
 ## Getting Started
 
 1. Import this repository in WeChat Developer Tools.
-2. Replace `appid` in `project.config.json` with your own Mini Program AppID.
-3. Replace `your-cloud-env-id` in `miniprogram/app.js` with your own WeChat Cloud environment ID.
-4. Create the cloud database collections described in `docs/database-schema.md`.
-5. Deploy the cloud functions under `cloudfunctions/`.
-6. Run the database initialization function once and pass a strong `adminPassword` value.
+2. Replace `appid` in `project.config.json` with your Mini Program AppID.
+3. Replace `your-cloud-env-id` in `miniprogram/app.js` with your cloud environment ID.
+4. Create the collections documented in `docs/database-schema.md`.
+5. Deploy all folders under `cloudfunctions/`, including `plantManager` and `migratePlants`.
+6. For a new deployment, run `init-database` once with a strong `adminPassword`.
+7. For an existing v1 deployment, call `migratePlants` with `seedCatalog`, then repeatedly call `migrateCollection` for `planting_tasks` and `care_records` until `done` is true.
+8. Review cloud database permissions before production use.
 
-## Roadmap
+## Testing
 
-- Harden administrator authentication and cloud database permission rules
-- Add a deployment checklist for new community operators
-- Improve sample data and demo mode for evaluation without real family data
-- Add automated smoke tests for cloud functions
-- Add bilingual documentation for broader reuse
-- Improve export templates for semester and annual review reports
+```powershell
+npm install
+npm test
+Get-ChildItem miniprogram,cloudfunctions,scripts -Recurse -Filter *.js | ForEach-Object { node --check $_.FullName }
+```
 
-## Maintainer Responsibilities
+## Points Rules
 
-The maintainer currently handles:
+- A care record must contain at least one photo.
+- New records start as `pending`.
+- Confirmation awards 10 points exactly once.
+- Changing an awarded record to `needs_revision` posts a 10-point reversal.
+- A redemption atomically deducts points and reserves stock.
+- Pending redemptions can be canceled with an atomic point refund and stock release.
+- Administrators prepare rewards within 7 days and verify the four-digit pickup code before fulfillment.
+- Administrator rewards use fixed rules and idempotent request IDs.
+- The first release does not support redemption, transfer, or withdrawal.
 
-- Feature planning and issue triage
-- Mini Program frontend maintenance
-- WeChat Cloud Function maintenance
-- Database schema and seed data updates
-- Documentation, release notes, and deployment guidance
-- Security review for administrator flows, uploads, and exports
+## Interface History
 
-## Security Notes
+The following images show the earlier herb-focused release. The v2 code keeps the same evidence-first workflow while replacing herb-only language with a plant observation journal and adding the plant creation flow.
 
-- Do not commit `project.private.config.json`.
-- Do not commit real cloud secrets, API keys, or administrator passwords.
-- The seed script requires the administrator password to be provided during deployment or invocation.
-- Review cloud database permissions before production use.
-- Report security concerns privately when possible; see `SECURITY.md`.
-
-## Contributing
-
-Contributions are welcome for documentation, deployment scripts, security hardening, issue reproduction, and Mini Program compatibility fixes. See `CONTRIBUTING.md`.
+| Home | Submit | Records |
+| --- | --- | --- |
+| ![Earlier home dashboard](docs/design/lianxin-premium-home.png) | ![Earlier care submission](docs/design/lianxin-premium-submit.png) | ![Earlier records timeline](docs/design/lianxin-premium-records.png) |
 
 ## Documentation
 
-- Requirements: `docs/requirements.md`
-- Database schema: `docs/database-schema.md`
-- Deployment notes: `docs/points-bank-deployment.md`
+- [Requirements](docs/requirements.md)
+- [Database schema](docs/database-schema.md)
+- [Points and migration deployment](docs/points-bank-deployment.md)
+- [v2 design specification](docs/superpowers/specs/2026-07-12-all-plants-expansion-design.md)
+- [v2 implementation plan](docs/superpowers/plans/2026-07-12-all-plants-expansion.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+
+## Security Notes
+
+- Never commit `project.private.config.json`, real cloud secrets, API keys, or administrator passwords.
+- `plantManager` and `submitRecord` verify family membership on the server.
+- Plant identity and family ownership are derived from server-side task documents.
+- Points balances can only be changed through cloud transactions.
+- Review database permissions and cloud function access before deployment.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License. See [LICENSE](LICENSE).
