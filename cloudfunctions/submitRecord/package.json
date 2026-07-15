@@ -1,7 +1,7 @@
 {
   "name": "submitRecord",
   "version": "1.0.0",
-  "description": "提交养护记录服务端处理",
+  "description": "Care record submission service",
   "main": "index.js",
   "dependencies": {
     "wx-server-sdk": "~2.6.3"

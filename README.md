@@ -1,5 +1,7 @@
 # Lianxin Medicine Garden
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![Platform: WeChat Mini Program](https://img.shields.io/badge/Platform-WeChat%20Mini%20Program-07C160.svg)
 ![Status: v1.0](https://img.shields.io/badge/Status-v1.0-blue.svg)
@@ -84,6 +86,7 @@ scripts/            Database initialization helpers
 - Add automated smoke tests for cloud functions
 - Add bilingual documentation for broader reuse
 - Improve export templates for semester and annual review reports
+- Keep community-operator documentation aligned with deployment changes
 
 ## Maintainer Responsibilities
 
@@ -113,6 +116,8 @@ Contributions are welcome for documentation, deployment scripts, security harden
 - Requirements: `docs/requirements.md`
 - Database schema: `docs/database-schema.md`
 - Deployment notes: `docs/points-bank-deployment.md`
+- Community operator guide: `docs/community-operator-guide.md`
+- Discovery and positioning notes: `docs/discovery-and-positioning.md`
 
 ## License
 

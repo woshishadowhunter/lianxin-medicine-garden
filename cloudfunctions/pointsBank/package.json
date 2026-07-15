@@ -1,7 +1,7 @@
 {
   "name": "pointsBank",
   "version": "1.0.0",
-  "description": "积分银行账户与流水服务",
+  "description": "Points account and transaction service",
   "main": "index.js",
   "dependencies": {
     "wx-server-sdk": "~2.6.3"
