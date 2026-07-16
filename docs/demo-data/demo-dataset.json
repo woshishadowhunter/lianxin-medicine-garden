@@ -1,0 +1,383 @@
+{
+  "generated_at": "2026-07-16T06:46:50.142Z",
+  "note": "Synthetic demo data. Do not mix with production collections.",
+  "families": [
+    {
+      "family_code": "D001",
+      "community": "Riverside Community",
+      "phone": "13900000001",
+      "contact_name": "Demo Family 1",
+      "member_count": 3,
+      "openid": "",
+      "is_active": true
+    },
+    {
+      "family_code": "D002",
+      "community": "Garden School",
+      "phone": "13900000002",
+      "contact_name": "Demo Family 2",
+      "member_count": 4,
+      "openid": "",
+      "is_active": true
+    },
+    {
+      "family_code": "D003",
+      "community": "Sunrise Community",
+      "phone": "13900000003",
+      "contact_name": "Demo Family 3",
+      "member_count": 5,
+      "openid": "",
+      "is_active": true
+    },
+    {
+      "family_code": "D004",
+      "community": "Riverside Community",
+      "phone": "13900000004",
+      "contact_name": "Demo Family 4",
+      "member_count": 2,
+      "openid": "",
+      "is_active": true
+    },
+    {
+      "family_code": "D005",
+      "community": "Garden School",
+      "phone": "13900000005",
+      "contact_name": "Demo Family 5",
+      "member_count": 3,
+      "openid": "",
+      "is_active": true
+    }
+  ],
+  "plants": [
+    {
+      "code": "mint",
+      "name": "Mint",
+      "category": "herb"
+    },
+    {
+      "code": "basil",
+      "name": "Basil",
+      "category": "herb"
+    },
+    {
+      "code": "tomato",
+      "name": "Cherry Tomato",
+      "category": "vegetable"
+    },
+    {
+      "code": "marigold",
+      "name": "Marigold",
+      "category": "flower"
+    }
+  ],
+  "planting_tasks": [
+    {
+      "family_code": "D001",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 3
+    },
+    {
+      "family_code": "D001",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 4
+    },
+    {
+      "family_code": "D002",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 3
+    },
+    {
+      "family_code": "D002",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 4
+    },
+    {
+      "family_code": "D002",
+      "plant_code": "tomato",
+      "plant_name": "Cherry Tomato",
+      "plant_category": "vegetable",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 5
+    },
+    {
+      "family_code": "D003",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 3
+    },
+    {
+      "family_code": "D003",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 4
+    },
+    {
+      "family_code": "D004",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 3
+    },
+    {
+      "family_code": "D004",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 4
+    },
+    {
+      "family_code": "D004",
+      "plant_code": "tomato",
+      "plant_name": "Cherry Tomato",
+      "plant_category": "vegetable",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 5
+    },
+    {
+      "family_code": "D005",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 3
+    },
+    {
+      "family_code": "D005",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "plant_category": "herb",
+      "plant_date": "2026-04-20",
+      "status": "growing",
+      "care_count": 4
+    }
+  ],
+  "care_records": [
+    {
+      "family_code": "D001",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "care_type": "water",
+      "care_date": "2026-05-10",
+      "audit_status": "pending",
+      "points_status": "none",
+      "description": "Demo care note 0: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D001/record-0.jpg"
+      ]
+    },
+    {
+      "family_code": "D001",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "care_type": "fertilize",
+      "care_date": "2026-05-11",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 1: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D001/record-1.jpg"
+      ]
+    },
+    {
+      "family_code": "D002",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "care_type": "fertilize",
+      "care_date": "2026-05-11",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 1: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D002/record-1.jpg"
+      ]
+    },
+    {
+      "family_code": "D002",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "care_type": "weed",
+      "care_date": "2026-05-12",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 2: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D002/record-2.jpg"
+      ]
+    },
+    {
+      "family_code": "D002",
+      "plant_code": "tomato",
+      "plant_name": "Cherry Tomato",
+      "care_type": "pest_check",
+      "care_date": "2026-05-13",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 3: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D002/record-3.jpg"
+      ]
+    },
+    {
+      "family_code": "D003",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "care_type": "weed",
+      "care_date": "2026-05-12",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 2: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D003/record-2.jpg"
+      ]
+    },
+    {
+      "family_code": "D003",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "care_type": "pest_check",
+      "care_date": "2026-05-13",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 3: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D003/record-3.jpg"
+      ]
+    },
+    {
+      "family_code": "D004",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "care_type": "pest_check",
+      "care_date": "2026-05-13",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 3: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D004/record-3.jpg"
+      ]
+    },
+    {
+      "family_code": "D004",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "care_type": "water",
+      "care_date": "2026-05-14",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 4: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D004/record-4.jpg"
+      ]
+    },
+    {
+      "family_code": "D004",
+      "plant_code": "tomato",
+      "plant_name": "Cherry Tomato",
+      "care_type": "fertilize",
+      "care_date": "2026-05-15",
+      "audit_status": "pending",
+      "points_status": "none",
+      "description": "Demo care note 5: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D004/record-5.jpg"
+      ]
+    },
+    {
+      "family_code": "D005",
+      "plant_code": "mint",
+      "plant_name": "Mint",
+      "care_type": "water",
+      "care_date": "2026-05-14",
+      "audit_status": "confirmed",
+      "points_status": "awarded",
+      "description": "Demo care note 4: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D005/record-4.jpg"
+      ]
+    },
+    {
+      "family_code": "D005",
+      "plant_code": "basil",
+      "plant_name": "Basil",
+      "care_type": "fertilize",
+      "care_date": "2026-05-15",
+      "audit_status": "pending",
+      "points_status": "none",
+      "description": "Demo care note 5: photo evidence would be attached in production.",
+      "photos": [
+        "cloud://demo/family-D005/record-5.jpg"
+      ]
+    }
+  ],
+  "points_accounts": [
+    {
+      "family_code": "D001",
+      "balance": 20,
+      "total_earned": 40,
+      "total_reversed": 0,
+      "transaction_count": 4,
+      "version": 1
+    },
+    {
+      "family_code": "D002",
+      "balance": 30,
+      "total_earned": 50,
+      "total_reversed": 0,
+      "transaction_count": 5,
+      "version": 1
+    },
+    {
+      "family_code": "D003",
+      "balance": 40,
+      "total_earned": 60,
+      "total_reversed": 0,
+      "transaction_count": 6,
+      "version": 1
+    },
+    {
+      "family_code": "D004",
+      "balance": 50,
+      "total_earned": 70,
+      "total_reversed": 0,
+      "transaction_count": 7,
+      "version": 1
+    },
+    {
+      "family_code": "D005",
+      "balance": 60,
+      "total_earned": 80,
+      "total_reversed": 0,
+      "transaction_count": 8,
+      "version": 1
+    }
+  ]
+}

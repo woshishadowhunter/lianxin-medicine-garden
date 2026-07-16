@@ -78,6 +78,12 @@ scripts/            Database initialization helpers
 5. Deploy the cloud functions under `cloudfunctions/`.
 6. Run the database initialization function once and pass a strong `adminPassword` value.
 
+For evaluation without real participant data, generate a synthetic dataset:
+
+```bash
+node scripts/generate-demo-data.js
+```
+
 ## Roadmap
 
 - Harden administrator authentication and cloud database permission rules
@@ -115,6 +121,8 @@ Contributions are welcome for documentation, deployment scripts, security harden
 
 - Requirements: `docs/requirements.md`
 - Database schema: `docs/database-schema.md`
+- Deployment checklist: `docs/deployment-checklist.md`
+- Demo mode: `docs/demo-mode.md`
 - Deployment notes: `docs/points-bank-deployment.md`
 - Community operator guide: `docs/community-operator-guide.md`
 - Discovery and positioning notes: `docs/discovery-and-positioning.md`
