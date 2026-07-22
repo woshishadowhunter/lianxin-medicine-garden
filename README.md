@@ -4,11 +4,28 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![Platform: WeChat Mini Program](https://img.shields.io/badge/Platform-WeChat%20Mini%20Program-07C160.svg)
-![Status: v1.0](https://img.shields.io/badge/Status-v1.0-blue.svg)
+[![CI](https://github.com/woshishadowhunter/lianxin-medicine-garden/actions/workflows/ci.yml/badge.svg)](https://github.com/woshishadowhunter/lianxin-medicine-garden/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/woshishadowhunter/lianxin-medicine-garden)](https://github.com/woshishadowhunter/lianxin-medicine-garden/releases/latest)
 
 Lianxin Medicine Garden is an open source WeChat Mini Program for community herb-growing activities. It helps families record daily plant care with photo evidence and helps administrators review records, track participation, and export summary data.
 
 The project was designed for a community-scale activity with about 200 families across multiple neighborhoods, but the codebase can be reused for schools, community groups, public welfare programs, and other long-running activity record systems.
+
+## Evaluate before deploying
+
+You do not need a WeChat Cloud environment to validate the repository or inspect
+its data model. Node.js 20+ is sufficient:
+
+```bash
+npm ci
+npm test
+npm run demo:data
+```
+
+The tests check every JavaScript and JSON source file and generate a temporary,
+privacy-safe dataset with synthetic family codes, contacts, photos, care records,
+and point accounts. Then inspect the screenshots below and follow the
+[demo guide](docs/demo-mode.md) before configuring WeChat Developer Tools.
 
 ## Project Status
 
@@ -78,10 +95,10 @@ scripts/            Database initialization helpers
 5. Deploy the cloud functions under `cloudfunctions/`.
 6. Run the database initialization function once and pass a strong `adminPassword` value.
 
-For evaluation without real participant data, generate a synthetic dataset:
+For a repository-local synthetic dataset:
 
 ```bash
-node scripts/generate-demo-data.js
+npm run demo:data
 ```
 
 ## Roadmap

@@ -14,26 +14,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Check JavaScript syntax
-        run: |
-          find miniprogram cloudfunctions scripts -name "*.js" -print0 | xargs -0 -n1 node --check
-      - name: Validate JSON files
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const path = require('path');
-          const roots = ['miniprogram', 'cloudfunctions', 'project.config.json'];
-          const files = [];
-          function walk(target) {
-            if (!fs.existsSync(target)) return;
-            const stat = fs.statSync(target);
-            if (stat.isDirectory()) {
-              for (const entry of fs.readdirSync(target)) walk(path.join(target, entry));
-            } else if (target.endsWith('.json')) {
-              files.push(target);
-            }
-          }
-          for (const root of roots) walk(root);
-          for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'));
-          console.log(`Validated ${files.length} JSON files.`);
-          NODE
+      - name: Install validation tooling
+        run: npm ci
+      - name: Run project validation and demo-data tests
+        run: npm test
