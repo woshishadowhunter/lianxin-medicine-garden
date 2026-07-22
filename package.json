@@ -1,0 +1,14 @@
+{
+  "name": "lianxin-medicine-garden",
+  "version": "1.1.1",
+  "private": true,
+  "description": "Validation and demo tooling for the Lianxin WeChat Mini Program",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "validate": "node scripts/validate-project.js",
+    "demo:data": "node scripts/generate-demo-data.js 12"
+  }
+}

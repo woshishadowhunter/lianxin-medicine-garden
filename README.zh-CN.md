@@ -2,9 +2,26 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Platform: WeChat Mini Program](https://img.shields.io/badge/Platform-WeChat%20Mini%20Program-07C160.svg)](https://developers.weixin.qq.com/miniprogram/dev/framework/)
+[![CI](https://github.com/woshishadowhunter/lianxin-medicine-garden/actions/workflows/ci.yml/badge.svg)](https://github.com/woshishadowhunter/lianxin-medicine-garden/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/woshishadowhunter/lianxin-medicine-garden)](https://github.com/woshishadowhunter/lianxin-medicine-garden/releases/latest)
+
 连心本草园是一套开源微信小程序，用于社区、学校和公益项目中的长期种植活动记录。家庭用户可以提交带照片的日常养护记录，管理员可以审核记录、统计参与情况、导出数据并支持年度总结。
 
 这个项目最初面向约 200 个家庭、多个社区的本草种植活动设计，但它的工作流可以复用于劳动教育、亲子共育、社区治理、公益活动打卡、长期观察记录等场景。
+
+## 部署前先验证
+
+不配置微信云环境，也可以先验证仓库和演示数据。只需要 Node.js 20 或更高版本：
+
+```bash
+npm ci
+npm test
+npm run demo:data
+```
+
+测试会检查全部 JavaScript 和 JSON 源文件，并在临时目录生成不含真实个人信息的家庭、照片、养护记录和积分账户数据。随后可以先查看下方截图，再按照[演示指南](docs/demo-mode.md)在微信开发者工具中体验完整流程。
 
 ## 它解决什么问题
 

@@ -9,7 +9,9 @@ operators can test the workflow without exposing participant data.
 Run from the repository root:
 
 ```bash
-node scripts/generate-demo-data.js
+npm ci
+npm test
+npm run demo:data
 ```
 
 To generate a larger sample:
@@ -17,6 +19,10 @@ To generate a larger sample:
 ```bash
 node scripts/generate-demo-data.js 50
 ```
+
+`npm test` generates its own dataset in a temporary directory and verifies that
+family codes, contacts, openids, and photo paths remain synthetic. It does not
+contact WeChat or modify a cloud environment.
 
 The script writes `docs/demo-data/demo-dataset.json` with synthetic families,
 planting tasks, care records, and point accounts.
